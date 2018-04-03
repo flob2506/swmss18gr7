@@ -7,7 +7,6 @@ package com.group.tube.Models;
 public class Episodes {
     public String id;
     public String course_title;
-    public String semester;
     public String episode_title;
     public String presenter_url;
     public String presentation_url;
