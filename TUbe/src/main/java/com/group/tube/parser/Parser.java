@@ -12,7 +12,8 @@ import org.json.JSONArray;
 public class Parser {
     public void parseJSON (String json, Episodes episode) throws JSONException {
         JSONObject firstString = new JSONObject(json);
-        JSONArray resultArray = firstString.getJSONArray("result");
+        JSONObject searchResults = firstString.getJSONObject("search-results");
+        JSONArray resultArray = searchResults.getJSONArray("result");
         JSONObject episodesObject = new JSONObject();
         for (int i = 0; i < resultArray.length(); i++) {
             //get the first Episode
