@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         final Episodes e = new Episodes();
 
-        this.viewEpisode("91ff68f1-7a0d-4655-8cec-643c3cb8b0ae");
+        this.viewEpisode("91ff68f1-7a0d-4655-8cec-643c3cb8b0ae", this);
 
         // ------------------- code for testing parser -------------------
         /* final Episodes e = new Episodes();
@@ -65,50 +65,29 @@ public class MainActivity extends AppCompatActivity {
         }); */
         // ------------------- code for testing parser -------------------
 
-
-        videoView = (VideoView) findViewById(R.id.videoView);
-
-        mediaController = new MediaController(this);
-        mediaController.setAnchorView(videoView);
-
-        Uri uri = Uri.parse("https://tube.tugraz.at/static/mh_default_org/engage-player/8556615e-a07f-43cc-b119-a54bf52cc63e/84a4b941-fb3d-4df9-a6fd-0c619252496b/track.mp4");
-
-
-        videoView.setMediaController(mediaController);
-        videoView.setVideoURI(uri);
-        videoView.start();
-
-
-
     }
 
-    private Episodes viewEpisode(String episodeId) {
-
-        final Episodes e = new Episodes();
-        final Parser p = new Parser();
+    private void viewEpisode(final String episodeId, final MainActivity ma) {
 
         // TODO AsyncResponse<Episode> instead of AsyncResponse<String>
-        this.networkConnector.loadEpisode(new AsyncResponse<String>(){
+        this.networkConnector.loadEpisode(new AsyncResponse<Episodes>(){
             @Override
-            public void processFinish(String episode){
+            public void processFinish(Episodes episode){
                 // videoPlayer would be the video view
                // this.videoPlayer.showVideo(episode.getUrl());
 
-                System.out.println("NetworkTask " + episode);
+                videoView = (VideoView) findViewById(R.id.videoView);
 
-                try {
-                    p.parseJSON(episode,e);
-                    Log.i("id",e.id);
-                    Log.i("course_title", e.course_title);
-                    Log.i("episode_title", e.episode_title);
-                    Log.i("presenter_url", e.presenter_url);
-                    Log.i("presentation_url", e.presentation_url);
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
+                mediaController = new MediaController(ma);
+                mediaController.setAnchorView(videoView);
+
+                Uri uri = Uri.parse(episode.presentation_url);
+
+                videoView.setMediaController(mediaController);
+                videoView.setVideoURI(uri);
+                videoView.start();
+
             }
         }, episodeId);
-
-        return e;
     }
 }
