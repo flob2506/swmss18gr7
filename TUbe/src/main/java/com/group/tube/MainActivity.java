@@ -23,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         this.networkConnector = new NetworkConnector();
         // viewEpisode would be called on view interaction event
+
+        final Episodes e = new Episodes();
+
         this.viewEpisode("91ff68f1-7a0d-4655-8cec-643c3cb8b0ae");
 
         // ------------------- code for testing parser -------------------
@@ -56,7 +59,10 @@ public class MainActivity extends AppCompatActivity {
         // ------------------- code for testing parser -------------------
     }
 
-    private void viewEpisode(String episodeId) {
+    private Episodes viewEpisode(String episodeId) {
+
+        final Episodes e = new Episodes();
+        final Parser p = new Parser();
 
         // TODO AsyncResponse<Episode> instead of AsyncResponse<String>
         this.networkConnector.loadEpisode(new AsyncResponse<String>(){
@@ -66,8 +72,20 @@ public class MainActivity extends AppCompatActivity {
                // this.videoPlayer.showVideo(episode.getUrl());
 
                 System.out.println("NetworkTask " + episode);
+
+                try {
+                    p.parseJSON(episode,e);
+                    Log.i("id",e.id);
+                    Log.i("course_title", e.course_title);
+                    Log.i("episode_title", e.episode_title);
+                    Log.i("presenter_url", e.presenter_url);
+                    Log.i("presentation_url", e.presentation_url);
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
             }
         }, episodeId);
 
+        return e;
     }
 }
