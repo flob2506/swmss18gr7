@@ -1,4 +1,5 @@
 package com.group.tube;
+import android.app.ActivityManager;
 import android.os.AsyncTask;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +21,9 @@ import cz.msebera.android.httpclient.Header;
 public class MainActivity extends AppCompatActivity {
     private NetworkConnector networkConnector;
 
+    public void setNetworkConnector(NetworkConnector new_networkConnector) {
+        this.networkConnector = new_networkConnector;
+    }
 
     VideoView videoView;
     MediaController mediaController;
@@ -67,14 +71,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void viewEpisode(final String episodeId, final MainActivity ma) {
+    public void viewEpisode(final String episodeId, final MainActivity ma) {
 
         // TODO AsyncResponse<Episode> instead of AsyncResponse<String>
         this.networkConnector.loadEpisode(new AsyncResponse<Episodes>(){
             @Override
             public void processFinish(Episodes episode){
                 // videoPlayer would be the video view
-               // this.videoPlayer.showVideo(episode.getUrl());
+               // this.videoPlayer.showVideo(episode.getUrl();
 
                 videoView = (VideoView) findViewById(R.id.videoView);
 

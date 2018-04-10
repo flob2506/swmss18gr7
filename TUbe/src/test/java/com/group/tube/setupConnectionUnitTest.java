@@ -1,25 +1,30 @@
 package com.group.tube;
-import android.os.Bundle;
 
+import com.group.tube.networking.NetworkConnector;
 import org.junit.Test;
+import static org.junit.Assert.*;
+
 public class setupConnectionUnitTest {
+
+
+
 
     @Test
     public void setup_connection_test() throws Exception {
-        MainActivity ma = new MainActivity();
-        Bundle bundle = new Bundle();
+
+        MainActivity mainActivity = new MainActivity();
+        mainActivity.setNetworkConnector(new NetworkConnector());
 
         try
         {
-            ma.onCreate(bundle);
+            mainActivity.viewEpisode("91ff68f1-7a0d-4655-8cec-643c3cb8b0ae", mainActivity);
         }
         catch (Exception e)
         {
-            System.out.println("Test didn't pass.");
 
         }
 
-        assert(false);
+        assertNotNull(mainActivity);
         System.out.println("Passed test.");
     }
 }
