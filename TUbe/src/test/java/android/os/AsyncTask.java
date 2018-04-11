@@ -1,5 +1,6 @@
 package android.os;
 
+//idea taken from http://ryanharter.com/blog/2015/12/28/dealing-with-asynctask-in-unit-tests/
 
 public abstract class AsyncTask<Params, Progress, Result> {
     protected abstract Result doInBackground(Params...params);
