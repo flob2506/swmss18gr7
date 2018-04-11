@@ -31,9 +31,9 @@ public class Parser {
         for (int i = 0; i < trackArray.length(); i++)
         {
             if (i == 0)
-                presenterObject = trackArray.getJSONObject(i);
-            if (i == 1)
                 presentationObject = trackArray.getJSONObject(i);
+            if (i == 1)
+                presenterObject = trackArray.getJSONObject(i);
         }
         String presenterURL = presenterObject.getString("url");
         String presentationURL = presentationObject.getString("url");
