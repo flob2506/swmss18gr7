@@ -6,6 +6,10 @@ import org.json.JSONObject;
 import org.json.JSONException;
 import org.json.JSONArray;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Parser {
     public void parseJSON (String json, Course course) throws JSONException {
         JSONObject firstString = new JSONObject(json);
@@ -37,7 +41,14 @@ public class Parser {
             Episodes e = new Episodes();
 
             e.id = episodeID;
-            e.episode_date = episodeDate;
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            Date date = new Date();
+            try {
+                date = format.parse(episodeDate);
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+            }
+            e.episode_date = date;
             e.course_id = seriesID;
             e.episode_title = episodeTitle;
             e.presenter_url = presenterURL;
