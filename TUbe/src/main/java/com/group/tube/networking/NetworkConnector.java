@@ -4,7 +4,6 @@ import com.group.tube.Models.Episodes;
 import com.group.tube.parser.Parser;
 import android.util.Log;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 public class NetworkConnector{
     private NetworkTask networkTask;
