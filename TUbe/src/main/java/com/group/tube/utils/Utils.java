@@ -1,7 +1,13 @@
 package com.group.tube.utils;
 
+import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
+import com.group.tube.Comparators.DateSortComparator;
+import com.group.tube.Models.Episodes;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 public class Utils
@@ -24,6 +30,7 @@ public class Utils
 
         return null;
     }
+
     // nope
     private Utils() {};
 }

@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
+import com.group.tube.Comparators.DateSortComparator;
 import com.group.tube.Models.Episodes;
 import com.group.tube.utils.TestDataGenerator;
 import com.group.tube.utils.Utils;
@@ -13,6 +14,7 @@ import com.group.tube.utils.Utils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 public class EpisodesOverviewActivity extends AppCompatActivity {
@@ -28,6 +30,7 @@ public class EpisodesOverviewActivity extends AppCompatActivity {
     private void initializeListView() {
         final ListView listView = findViewById(R.id.listViewEpisodes);
         episodes = TestDataGenerator.getRandomEpisodeList();
+        Collections.sort(episodes, new DateSortComparator());
         EpisodeArrayAdapter arrayAdapter = new EpisodeArrayAdapter(this, episodes);
         listView.setAdapter(arrayAdapter);
     }
