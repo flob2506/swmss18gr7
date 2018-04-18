@@ -2,17 +2,13 @@ package com.group.tube.Models;
 
 import java.util.Date;
 
-/**
- * Created by cychu on 21/03/2018.
- */
-
 public class Episodes {
     public String id;
-    public String course_title;
+    public String course_id;
     public String episode_title;
     public String presenter_url;
     public String presentation_url;
-    private Date date;
+    public Date episode_date;
 
     public void setPresenterUrl (String url) {
         presenter_url = url;
@@ -27,7 +23,7 @@ public class Episodes {
         this.episode_title = episode_title;
         this.presenter_url = presenter_url;
         this.presentation_url = presentation_url;
-        this.date = date;
+        this.episode_date = date;
     }
 
     public String getId() {
@@ -51,11 +47,11 @@ public class Episodes {
     }
 
     public Date getDate() {
-        return date;
+        return episode_date;
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.episode_date = date;
     }
 
     public void setEpisode_title(String episode_title) {
