@@ -30,7 +30,7 @@ public class setupConnectionImplementationTest {
 
                 assertEquals("https://tube.tugraz.at/static/mh_default_org/engage-player/" +
                                 "8556615e-a07f-43cc-b119-a54bf52cc63e/" +
-                                "84a4b941-fb3d-4df9-a6fd-0c619252496b/track.mp4",
+                                "8d941380-946b-4c4c-9148-10e666ca1e6d/track.mp4",
                         episode.presentation_url);
             }
         }, episodeId);

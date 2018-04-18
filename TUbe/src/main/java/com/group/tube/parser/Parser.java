@@ -8,6 +8,7 @@ import org.json.JSONArray;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Parser {
@@ -61,5 +62,32 @@ public class Parser {
                 course.course_title = seriesTitle;
             }
         }
+    }
+
+    public void parseJSON (String json, ArrayList<Course> courses) throws JSONException {
+
+        JSONObject firstString = new JSONObject(json);
+        JSONArray catalogs = firstString.getJSONArray("catalogs");
+
+        for (int j = 0; j < catalogs.length(); j++) {
+            JSONObject catalogObject = catalogs.getJSONObject(j);
+            JSONObject catalogMediaPackage = catalogObject.getJSONObject("http://purl.org/dc/terms/");
+            JSONArray identifiers = catalogMediaPackage.getJSONArray("identifier");
+            if(identifiers.length() != 1)
+                throw new JSONException("lol geht net");
+
+            JSONArray titles = catalogMediaPackage.getJSONArray("title");
+            if(titles.length() != 1)
+                throw new JSONException("lol geht immer no net");
+
+            String id = identifiers.getJSONObject(0).getString("value");
+            String title = titles.getJSONObject(0).getString("value");
+
+            Course newCourse = new Course(id, title);
+            courses.add(newCourse);
+        }
+
+
+
     }
 }
