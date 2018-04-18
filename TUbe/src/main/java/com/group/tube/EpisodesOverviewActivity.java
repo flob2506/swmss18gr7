@@ -6,12 +6,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
+import com.group.tube.Comparators.DateSortComparator;
 import com.group.tube.Models.Episodes;
+import com.group.tube.utils.TestDataGenerator;
 import com.group.tube.utils.Utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 public class EpisodesOverviewActivity extends AppCompatActivity {
@@ -26,11 +29,8 @@ public class EpisodesOverviewActivity extends AppCompatActivity {
 
     private void initializeListView() {
         final ListView listView = findViewById(R.id.listViewEpisodes);
-        episodes.add(new Episodes("i bims die ID123","Wissenschaftliches Arbeiten","Teil 1","franz strohmeier","elektropepi.at", Utils.getDate("2013-11-14T15:15:00Z")));
-        episodes.add(new Episodes("i bims die ID2","Wissenschaftliches Arbeiten","Teil 1","franz strohmeier","elektropepi.at", Utils.getDate("2013-11-14T15:15:00Z")));
-        episodes.add(new Episodes("i bims die ID3","Wissenschaftliches Arbeiten","Teil 1","franz strohmeier","elektropepi.at", Utils.getDate("2013-11-14T15:15:00Z")));
-        episodes.add(new Episodes("i bims die ID4","Wissenschaftliches Arbeiten","Teil 1","franz strohmeier","elektropepi.at", Utils.getDate("2013-11-14T15:15:00Z")));
-        episodes.add(new Episodes("i bims die ID5","Wissenschaftliches Arbeiten","Teil 1","franz strohmeier","elektropepi.at", Utils.getDate("2013-11-14T15:15:00Z")));
+        episodes = TestDataGenerator.getRandomEpisodeList();
+        Collections.sort(episodes, new DateSortComparator());
         EpisodeArrayAdapter arrayAdapter = new EpisodeArrayAdapter(this, episodes);
         listView.setAdapter(arrayAdapter);
     }
