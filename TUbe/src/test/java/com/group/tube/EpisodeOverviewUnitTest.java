@@ -5,6 +5,7 @@ import android.widget.ListView;
 
 import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
 import com.group.tube.Models.Episodes;
+import com.group.tube.utils.TestDataGenerator;
 import com.group.tube.utils.Utils;
 import com.thoughtworks.xstream.mapper.Mapper;
 
@@ -25,7 +26,6 @@ import static org.junit.Assert.*;
 @Config(manifest=Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class EpisodeOverviewUnitTest {
-    private static final String FIRST_EPISODE_ID = UUID.randomUUID().toString();
     private EpisodesOverviewActivity activity;
     private ListView listView;
     private EpisodeArrayAdapter arrayAdapter;
@@ -35,12 +35,7 @@ public class EpisodeOverviewUnitTest {
     public void setUp() {
         activity = Robolectric.setupActivity(EpisodesOverviewActivity.class);
         listView = activity.findViewById(R.id.listViewEpisodes);
-        episodes = new ArrayList<>();
-        episodes.add(new Episodes(FIRST_EPISODE_ID,"Wissenschaftliches Arbeiten","Teil 1","franz strohmeier","elektropepi.at", Utils.getDate("2013-11-14T15:15:00Z")));
-        episodes.add(new Episodes("i bims die ID2","Wissenschaftliches Arbeiten","Teil 1","franz strohmeier","elektropepi.at", Utils.getDate("2013-11-14T15:15:00Z")));
-        episodes.add(new Episodes("i bims die ID3","Wissenschaftliches Arbeiten","Teil 1","franz strohmeier","elektropepi.at", Utils.getDate("2013-11-14T15:15:00Z")));
-        episodes.add(new Episodes("i bims die ID4","Wissenschaftliches Arbeiten","Teil 1","franz strohmeier","elektropepi.at", Utils.getDate("2013-11-14T15:15:00Z")));
-        episodes.add(new Episodes("i bims die ID5","Wissenschaftliches Arbeiten","Teil 1","franz strohmeier","elektropepi.at", Utils.getDate("2013-11-14T15:15:00Z")));
+        episodes = TestDataGenerator.getRandomEpisodeList();
         arrayAdapter = new EpisodeArrayAdapter(activity, episodes);
         listView.setAdapter(arrayAdapter);
     }
@@ -63,12 +58,6 @@ public class EpisodeOverviewUnitTest {
         for(int i = 0; i < episodes.size(); i++) {
             assertEquals(episodes.get(i), listView.getAdapter().getItem(i));
         }
-    }
-
-    @Test
-    public void verifyAdapterFirstItemId()
-    {
-        assertEquals(episodes.get(0).getId(), FIRST_EPISODE_ID);
     }
 
     @Test
