@@ -140,7 +140,7 @@ public class ParserUnitTest {
         p.parseJSON(JSONFILE, c);
         assertEquals(c.episodes.get(0).id, "876d2ecf-11df-4b69-9bc2-376bf719c759");
         assertEquals(c.episodes.get(0).episode_title, "#6");
-        assertEquals(c.episodes.get(0).course_title, "[CO]706.001 13W Einführung in die strukturierte Programmierung");
+        assertEquals(c.episodes.get(0).course_id, "1ace56be-eb47-4150-97c1-9e285f34e5de");
         assertEquals(c.episodes.get(0).presentation_url, "https://tube.tugraz.at/static/mh_default_org/engage-player/876d2ecf-11df-4b69-9bc2-376bf719c759/d32e06cf-3fb1-4150-b790-e95162af31ae/track.mp4");
         assertEquals(c.episodes.get(0).presenter_url, "https://tube.tugraz.at/static/mh_default_org/engage-player/876d2ecf-11df-4b69-9bc2-376bf719c759/8fbca277-bc51-4316-9c31-5bef03eadea0/track.mp4");
     }

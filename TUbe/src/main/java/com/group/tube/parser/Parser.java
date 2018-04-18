@@ -38,7 +38,7 @@ public class Parser {
 
             e.id = episodeID;
             e.episode_date = episodeDate;
-            e.course_title = seriesTitle;
+            e.course_id = seriesID;
             e.episode_title = episodeTitle;
             e.presenter_url = presenterURL;
             e.presentation_url = presentationURL;
