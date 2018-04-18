@@ -1,22 +1,15 @@
 package com.group.tube;
-import android.app.ActivityManager;
-import android.os.AsyncTask;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+
 import com.group.tube.Models.Episodes;
-import com.group.tube.parser.Parser;
-import com.loopj.android.http.*;
+
 import android.widget.MediaController;
 import android.widget.VideoView;
 
 import com.group.tube.networking.AsyncResponse;
 import com.group.tube.networking.NetworkConnector;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity {
     private NetworkConnector networkConnector;
