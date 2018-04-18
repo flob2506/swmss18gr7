@@ -4,6 +4,7 @@ import java.util.Date;
 public class Episodes {
     public String id;
     public String course_id;
+    public String course_title;
     public String episode_title;
     public String presenter_url;
     public String presentation_url;

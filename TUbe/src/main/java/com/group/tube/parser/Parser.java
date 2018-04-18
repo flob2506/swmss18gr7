@@ -48,7 +48,7 @@ public class Parser {
             } catch (ParseException ex) {
                 ex.printStackTrace();
             }
-            e.episode_date = date;
+            e.setDate(date);
             e.course_id = seriesID;
             e.episode_title = episodeTitle;
             e.presenter_url = presenterURL;
