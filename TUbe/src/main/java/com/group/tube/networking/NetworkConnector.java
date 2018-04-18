@@ -27,7 +27,7 @@ public class NetworkConnector{
                 try {
                     p.parseJSON(jsonResponse,c);
                     Log.i("id",c.episodes.get(0).id);
-                    Log.i("course_title", c.episodes.get(0).course_title);
+                    Log.i("course_id", c.episodes.get(0).course_id);
                     Log.i("episode_title", c.episodes.get(0).episode_title);
                     Log.i("presenter_url", c.episodes.get(0).presenter_url);
                     Log.i("presentation_url", c.episodes.get(0).presentation_url);
