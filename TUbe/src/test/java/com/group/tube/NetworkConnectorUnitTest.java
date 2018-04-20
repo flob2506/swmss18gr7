@@ -24,14 +24,14 @@ public class NetworkConnectorUnitTest {
 
     @Test
     public void networkConnector_returnsString() throws Exception {
-            final CountDownLatch signal = new CountDownLatch(1);
+        final CountDownLatch signal = new CountDownLatch(1);
 
         this.networkTask.setResponseHandler(new AsyncResponse<String>(){
 
             @Override
             public void processFinish(String jsonResponse){
-                signal.countDown();
                 assertFalse(jsonResponse.isEmpty());
+                signal.countDown();
             }
         });
 

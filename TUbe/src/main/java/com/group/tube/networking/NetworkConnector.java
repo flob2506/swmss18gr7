@@ -5,6 +5,8 @@ import com.group.tube.parser.Parser;
 import android.util.Log;
 import org.json.JSONException;
 
+import java.util.ArrayList;
+
 public class NetworkConnector{
     private NetworkTask networkTask;
 
@@ -37,6 +39,22 @@ public class NetworkConnector{
             }
         });
         this.networkTask.execute("https://tube.tugraz.at/search/episode.json?sid=" + episodeId);
+    }
 
+    public void loadCourses(final AsyncResponse<ArrayList<Course>> responseHandler) {
+        this.networkTask.setResponseHandler(new AsyncResponse<String>(){
+            @Override
+            public void processFinish(String jsonResponse){
+                ArrayList<Course> courses = new ArrayList<>();
+                Parser p = new Parser();
+                try {
+                    p.parseJSON(jsonResponse, courses);
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                responseHandler.processFinish(courses);
+            }
+        });
+        this.networkTask.execute("https://tube.tugraz.at/series/series.json");
     }
 }
