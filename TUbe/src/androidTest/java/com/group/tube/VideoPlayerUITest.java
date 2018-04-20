@@ -1,7 +1,5 @@
 package com.group.tube;
 
-import android.provider.MediaStore;
-import android.support.test.espresso.Espresso;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -26,17 +24,35 @@ public class VideoPlayerUITest {
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(
             MainActivity.class);
 
+    private  boolean waitForVideoToPlay(long max_waiting_time_in_milliseconds) {
+        long start_time = System.currentTimeMillis();
+        max_waiting_time_in_milliseconds += start_time;
+        while (!((VideoView) mActivityRule.getActivity().findViewById(R.id.videoView)).isPlaying()) {
+            if (max_waiting_time_in_milliseconds <= System.currentTimeMillis()) {
+                return false;
+            }
+            try {
+                sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
+    }
+
+
+
     @Test
     public void videoStartsAfterTimeOut() throws InterruptedException {
-        sleep(8000);
-        assertTrue(((VideoView)mActivityRule.getActivity().findViewById(R.id.videoView)).isPlaying());
+        boolean success = waitForVideoToPlay(20000);
+        assertTrue(success);
     }
 
     @Test
     public void videoPause() throws InterruptedException {
-        sleep(8000);
+        boolean success = waitForVideoToPlay(20000);
         ((VideoView)mActivityRule.getActivity().findViewById(R.id.videoView)).pause();
-        assertFalse(((VideoView)mActivityRule.getActivity().findViewById(R.id.videoView)).isPlaying());
+        assertTrue(success && !((VideoView)mActivityRule.getActivity().findViewById(R.id.videoView)).isPlaying());
     }
 
 }
