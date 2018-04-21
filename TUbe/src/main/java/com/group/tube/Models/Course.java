@@ -1,6 +1,8 @@
 package com.group.tube.Models;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Course {
     public String id;
@@ -21,8 +23,17 @@ public class Course {
     {
         this.course_title = course_title;
 
-        this.semester_year = -;
-        this.is_ws = is_ws;
+        String pattern = "([0-9][0-9])([SW])";
+
+        // Create a Pattern object
+        Pattern regexPattern = Pattern.compile(pattern);
+
+        // Now create matcher object.
+        Matcher regexMatcher = regexPattern.matcher(course_title);
+        if (regexMatcher.find()) {
+            this.semester_year = Integer.parseInt(regexMatcher.group(1)) + 2000;
+            this.is_ws = regexMatcher.group(2).equals("W");
+        }
     }
 }
 

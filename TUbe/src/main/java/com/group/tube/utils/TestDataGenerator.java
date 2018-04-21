@@ -40,10 +40,15 @@ public final class TestDataGenerator {
 
     public static String getRandomCourseTitle()
     {
-        String s = Integer.toString(ThreadLocalRandom.current().nextInt(10, 19));
-        String x = ThreadLocalRandom.current().nextBoolean() ? "W": "S";
+        return geCourseTitle(ThreadLocalRandom.current().nextInt(10, 19),
+                    ThreadLocalRandom.current().nextBoolean());
+    }
+    public static String geCourseTitle(int year, boolean is_ws)
+    {
+        String s = Integer.toString(year);
+        String x = is_ws ? "W": "S";
 
-        return  s + x + UUID.randomUUID().toString();// java shit
+        return  UUID.randomUUID().toString() + s + x + UUID.randomUUID().toString();
     }
 
     public static Date getRandomDate()
