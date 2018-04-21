@@ -22,13 +22,8 @@ public class Course {
     public void setCourseTitle(String course_title)
     {
         this.course_title = course_title;
-
         String pattern = "([0-9][0-9])([SW])";
-
-        // Create a Pattern object
         Pattern regexPattern = Pattern.compile(pattern);
-
-        // Now create matcher object.
         Matcher regexMatcher = regexPattern.matcher(course_title);
         if (regexMatcher.find()) {
             this.semester_year = Integer.parseInt(regexMatcher.group(1)) + 2000;
