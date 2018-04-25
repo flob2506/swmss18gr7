@@ -39,7 +39,8 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
         tv_course_title.setText(currentCourse.course_title);
 
         TextView tv_course_number = listItem.findViewById(R.id.textViewCourseOverviewItemCourseNumber);
-        tv_course_number.setText(currentCourse.course_number);
+        //TODO fill course number
+        tv_course_number.setText("");
 
         TextView tv_semester = listItem.findViewById(R.id.textViewCourseOverviewItemSemester);
         tv_semester.setText(currentCourse.getSemesterString());

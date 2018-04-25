@@ -48,7 +48,7 @@ public final class TestDataGenerator {
         String s = Integer.toString(year);
         String x = is_ws ? "W": "S";
 
-        return  UUID.randomUUID().toString() + s + x + UUID.randomUUID().toString();
+        return  "Kurstitel vom Semester " + s + x;
     }
 
     public static Date getRandomDate()
