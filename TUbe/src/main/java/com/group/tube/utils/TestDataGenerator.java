@@ -17,9 +17,12 @@ import java.util.UUID;
 public final class TestDataGenerator {
     public static ArrayList<Episodes> getRandomEpisodeList() {
         ArrayList<Episodes> episodes = new ArrayList<>();
+
+        episodes.add(new Episodes("bla", "bla", "bla", "bla", "bla", getRandomDate()));
+
         int numOfEpisodes = ThreadLocalRandom.current().nextInt(10, 20);
         for (int i = 0; i < numOfEpisodes; i++) {
-            episodes.add(new Episodes("i bims die ID " + UUID.randomUUID().toString(), "Wissenschaftliches Arbeiten", "Teil 1", "franz strohmeier", "elektropepi.at", getRandomDate()));
+            episodes.add(new Episodes("1ace56be-eb47-4150-97c1-9e285f34e5de&limit=12 - " + i,"Wissenschaftliches Arbeiten","Teil 1","franz strohmeier","elektropepi.at", getRandomDate()));
         }
 
 
