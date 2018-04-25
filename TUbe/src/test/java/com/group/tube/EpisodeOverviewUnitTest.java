@@ -1,30 +1,25 @@
 package com.group.tube;
-
-
 import android.widget.ListView;
-
 import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
 import com.group.tube.Models.Episodes;
 import com.group.tube.utils.TestDataGenerator;
 import com.group.tube.utils.Utils;
 import com.thoughtworks.xstream.mapper.Mapper;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.Robolectric;
 import org.robolectric.annotation.Config;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
-
 import static org.junit.Assert.*;
 
 @Config(manifest=Config.NONE)
 @RunWith(RobolectricTestRunner.class)
+
 public class EpisodeOverviewUnitTest {
     private EpisodesOverviewActivity activity;
     private ListView listView;
@@ -39,6 +34,7 @@ public class EpisodeOverviewUnitTest {
         arrayAdapter = new EpisodeArrayAdapter(activity, episodes);
         listView.setAdapter(arrayAdapter);
     }
+
 
     @Test
     public void verifyAdapterIsEpisodeAdapter()
