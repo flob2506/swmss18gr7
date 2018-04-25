@@ -1,13 +1,19 @@
 package com.group.tube;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
 import com.group.tube.Comparators.DateSortComparator;
+import com.group.tube.Models.Course;
 import com.group.tube.Models.Episodes;
+import com.group.tube.networking.AsyncResponse;
+import com.group.tube.networking.NetworkConnector;
 import com.group.tube.utils.TestDataGenerator;
 import com.group.tube.utils.Utils;
 
@@ -19,17 +25,32 @@ import java.util.Date;
 
 public class EpisodesOverviewActivity extends AppCompatActivity {
     ArrayList<Episodes> episodes = new ArrayList<>();
+    public static final String EXTRA_MESSAGE_EPISODE = "com.group.tube.coursesOverviewActivity.MESSAGE";
+
+    ListView listView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.episodes_overview);
-        initializeListView();
+        listView = this.findViewById(R.id.listViewEpisodes);
+
+        Intent get_intent = getIntent();
+        String course_id = get_intent.getStringExtra(CoursesOverviewActivity.EXTRA_MESSAGE);
+        final NetworkConnector networkConnector = new NetworkConnector();
+        networkConnector.loadEpisodes(new AsyncResponse<ArrayList<Episodes>>() {
+            @Override
+            public void processFinish(ArrayList<Episodes> response) {
+                episodes = response;
+                initializeListView(episodes);
+            }
+        }, course_id);
     }
 
 
-    private void initializeListView() {
-        final ListView listView = findViewById(R.id.listViewEpisodes);
-        episodes = TestDataGenerator.getRandomEpisodeList();
+    private void initializeListView(ArrayList<Episodes> episodes) {
+        listView = findViewById(R.id.listViewEpisodes);
+        this.episodes = episodes;
         Collections.sort(episodes, new DateSortComparator());
         EpisodeArrayAdapter arrayAdapter = new EpisodeArrayAdapter(this, episodes);
         listView.setAdapter(arrayAdapter);
