@@ -4,6 +4,7 @@ import android.widget.ListView;
 
 import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
 import com.group.tube.EpisodesOverviewActivity;
+import com.group.tube.Models.Course;
 import com.group.tube.Models.Episodes;
 import com.group.tube.R;
 
@@ -24,6 +25,30 @@ public final class TestDataGenerator {
 
         return episodes;
 
+    }
+
+    public static ArrayList<Course> getRandomCourseList()
+    {
+        ArrayList<Course> courses = new ArrayList<>();
+        int numOfCourses = ThreadLocalRandom.current().nextInt(10, 20);
+        for (int i = 0; i < numOfCourses; i++) {
+            courses.add(new Course("i bims die ID " + UUID.randomUUID().toString(), getRandomCourseTitle()));
+        }
+
+        return courses;
+    }
+
+    public static String getRandomCourseTitle()
+    {
+        return geCourseTitle(ThreadLocalRandom.current().nextInt(10, 19),
+                    ThreadLocalRandom.current().nextBoolean());
+    }
+    public static String geCourseTitle(int year, boolean is_ws)
+    {
+        String s = Integer.toString(year);
+        String x = is_ws ? "W": "S";
+
+        return  UUID.randomUUID().toString() + s + x + UUID.randomUUID().toString();
     }
 
     public static Date getRandomDate()

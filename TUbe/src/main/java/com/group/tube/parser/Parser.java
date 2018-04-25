@@ -59,7 +59,7 @@ public class Parser {
             if (j == 0)
             {
                 course.id = seriesID;
-                course.course_title = seriesTitle;
+                course.setCourseTitle(seriesTitle);
             }
         }
     }
