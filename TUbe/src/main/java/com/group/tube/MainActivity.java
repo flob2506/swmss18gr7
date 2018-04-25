@@ -1,10 +1,13 @@
 package com.group.tube;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.group.tube.Models.Episodes;
 
+import android.view.View;
+import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
@@ -53,6 +56,18 @@ public class MainActivity extends AppCompatActivity {
                 videoView.setMediaController(mediaController);
                 videoView.setVideoURI(uri);
                 videoView.start();
+
+
+                Button btn = (Button)findViewById(R.id.BackButton);
+
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                       // startActivity(new Intent(MainActivity.this, EpisodesOverviewActivity.class));
+                        startActivity(new Intent(MainActivity.this, EpisodesOverviewActivity.class));
+                    }
+                });
+
 
             }
         }, episodeId);
