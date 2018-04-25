@@ -6,6 +6,7 @@ import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
 import com.group.tube.EpisodesOverviewActivity;
 import com.group.tube.Models.Course;
 import com.group.tube.Models.Episodes;
+import com.group.tube.Models.Semester;
 import com.group.tube.R;
 
 import java.util.ArrayList;
@@ -14,12 +15,11 @@ import java.util.Date;
 import java.util.UUID;
 
 public final class TestDataGenerator {
-    public static ArrayList<Episodes> getRandomEpisodeList()
-    {
+    public static ArrayList<Episodes> getRandomEpisodeList() {
         ArrayList<Episodes> episodes = new ArrayList<>();
         int numOfEpisodes = ThreadLocalRandom.current().nextInt(10, 20);
         for (int i = 0; i < numOfEpisodes; i++) {
-            episodes.add(new Episodes("i bims die ID " +  UUID.randomUUID().toString(),"Wissenschaftliches Arbeiten","Teil 1","franz strohmeier","elektropepi.at", getRandomDate()));
+            episodes.add(new Episodes("i bims die ID " + UUID.randomUUID().toString(), "Wissenschaftliches Arbeiten", "Teil 1", "franz strohmeier", "elektropepi.at", getRandomDate()));
         }
 
 
@@ -48,7 +48,7 @@ public final class TestDataGenerator {
         String s = Integer.toString(year);
         String x = is_ws ? "W": "S";
 
-        return  UUID.randomUUID().toString() + s + x + UUID.randomUUID().toString();
+        return  "Kurstitel vom Semester " + s + x;
     }
 
     public static Date getRandomDate()
