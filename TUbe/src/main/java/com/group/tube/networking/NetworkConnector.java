@@ -5,6 +5,7 @@ import com.group.tube.parser.Parser;
 import android.util.Log;
 import org.json.JSONException;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class NetworkConnector{
@@ -15,6 +16,7 @@ public class NetworkConnector{
     }
 
     // TODO: episodeId nullable -> then get all episodes
+
     public void loadEpisode(final AsyncResponse<Episodes> responseHandler, String episodeId) {
         this.networkTask.setResponseHandler(new AsyncResponse<String>(){
             @Override
@@ -36,6 +38,27 @@ public class NetworkConnector{
                     e1.printStackTrace();
                 }
                 responseHandler.processFinish(c.episodes.get(0));
+            }
+        });
+        this.networkTask.execute("https://tube.tugraz.at/search/episode.json?sid=" + episodeId);
+    }
+
+    //TODO: Rework this
+    public void loadEpisodes(final AsyncResponse<ArrayList<Episodes>> responseHandler, String episodeId) {
+        this.networkTask.setResponseHandler(new AsyncResponse<String>(){
+            @Override
+            public void processFinish(String jsonResponse){
+                // TODO utilize JSON parser and pass episode to processFinish
+                //Episode episode = JSONParser.getParse(jsonResponse);
+                //responseHandler.processFinish(episode);
+                Course c = new Course();
+                Parser p = new Parser();
+                try {
+                    p.parseJSON(jsonResponse,c);
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                responseHandler.processFinish(c.episodes);
             }
         });
         this.networkTask.execute("https://tube.tugraz.at/search/episode.json?sid=" + episodeId);

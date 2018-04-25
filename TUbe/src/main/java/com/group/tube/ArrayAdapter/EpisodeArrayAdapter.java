@@ -36,7 +36,7 @@ public class EpisodeArrayAdapter extends ArrayAdapter<Episodes> {
 
         Episodes currentEpisode = this.getItem(position);
         TextView name = listItem.findViewById(R.id.textViewEpisodeOverviewItemTitle);
-        name.setText(currentEpisode.getId());
+        name.setText(currentEpisode.getEpisode_title());
         TextView date = listItem.findViewById(R.id.textViewEpisodeOverviewItemDate);
 
         if(currentEpisode.getDate() == null) {
