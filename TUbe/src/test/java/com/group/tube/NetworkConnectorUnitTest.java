@@ -52,7 +52,7 @@ public class NetworkConnectorUnitTest {
                 signal.countDown();
             }
         });
-        this.networkTask.execute("https://notexistingsite.idontexist.net/");
+        this.networkTask.execute("https://notexistingsite.getId()ontexist.net/");
         signal.await();
 
     }

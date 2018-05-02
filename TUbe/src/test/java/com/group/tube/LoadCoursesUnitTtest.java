@@ -23,8 +23,8 @@ public class LoadCoursesUnitTtest {
         final Parser p = new Parser();
         p.parseJSON(COURSES_JSON, courses);
         assertTrue(courses.size() == COURSE_COUNT);
-        assertTrue(courses.get(0).id.equals(FIRST_COURSE_ID));
-        assertTrue(courses.get(0).course_title.equals(FIRST_COURSE_TITLE));
+        assertTrue(courses.get(0).getId().equals(FIRST_COURSE_ID));
+        assertTrue(courses.get(0).getCourseTitle().equals(FIRST_COURSE_TITLE));
     }
 
     @Test(expected = JSONException.class)
@@ -56,8 +56,8 @@ public class LoadCoursesUnitTtest {
                 boolean hasESP = false;
                 boolean hasShittyESP = false;
                 for(Course course : courses) {
-                    hasESP |= course.course_title.contains(ESP_TITLE);
-                    hasShittyESP |= course.course_title.contains(ESP_TITLE_ERROR);
+                    hasESP |= course.getCourseTitle().contains(ESP_TITLE);
+                    hasShittyESP |= course.getCourseTitle().contains(ESP_TITLE_ERROR);
                 }
                 assertTrue(hasESP);
                 assertFalse(hasShittyESP);

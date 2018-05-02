@@ -1,5 +1,5 @@
 package com.group.tube.parser;
-import com.group.tube.Models.Episodes;
+import com.group.tube.Models.Episode;
 import com.group.tube.Models.Course;
 
 import org.json.JSONObject;
@@ -39,9 +39,9 @@ public class Parser {
             }
             String presenterURL = presenterObject.getString("url");
             String presentationURL = presentationObject.getString("url");
-            Episodes e = new Episodes();
 
-            e.id = episodeID;
+            Episode e = new Episode();
+            e.setId(episodeID);
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
             Date date = new Date();
             try {
@@ -50,15 +50,15 @@ public class Parser {
                 ex.printStackTrace();
             }
             e.setDate(date);
-            e.course_id = seriesID;
-            e.episode_title = episodeTitle;
-            e.presenter_url = presenterURL;
-            e.presentation_url = presentationURL;
+            e.setCourseId(seriesID);
+            e.setEpisodeTitle(episodeTitle);
+            e.setPresenterUrl(presenterURL);
+            e.setPresentationUrl(presentationURL);
 
-            course.episodes.add(e);
+            course.addEpisode(e);
             if (j == 0)
             {
-                course.id = seriesID;
+                course.setId(seriesID);
                 course.setCourseTitle(seriesTitle);
             }
         }

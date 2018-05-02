@@ -3,13 +3,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import com.group.tube.Models.Episodes;
+
+import com.group.tube.Models.Episode;
+
 import android.util.Log;
 import android.widget.MediaController;
 import android.widget.VideoView;
 import com.group.tube.networking.AsyncResponse;
 import com.group.tube.networking.NetworkConnector;
-import com.group.tube.EpisodesOverviewActivity;
 
 public class MainActivity extends AppCompatActivity {
     private NetworkConnector networkConnector;
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.networkConnector = new NetworkConnector();
-        final Episodes e = new Episodes();
+        final Episode e = new Episode();
 
         // get video ID from EpisodesOverviewActivity
         Intent intent = getIntent();
@@ -35,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void viewEpisode(final String episodeId, final MainActivity ma) {
         // TODO AsyncResponse<Episode> instead of AsyncResponse<String>
-        this.networkConnector.loadEpisode(new AsyncResponse<Episodes>(){
+        this.networkConnector.loadEpisode(new AsyncResponse<Episode>(){
             @Override
-            public void processFinish(Episodes episode){
+            public void processFinish(Episode episode){
                 // videoPlayer would be the video view
                 // this.videoPlayer.showVideo(episode.getUrl();
                 Log.d("afkjsd", "here3");
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 mediaController = new MediaController(ma);
                 mediaController.setAnchorView(videoView);
 
-                Uri uri = Uri.parse(episode.presentation_url);
+                Uri uri = Uri.parse(episode.getPresentationUrl());
 
                 videoView.setMediaController(mediaController);
                 videoView.setVideoURI(uri);
