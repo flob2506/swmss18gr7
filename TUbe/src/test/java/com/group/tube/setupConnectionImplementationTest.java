@@ -1,6 +1,6 @@
 package com.group.tube;
 
-import com.group.tube.Models.Episodes;
+import com.group.tube.Models.Episode;
 import com.group.tube.networking.AsyncResponse;
 import com.group.tube.networking.NetworkConnector;
 
@@ -21,9 +21,9 @@ public class setupConnectionImplementationTest {
         mainActivity.setNetworkConnector(networkConnector);
 
         String episodeId = "91ff68f1-7a0d-4655-8cec-643c3cb8b0ae";
-        networkConnector.loadEpisode(new AsyncResponse<Episodes>() {
+        networkConnector.loadEpisode(new AsyncResponse<Episode>() {
             @Override
-            public void processFinish(Episodes episode) {
+            public void processFinish(Episode episode) {
                 // videoPlayer would be the video view
                 // this.videoPlayer.showVideo(episode.getUrl();
                 signal.countDown();
@@ -31,7 +31,7 @@ public class setupConnectionImplementationTest {
                 assertEquals("https://tube.tugraz.at/static/mh_default_org/engage-player/" +
                                 "8556615e-a07f-43cc-b119-a54bf52cc63e/" +
                                 "8d941380-946b-4c4c-9148-10e666ca1e6d/track.mp4",
-                        episode.presentation_url);
+                        episode.getPresentationUrl());
             }
         }, episodeId);
 

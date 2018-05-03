@@ -9,20 +9,18 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.group.tube.Models.Episodes;
+import com.group.tube.Models.Episode;
 import com.group.tube.R;
 import com.group.tube.utils.Utils;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 
-public class EpisodeArrayAdapter extends ArrayAdapter<Episodes> {
+public class EpisodeArrayAdapter extends ArrayAdapter<Episode> {
 
     private Context context;
 
-    public EpisodeArrayAdapter(Context context, ArrayList<Episodes> list) {
+    public EpisodeArrayAdapter(Context context, ArrayList<Episode> list) {
         super(context, 0 , list);
         this.context = context;
     }
@@ -34,9 +32,9 @@ public class EpisodeArrayAdapter extends ArrayAdapter<Episodes> {
         if(listItem == null)
             listItem = LayoutInflater.from(context).inflate(R.layout.episodes_overview_item,parent,false);
 
-        Episodes currentEpisode = this.getItem(position);
+        Episode currentEpisode = this.getItem(position);
         TextView name = listItem.findViewById(R.id.textViewEpisodeOverviewItemTitle);
-        name.setText(currentEpisode.getEpisode_title());
+        name.setText(currentEpisode.getEpisodeTitle());
         TextView date = listItem.findViewById(R.id.textViewEpisodeOverviewItemDate);
 
         if(currentEpisode.getDate() == null) {
