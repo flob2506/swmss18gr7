@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
@@ -31,10 +32,10 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
     private int chosenSemesterYear;
     ListView listView;
     ArrayList<Course> courses;
+    ArrayList<Course> allCourses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //TODO setChosenSemester(semesterYear, isWs);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.courses_overview);
         setTitle("All Courses");
@@ -56,6 +57,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
             @Override
             public void processFinish(ArrayList<Course> response) {
                 courses = response;
+                allCourses = new ArrayList<Course>(courses);
                 initializeListView(courses);
             }
         });
@@ -93,6 +95,16 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, int semesterYear, boolean isWs) {
         setChosenSemester(semesterYear, isWs);
+        semesterYear -= 2000;
+        CourseArrayAdapter courseAdapter = ((CourseArrayAdapter)listView.getAdapter());
+        courseAdapter.clear();
+        for(int i = 0; i < allCourses.size(); i++) {
+            if (allCourses.get(i).isWs() == isWs && allCourses.get(i).getSemesterYear() == semesterYear) {
+                courseAdapter.add(allCourses.get(i));
+                System.out.println("filtered course: " + allCourses.get(i).getCourseTitle() + ", " + semesterYear + ", " + isWs);
+            }
+        }
+        courseAdapter.notifyDataSetChanged();
     }
 
     private void setChosenSemester(int semesterYear, boolean isWs) {

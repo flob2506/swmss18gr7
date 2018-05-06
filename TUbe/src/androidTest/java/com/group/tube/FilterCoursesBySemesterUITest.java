@@ -34,12 +34,8 @@ public class FilterCoursesBySemesterUITest {
 
     @Test
     public void videoStartsAfterTimeOut() throws InterruptedException {
-
         onView(withId(R.id.imageViewFilterCourseList)).perform(click());
-
         onView(withText(R.string.filter_by_semester)).check(matches(isDisplayed()));
-
-        sleep(5000);
     }
 
 
