@@ -43,7 +43,7 @@ public class CoursesOverviewActivity extends AppCompatActivity {
         });
 
         final NetworkConnector networkConnector = new NetworkConnector();
-        networkConnector.loadCourses(new AsyncResponse<ArrayList<Course>>() {
+        networkConnector.loadAllCourses(new AsyncResponse<ArrayList<Course>>() {
             @Override
             public void processFinish(ArrayList<Course> response) {
                 courses = response;

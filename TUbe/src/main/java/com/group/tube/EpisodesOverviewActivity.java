@@ -45,7 +45,7 @@ public class EpisodesOverviewActivity extends AppCompatActivity
         Intent get_intent = getIntent();
         String course_id = get_intent.getStringExtra(CoursesOverviewActivity.EXTRA_MESSAGE);
         final NetworkConnector networkConnector = new NetworkConnector();
-        networkConnector.loadEpisodes(new AsyncResponse<ArrayList<Episode>>() {
+        networkConnector.loadEpisodesOfCourse(new AsyncResponse<ArrayList<Episode>>() {
             @Override
             public void processFinish(ArrayList<Episode> response) {
                 episodes = response;

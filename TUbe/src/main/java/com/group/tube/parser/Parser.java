@@ -1,93 +1,56 @@
 package com.group.tube.parser;
-import com.group.tube.Models.Episode;
+
 import com.group.tube.Models.Course;
+import com.group.tube.Models.Episode;
 
-import org.json.JSONObject;
-import org.json.JSONException;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Parser {
-    public void parseJSON (String json, Course course) throws JSONException {
-        JSONObject firstString = new JSONObject(json);
-        JSONObject searchResults = firstString.getJSONObject("search-results");
-        JSONArray resultArray = searchResults.getJSONArray("result");
-        JSONObject episodesObject = new JSONObject();
-        for (int j = 0; j < resultArray.length(); j++) {
-            episodesObject = resultArray.getJSONObject(j);
+    public void parseAllCourses(String json, ArrayList<Course> courses) throws JSONException, IllegalArgumentException {
+        if(json == null ||json.isEmpty()){
+            throw new IllegalArgumentException();
+        }
 
-            JSONObject episodeMediapackage = episodesObject.getJSONObject("mediapackage");
-            String seriesID = episodeMediapackage.getString("series");
-            String seriesTitle = episodeMediapackage.getString("seriestitle");
-            String episodeID = episodeMediapackage.getString("id");
-            String episodeDate = episodeMediapackage.getString("start");
-            String episodeTitle = episodeMediapackage.getString("title");
-            JSONObject mediaObject = episodeMediapackage.getJSONObject("media");
-            JSONArray trackArray = mediaObject.getJSONArray("track");
-            JSONObject presenterObject = new JSONObject();
-            JSONObject presentationObject = new JSONObject();
-            for (int i = 0; i < trackArray.length(); i++)
-            {
-                if (i == 0)
-                    presentationObject = trackArray.getJSONObject(i);
-                if (i == 1)
-                    presenterObject = trackArray.getJSONObject(i);
-            }
-            String presenterURL = presenterObject.getString("url");
-            String presentationURL = presentationObject.getString("url");
+        JSONArray jsonArray = new JSONArray(json);
 
-            Episode e = new Episode();
-            e.setId(episodeID);
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-            Date date = new Date();
-            try {
-                date = format.parse(episodeDate);
-            } catch (ParseException ex) {
-                ex.printStackTrace();
-            }
-            e.setDate(date);
-            e.setCourseId(seriesID);
-            e.setEpisodeTitle(episodeTitle);
-            e.setPresenterUrl(presenterURL);
-            e.setPresentationUrl(presentationURL);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonCourse = jsonArray.getJSONObject(i);
 
-            course.addEpisode(e);
-            if (j == 0)
-            {
-                course.setId(seriesID);
-                course.setCourseTitle(seriesTitle);
-            }
+            Course newCourse = new Course();
+
+           newCourse.setId(jsonCourse.getString("identifier"));
+            newCourse.setCourseTitle(jsonCourse.getString("title"));
+
+            courses.add(newCourse);
         }
     }
 
-    public void parseJSON (String json, ArrayList<Course> courses) throws JSONException {
-
-        JSONObject firstString = new JSONObject(json);
-        JSONArray catalogs = firstString.getJSONArray("catalogs");
-
-        for (int j = 0; j < catalogs.length(); j++) {
-            JSONObject catalogObject = catalogs.getJSONObject(j);
-            JSONObject catalogMediaPackage = catalogObject.getJSONObject("http://purl.org/dc/terms/");
-            JSONArray identifiers = catalogMediaPackage.getJSONArray("identifier");
-            if(identifiers.length() != 1)
-                throw new JSONException("lol geht net");
-
-            JSONArray titles = catalogMediaPackage.getJSONArray("title");
-            if(titles.length() != 1)
-                throw new JSONException("lol geht immer no net");
-
-            String id = identifiers.getJSONObject(0).getString("value");
-            String title = titles.getJSONObject(0).getString("value");
-
-            Course newCourse = new Course(id, title);
-            courses.add(newCourse);
+    public void parseEpisodesOfCourse(String jsonResponse, ArrayList<Episode> episodes) throws JSONException, IllegalArgumentException {
+        if(jsonResponse == null || jsonResponse.isEmpty()){
+            throw new IllegalArgumentException();
         }
 
+        JSONArray jsonArray = new JSONArray(jsonResponse);
 
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonEpisode = jsonArray.getJSONObject(i);
 
+            Episode newEpisode = new Episode();
+
+            newEpisode.setId(jsonEpisode.getString("identifier"));
+            newEpisode.setEpisodeTitle(jsonEpisode.getString("title"));
+
+            //TODO: parse date
+            String dateString = jsonEpisode.getString("created");
+            Date dummyDate = new Date();
+            newEpisode.setDate(dummyDate);
+
+            episodes.add(newEpisode);
+        }
     }
 }
