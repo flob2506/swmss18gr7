@@ -6,11 +6,13 @@ import java.util.regex.Pattern;
 
 public class Course {
 
+    public final static int uninitializedSemesterYear = 0;
+
     private String id;
     private String courseTitle;
 
 
-    private int semesterYear = 0;
+    private int semesterYear = uninitializedSemesterYear;
 
 
     private boolean isWs = true;

@@ -1,5 +1,7 @@
 package com.group.tube.utils;
 
+import android.util.Pair;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,6 +25,26 @@ public class Utils
         }
 
         return null;
+    }
+
+    public static Pair<Integer, Boolean> getCurrentSemester()
+    {
+        Date currentDate = new Date();
+        int currentMonth = currentDate.getMonth();
+        int semesterYear;
+        boolean isWs;
+        if(currentMonth >= 10) {
+            semesterYear = currentDate.getYear();
+            isWs = true;
+        } else if (currentMonth > 2 && currentMonth < 10) {
+            semesterYear = currentDate.getYear();
+            isWs = false;
+        } else { // currentMonth <= 2
+            semesterYear = currentDate.getYear() - 1;
+            isWs = true;
+        }
+        semesterYear += 1900;
+        return new Pair<>(semesterYear, isWs);
     }
 
     // nope

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">TUbe</string>
+    <string name="filter_by_semester">Filter by Semester</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="ws">WS</string>
+    <string name="ss">SS</string>
+    <string name="winter_semester">Winter Semester</string>
+    <string name="summer_semester">Summer Semester</string>
 </resources>
