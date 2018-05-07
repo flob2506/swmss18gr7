@@ -7,50 +7,76 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Parser {
-    public void parseAllCourses(String json, ArrayList<Course> courses) throws JSONException, IllegalArgumentException {
-        if(json == null ||json.isEmpty()){
-            throw new IllegalArgumentException();
+
+    /**
+     * This method parses all courses from the provided json-string and saves them in the provided
+     * ArrayList.
+     *
+     * @param jsonString String containing the courses
+     * @param courses    ArrayList to store the courses in
+     * @throws ParseException Either the json is null or empty or a JSONException occurred
+     */
+    public void parseAllCourses(String jsonString, ArrayList<Course> courses) throws ParseException {
+        if (jsonString == null || jsonString.isEmpty()) {
+            throw new ParseException("JSONString is null or empty", 0);
         }
 
-        JSONArray jsonArray = new JSONArray(json);
+        try {
+            JSONArray jsonArray = new JSONArray(jsonString);
 
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonCourse = jsonArray.getJSONObject(i);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonCourse = jsonArray.getJSONObject(i);
 
-            Course newCourse = new Course();
+                Course newCourse = new Course();
 
-           newCourse.setId(jsonCourse.getString("identifier"));
-            newCourse.setCourseTitle(jsonCourse.getString("title"));
+                newCourse.setId(jsonCourse.getString("identifier"));
+                newCourse.setCourseTitle(jsonCourse.getString("title"));
 
-            courses.add(newCourse);
+                courses.add(newCourse);
+            }
+        } catch (JSONException e) {
+            throw new ParseException("JSONException occurred when parsing", 0);
         }
     }
 
-    public void parseEpisodesOfCourse(String jsonResponse, ArrayList<Episode> episodes) throws JSONException, IllegalArgumentException {
-        if(jsonResponse == null || jsonResponse.isEmpty()){
-            throw new IllegalArgumentException();
+    /**
+     * This method parses all episodes from the provided json-string and saves them in the provided
+     * ArrayList.
+     *
+     * @param jsonString String containing the episodes
+     * @param episodes   ArrayList to store the episodes in
+     * @throws ParseException Either the json is null or empty or a JSONException occurred
+     **/
+    public void parseEpisodesOfCourse(String jsonString, ArrayList<Episode> episodes) throws ParseException {
+        if (jsonString == null || jsonString.isEmpty()) {
+            throw new ParseException("JSONString is null or empty", 0);
         }
 
-        JSONArray jsonArray = new JSONArray(jsonResponse);
+        try {
+            JSONArray jsonArray = new JSONArray(jsonString);
 
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonEpisode = jsonArray.getJSONObject(i);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonEpisode = jsonArray.getJSONObject(i);
 
-            Episode newEpisode = new Episode();
+                Episode newEpisode = new Episode();
 
-            newEpisode.setId(jsonEpisode.getString("identifier"));
-            newEpisode.setEpisodeTitle(jsonEpisode.getString("title"));
+                newEpisode.setId(jsonEpisode.getString("identifier"));
+                newEpisode.setEpisodeTitle(jsonEpisode.getString("title"));
 
-            //TODO: parse date
-            String dateString = jsonEpisode.getString("created");
-            Date dummyDate = new Date();
-            newEpisode.setDate(dummyDate);
+                String dateString = jsonEpisode.getString("created");
+                Date dummyDate = new Date();
+                newEpisode.setDate(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse(jsonEpisode.getString("created")));
 
-            episodes.add(newEpisode);
+                episodes.add(newEpisode);
+            }
+        } catch (JSONException e) {
+            throw new ParseException("JSONException occurred when parsing", 0);
         }
     }
 }
