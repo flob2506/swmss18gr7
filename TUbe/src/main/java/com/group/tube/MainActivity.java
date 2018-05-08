@@ -14,6 +14,8 @@ import com.group.tube.networking.NetworkConnector;
 
 public class MainActivity extends AppCompatActivity {
     private NetworkConnector networkConnector;
+    public boolean videoDidLoad = false;
+    
     public void setNetworkConnector(NetworkConnector new_networkConnector) {
         this.networkConnector = new_networkConnector;
     }
