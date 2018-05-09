@@ -69,8 +69,6 @@ public class Parser {
                 newEpisode.setId(jsonEpisode.getString("identifier"));
                 newEpisode.setEpisodeTitle(jsonEpisode.getString("title"));
 
-                String dateString = jsonEpisode.getString("created");
-                Date dummyDate = new Date();
                 newEpisode.setDate(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse(jsonEpisode.getString("created")));
 
                 episodes.add(newEpisode);
