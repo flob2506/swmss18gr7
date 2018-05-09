@@ -58,9 +58,10 @@ public class FilterCoursesBySemesterUITest {
         onView(withId(R.id.numberPickerIsWsSemesterFilterDialog)).perform(setNumber(0)); //WS
         onView(withId(R.id.numberPickerSemesterSemesterFilterDialog)).perform(setNumber(2017)); //year
         onView(withText("OK")).perform(click());
-        onView(withId(R.id.listViewCourses)).check(matches(withListSemesters(17, true)));
+        onView(withId(R.id.listViewCourses)).check(matches(withListSemesters(2017, true)));
     }
 
+    // https://spin.atomicobject.com/2017/10/10/android-numberpicker-espresso/
     public static ViewAction setNumber(final int num) {
         return new ViewAction() {
             @Override

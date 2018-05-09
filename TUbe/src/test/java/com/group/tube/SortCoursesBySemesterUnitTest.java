@@ -13,6 +13,9 @@ import java.util.Collections;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+
 public class SortCoursesBySemesterUnitTest {
     private ArrayList<Course> courses;
 
@@ -31,7 +34,7 @@ public class SortCoursesBySemesterUnitTest {
         for (Course course : courses) {
             if (prevCourse != null)
             {
-                assert(prevCourse.getSemesterYear() <= course.getSemesterYear());
+                assertEquals(true, prevCourse.getSemesterYear() <= course.getSemesterYear());
                 if (prevCourse.getSemesterYear() == course.getSemesterYear())
                     assert (!prevCourse.isWs());
             }
@@ -43,7 +46,7 @@ public class SortCoursesBySemesterUnitTest {
     public void verifyFalseCourse()
     {
         Course courses = new Course(UUID.randomUUID().toString(), UUID.randomUUID().toString());
-        assert(courses.isWs() && courses.getSemesterYear() == 0);
+        assertEquals(true, courses.isWs() && courses.getSemesterYear() == 0);
     }
 
     @Test
@@ -52,15 +55,15 @@ public class SortCoursesBySemesterUnitTest {
         int year = ThreadLocalRandom.current().nextInt(10, 19);
         boolean is_ws = ThreadLocalRandom.current().nextBoolean();
         Course course = new Course(UUID.randomUUID().toString(), TestDataGenerator.geCourseTitle(year, is_ws));
-        assert(is_ws == course.isWs());
-        assert((year + 2000) == course.getSemesterYear());
+        assertEquals(is_ws, course.isWs());
+        assertEquals((year + 2000), course.getSemesterYear());
     }
 
     @Test
     public void testSemesterMultiple()
     {
         Course course = new Course(UUID.randomUUID().toString(), "semester 16S 15S 17W");
-        assert(!course.isWs());
-        assert(2016 == course.getSemesterYear());
+        assertEquals(false, course.isWs());
+        assertEquals(2016, course.getSemesterYear());
     }
 }

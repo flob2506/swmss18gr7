@@ -42,7 +42,7 @@ public class Course {
         Pattern regexPattern = Pattern.compile(pattern);
         Matcher regexMatcher = regexPattern.matcher(courseTitle);
         if (regexMatcher.find()) {
-            this.semesterYear = Integer.parseInt(regexMatcher.group(1));
+            this.semesterYear = 2000 + Integer.parseInt(regexMatcher.group(1));
             this.isWs = regexMatcher.group(2).equals("W");
         }
     }
@@ -53,7 +53,7 @@ public class Course {
         if (semesterYear < 10) {
             returnString += "0";
         }
-        returnString += Integer.toString(semesterYear);
+        returnString += Integer.toString(semesterYear % 100);
         return returnString;
     }
 

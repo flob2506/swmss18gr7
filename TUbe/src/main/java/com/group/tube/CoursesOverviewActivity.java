@@ -94,7 +94,6 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, int semesterYear, boolean isWs) {
         setChosenSemester(semesterYear, isWs);
-        semesterYear -= 2000;
         CourseArrayAdapter courseAdapter = ((CourseArrayAdapter)listView.getAdapter());
         courseAdapter.clear();
         for(int i = 0; i < allCourses.size(); i++) {
