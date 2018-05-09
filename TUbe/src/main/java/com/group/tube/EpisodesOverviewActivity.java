@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
 import com.group.tube.Comparators.DateSortComparator;
+import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;
 import com.group.tube.networking.AsyncResponse;
 import com.group.tube.networking.NetworkConnector;
@@ -31,6 +32,15 @@ public class EpisodesOverviewActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.episodes_overview);
         final Intent intent = new Intent(this, MainActivity.class);
+
+        Intent get_intent = getIntent();
+        Bundle bundle = get_intent.getExtras();
+        Course course = (Course) bundle.getSerializable(CoursesOverviewActivity.EXTRA_COURSEOBJECT);
+
+        this.setTitle(course.getCourseTitle());
+
+
+
         listView = findViewById(R.id.listViewEpisodes);
 
         listView.setOnItemClickListener(new OnItemClickListener() {
@@ -42,7 +52,6 @@ public class EpisodesOverviewActivity extends AppCompatActivity
         });
         listView = this.findViewById(R.id.listViewEpisodes);
 
-        Intent get_intent = getIntent();
         String course_id = get_intent.getStringExtra(CoursesOverviewActivity.EXTRA_MESSAGE);
         final NetworkConnector networkConnector = new NetworkConnector();
         networkConnector.networkTask.setLoginAndPassword("tube-mobile", "J8Mz4ftVNEZ54Wo6");

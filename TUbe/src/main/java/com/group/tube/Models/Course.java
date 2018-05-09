@@ -1,10 +1,11 @@
 package com.group.tube.Models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Course {
+public class Course implements Serializable {
 
     private String id;
     private String courseTitle;
@@ -16,22 +17,12 @@ public class Course {
     private boolean isWs = true;
 
 
-    private ArrayList<Episode> episodes = new ArrayList<>();
-
     public Course() {
     }
 
     public Course(String id, String courseTitle) {
         this.id = id;
         setCourseTitle(courseTitle);
-    }
-
-    public void addEpisode(Episode episode) {
-        episodes.add(episode);
-    }
-
-    public Episode getEpisode(int index) {
-        return episodes.get(index);
     }
 
     public void setCourseTitle(String courseTitle) {
@@ -75,8 +66,5 @@ public class Course {
         this.id = id;
     }
 
-    public ArrayList<Episode> getEpisodes() {
-        return episodes;
-    }
 }
 

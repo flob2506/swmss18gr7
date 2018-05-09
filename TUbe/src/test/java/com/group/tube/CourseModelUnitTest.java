@@ -45,19 +45,15 @@ public class CourseModelUnitTest {
 
         course.setId(id);
         course.setCourseTitle(courseTitle);
-        course.addEpisode(episode);
 
         ArrayList<Episode> episodes = new ArrayList<Episode>();
         episodes.add(episode);
 
         assertEquals(id, course.getId());
         assertEquals(courseTitle, course.getCourseTitle());
-        assertEquals(episode, course.getEpisode(0));
         assertEquals("WS 00", course.getSemesterString());
         assertEquals(0, course.getSemesterYear());
         assertEquals(true, course.isWs());
-        assertEquals(episodes, course.getEpisodes());
-
     }
 
     @Test
