@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TUbe</string>
+    <string name="tube_url">https://tube-test.tugraz.at/</string>
 </resources>

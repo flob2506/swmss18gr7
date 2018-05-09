@@ -1,15 +1,8 @@
 package com.group.tube.utils;
 
 import android.content.Context;
-import android.support.annotation.AttrRes;
-import android.support.annotation.NonNull;
 import android.util.TypedValue;
-import android.view.Window;
 
-import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
-import com.group.tube.Comparators.DateSortComparator;
-import com.group.tube.MainActivity;
-import com.group.tube.Models.Episodes;
 import com.group.tube.R;
 
 import java.text.ParseException;
