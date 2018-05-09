@@ -105,10 +105,8 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
     }
 
     private void setChosenSemester(int semesterYear, boolean isWs) {
-        int stringResource = isWs ? R.string.ws : R.string.ss;
-        String semesterType = getResources().getString(stringResource);
         TextView textView = findViewById(R.id.textViewChosenSemester);
-        textView.setText(String.format("This semester (%02d%s)", semesterYear % 100, semesterType));
+        textView.setText(Utils.getChosenSemesterText(semesterYear, isWs, this));
         this.chosenSemesterYear = semesterYear;
         this.chosenIsWs = isWs;
     }

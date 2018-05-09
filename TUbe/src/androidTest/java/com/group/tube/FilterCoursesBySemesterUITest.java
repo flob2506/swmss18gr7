@@ -1,5 +1,6 @@
 package com.group.tube;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
@@ -7,12 +8,14 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v4.util.Pair;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.VideoView;
 
 import com.group.tube.Models.Course;
+import com.group.tube.utils.Utils;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -59,6 +62,25 @@ public class FilterCoursesBySemesterUITest {
         onView(withId(R.id.numberPickerSemesterSemesterFilterDialog)).perform(setNumber(2017)); //year
         onView(withText("OK")).perform(click());
         onView(withId(R.id.listViewCourses)).check(matches(withListSemesters(2017, true)));
+    }
+
+    @Test
+    public void listHasFilterMessage() throws InterruptedException {
+        onView(withId(R.id.imageViewFilterCourseList)).perform(click());
+        onView(withId(R.id.numberPickerIsWsSemesterFilterDialog)).perform(setNumber(0)); //WS
+        onView(withId(R.id.numberPickerSemesterSemesterFilterDialog)).perform(setNumber(2017)); //year
+        onView(withText("OK")).perform(click());
+        onView(withId(R.id.textViewChosenSemester)).check(matches(withText(Utils.getChosenSemesterText(2017, true, InstrumentationRegistry.getTargetContext()))));
+    }
+
+    @Test
+    public void listHasFilterMessageCurrentSemester() throws InterruptedException {
+        Pair<Integer, Boolean> currentSemester = Utils.getCurrentSemester();
+        onView(withId(R.id.imageViewFilterCourseList)).perform(click());
+        onView(withId(R.id.numberPickerIsWsSemesterFilterDialog)).perform(setNumber(currentSemester.second ? 0 : 1)); //WS
+        onView(withId(R.id.numberPickerSemesterSemesterFilterDialog)).perform(setNumber(currentSemester.first)); //year
+        onView(withText("OK")).perform(click());
+        onView(withId(R.id.textViewChosenSemester)).check(matches(withText(Utils.getChosenSemesterText(currentSemester.first, currentSemester.second, InstrumentationRegistry.getTargetContext()))));
     }
 
     // https://spin.atomicobject.com/2017/10/10/android-numberpicker-espresso/
