@@ -61,6 +61,11 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
                 initializeListView(courses);
                 filterCoursesBySemester(currentSemester.first, currentSemester.second);
             }
+
+            @Override
+            public void handleProcessException(Exception e) {
+                //dialog.show("oops "); sleep(1000); kill();
+            }
         });
         initializeFilterButton();
 
@@ -76,10 +81,6 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
                 showDialog();
             }
 
-            @Override
-            public void handleProcessException(Exception e) {
-                //dialog.show("oops "); sleep(1000); kill();
-            }
         });
     }
 
