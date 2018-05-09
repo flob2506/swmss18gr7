@@ -50,26 +50,38 @@ public class Utils
         semesterYear += 1900;
         return new Pair<>(semesterYear, isWs);
     }
-
-    public static boolean isCurrentSemester(int semesterYear, boolean isWs)
+    public static Pair<Integer, Boolean> getLastSemester()
     {
         Pair<Integer, Boolean> currentSemester = getCurrentSemester();
-        return currentSemester.first == semesterYear && currentSemester.second == isWs;
+        if(currentSemester.second) {
+            return new Pair<>(currentSemester.first, false);
+        }
+        return new Pair<>(currentSemester.first - 1, true);
     }
 
     public static String getChosenSemesterText(int semesterYear, boolean isWs, Context context)
     {
         String text;
-        if(Utils.isCurrentSemester(semesterYear, isWs)) {
+        boolean isCurrent;
+        if((isCurrent = Utils.isSemesterPair(semesterYear, isWs, getCurrentSemester())) ||
+            Utils.isSemesterPair(semesterYear, isWs, getLastSemester())) {
+
             int stringResource = isWs ? R.string.ws : R.string.ss;
             String semesterType = context.getResources().getString(stringResource);
-            text = String.format("This semester (%02d%s)", semesterYear % 100, semesterType);
+            String semesterText = isCurrent ? "This semester" : "Last semester";
+            text = String.format("%s (%02d%s)", semesterText, semesterYear % 100, semesterType);
         } else {
             int stringResource = isWs ? R.string.winter_semester : R.string.summer_semester;
             String semesterType = context.getResources().getString(stringResource);
             text = String.format("%s %d", semesterType, semesterYear);
         }
         return text;
+    }
+
+
+    private static boolean isSemesterPair(int semesterYear, boolean isWs, Pair<Integer, Boolean> semesterPair)
+    {
+        return semesterPair.first == semesterYear && semesterPair.second == isWs;
     }
 
     // nope

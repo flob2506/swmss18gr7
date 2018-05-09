@@ -33,6 +33,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
     ListView listView;
     ArrayList<Course> courses;
     ArrayList<Course> allCourses;
+    private final Pair<Integer, Boolean> currentSemester = Utils.getCurrentSemester();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,17 +54,18 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         });
 
         final NetworkConnector networkConnector = new NetworkConnector();
+
         networkConnector.loadCourses(new AsyncResponse<ArrayList<Course>>() {
             @Override
             public void processFinish(ArrayList<Course> response) {
                 courses = response;
                 allCourses = new ArrayList<Course>(courses);
                 initializeListView(courses);
+                filterCoursesBySemester(currentSemester.first, currentSemester.second);
             }
         });
         initializeFilterButton();
 
-        Pair<Integer, Boolean> currentSemester = Utils.getCurrentSemester();
         setChosenSemester(currentSemester.first, currentSemester.second);
     }
 
@@ -93,6 +95,10 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, int semesterYear, boolean isWs) {
+        filterCoursesBySemester(semesterYear, isWs);
+    }
+
+    private void filterCoursesBySemester(int semesterYear, boolean isWs) {
         setChosenSemester(semesterYear, isWs);
         CourseArrayAdapter courseAdapter = ((CourseArrayAdapter)listView.getAdapter());
         courseAdapter.clear();

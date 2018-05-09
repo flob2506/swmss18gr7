@@ -37,6 +37,7 @@ import static java.lang.Thread.sleep;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.anything;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
@@ -83,6 +84,15 @@ public class FilterCoursesBySemesterUITest {
         onView(withId(R.id.textViewChosenSemester)).check(matches(withText(Utils.getChosenSemesterText(currentSemester.first, currentSemester.second, InstrumentationRegistry.getTargetContext()))));
     }
 
+    @Test
+    public void verifyLastSemester() throws InterruptedException {
+        Pair<Integer, Boolean> lastSemester = Utils.getLastSemester();
+        Pair<Integer, Boolean> currentSemester = Utils.getCurrentSemester();
+        Pair<Integer, Boolean> lastSemesterReal = getLastSemester(currentSemester);
+        assertEquals(lastSemesterReal.first, lastSemester.first);
+        assertEquals(lastSemesterReal.second, lastSemester.second);
+    }
+
     // https://spin.atomicobject.com/2017/10/10/android-numberpicker-espresso/
     public static ViewAction setNumber(final int num) {
         return new ViewAction() {
@@ -121,6 +131,14 @@ public class FilterCoursesBySemesterUITest {
                 description.appendText ("List doesn't match semester " + semesterYear + (isWs ? "WS" : "SS"));
             }
         };
+    }
+
+    private static Pair<Integer, Boolean> getLastSemester(Pair<Integer, Boolean> currentSemester)
+    {
+        if(currentSemester.second) {
+            return new Pair<>(currentSemester.first, false);
+        }
+        return new Pair<>(currentSemester.first - 1, true);
     }
 
 
