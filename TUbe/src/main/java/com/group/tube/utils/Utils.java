@@ -1,6 +1,6 @@
 package com.group.tube.utils;
 
-import android.util.Pair;
+import android.support.v4.util.Pair;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
