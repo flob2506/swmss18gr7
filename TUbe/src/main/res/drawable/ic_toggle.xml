@@ -1,0 +1,15 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="60dp"
+    android:layout_height="60dp">
+
+    <item android:state_checked="false"
+        android:drawable="@drawable/ic_star_border"
+        android:tint="@color/fav_unchecked"
+        />
+
+    <item android:state_checked="true"
+        android:drawable="@drawable/ic_star" />
+
+</selector>
+
+

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayoutCourseOverviewItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -38,7 +39,22 @@
         android:layout_height="wrap_content"
         android:text="SS18"
         android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textViewCourseOverviewItemCourseTitle"
-        app:layout_constraintEnd_toEndOf="parent" />
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCourseOverviewItemCourseTitle"/>
+
+
+
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        style="@style/toggleButton"
+        android:background="@drawable/ic_toggle_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+
+
 
 </android.support.constraint.ConstraintLayout>
