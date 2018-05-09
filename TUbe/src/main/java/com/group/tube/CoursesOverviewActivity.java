@@ -82,7 +82,6 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
     {
         CourseSemesterFilterDialogFragment dialog = new CourseSemesterFilterDialogFragment();
         dialog.setChosenIsWs(chosenIsWs);
-        System.out.println("chosen sem year" + chosenSemesterYear);
         dialog.setChosenSemesterYear(chosenSemesterYear);
         dialog.show(getFragmentManager(), "");
     }
@@ -101,7 +100,6 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         for(int i = 0; i < allCourses.size(); i++) {
             if (allCourses.get(i).isWs() == isWs && allCourses.get(i).getSemesterYear() == semesterYear) {
                 courseAdapter.add(allCourses.get(i));
-                System.out.println("filtered course: " + allCourses.get(i).getCourseTitle() + ", " + semesterYear + ", " + isWs);
             }
         }
         courseAdapter.notifyDataSetChanged();
