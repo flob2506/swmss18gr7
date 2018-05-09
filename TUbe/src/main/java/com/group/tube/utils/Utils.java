@@ -7,7 +7,6 @@ import android.support.v4.util.Pair;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.util.TypedValue;
-import android.view.Window;
 
 import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
 import com.group.tube.Comparators.DateSortComparator;

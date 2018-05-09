@@ -22,9 +22,6 @@ import com.group.tube.utils.Utils;
 
 import java.util.ArrayList;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-
 public class CoursesOverviewActivity extends AppCompatActivity implements CourseSemesterFilterDialogFragment.CourseSemesterFilterDialogListener {
     public static final String EXTRA_MESSAGE = "com.group.tube.coursesOverviewActivity.MESSAGE";
 
@@ -41,7 +38,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         setContentView(R.layout.courses_overview);
         setTitle("All Courses");
 
-        listView  = findViewById(R.id.listViewCourses);
+        listView = findViewById(R.id.listViewCourses);
 
         final Activity that = this;
 
@@ -55,7 +52,8 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
 
         final NetworkConnector networkConnector = new NetworkConnector();
 
-        networkConnector.loadCourses(new AsyncResponse<ArrayList<Course>>() {
+        networkConnector.networkTask.setLoginAndPassword("tube-mobile", "J8Mz4ftVNEZ54Wo6");
+        networkConnector.loadAllCourses(new AsyncResponse<ArrayList<Course>>() {
             @Override
             public void processFinish(ArrayList<Course> response) {
                 courses = response;
@@ -76,6 +74,11 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
             @Override
             public void onClick(View view) {
                 showDialog();
+            }
+
+            @Override
+            public void handleProcessException(Exception e) {
+                //dialog.show("oops "); sleep(1000); kill();
             }
         });
     }
