@@ -54,6 +54,11 @@ public class MainActivity extends AppCompatActivity {
                 videoView.start();
                 Log.d("afkjsd", "here5");
             }
+
+            @Override
+            public void handleProcessException(Exception e) {
+                //dialog("oops");
+            }
         }, episodeId);
     }
 }

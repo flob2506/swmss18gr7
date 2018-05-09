@@ -41,14 +41,17 @@ public class NetworkTask extends AsyncTask {
         try {
             return this.run((String) objects[0]);
         } catch (Exception e) {
-            //TODO: handle exceptions in controlled manner
             e.printStackTrace();
+            responseHandler.handleProcessException(e);
             return null;
         }
     }
 
     @Override
     protected void onPostExecute(Object object) {
+        if(object == null) {
+            return;
+        }
         responseHandler.processFinish((String) object);
     }
 

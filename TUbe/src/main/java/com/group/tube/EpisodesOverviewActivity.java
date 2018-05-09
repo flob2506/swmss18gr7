@@ -45,11 +45,17 @@ public class EpisodesOverviewActivity extends AppCompatActivity
         Intent get_intent = getIntent();
         String course_id = get_intent.getStringExtra(CoursesOverviewActivity.EXTRA_MESSAGE);
         final NetworkConnector networkConnector = new NetworkConnector();
+        networkConnector.networkTask.setLoginAndPassword("tube-mobile", "J8Mz4ftVNEZ54Wo6");
         networkConnector.loadEpisodesOfCourse(new AsyncResponse<ArrayList<Episode>>() {
             @Override
             public void processFinish(ArrayList<Episode> response) {
                 episodes = response;
                 initializeListView(episodes);
+            }
+
+            @Override
+            public void handleProcessException(Exception e) {
+                // TODO dialog("ooops");
             }
         }, course_id);
     }

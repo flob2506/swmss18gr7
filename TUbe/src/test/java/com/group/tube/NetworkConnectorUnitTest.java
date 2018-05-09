@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
+import static junit.framework.Assert.fail;
 import static org.junit.Assert.assertEquals;
 
 public class NetworkConnectorUnitTest {
@@ -27,14 +28,16 @@ public class NetworkConnectorUnitTest {
                 assertEquals("HS i13", response.get(7).getCourseTitle());
                 signal.countDown();
             }
+
+            @Override
+            public void handleProcessException(Exception e) {
+                //TODO assertTrue(1);
+            }
         });
         signal.await();
     }
 
-    /*@Test(expected = ParseException.class)
-    public void loadEpisodesOfCourse_faultyResponseHandler() throws ParseException {
-        new EpisodesAsyncResponse(null).processFinish("blablabla");
-    }*/
+
 
 
     @Test
@@ -49,6 +52,11 @@ public class NetworkConnectorUnitTest {
                 assertEquals("2a96ea26-1e1c-4ab8-8dee-d7ebeb076512", response.get(0).getId());
                 assertEquals("Test Event", response.get(1).getEpisodeTitle());
                 signal.countDown();
+            }
+
+            @Override
+            public void handleProcessException(Exception e) {
+                fail("Exception mustn't be thrown");
             }
         }, "bcfa6470-b7c8-4d85-8678-89c6844b1660");
         signal.await();
@@ -65,6 +73,11 @@ public class NetworkConnectorUnitTest {
             public void processFinish(ArrayList<Episode> response) {
                 assertEquals(0, response.size());
                 signal.countDown();
+            }
+
+            @Override
+            public void handleProcessException(Exception e) {
+                fail("Exception mustn't be thrown");
             }
         }, "This-is-wrong");
         signal.await();

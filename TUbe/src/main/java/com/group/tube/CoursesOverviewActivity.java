@@ -40,11 +40,17 @@ public class CoursesOverviewActivity extends AppCompatActivity {
         });
 
         final NetworkConnector networkConnector = new NetworkConnector();
+        networkConnector.networkTask.setLoginAndPassword("tube-mobile", "J8Mz4ftVNEZ54Wo6");
         networkConnector.loadAllCourses(new AsyncResponse<ArrayList<Course>>() {
             @Override
             public void processFinish(ArrayList<Course> response) {
                 courses = response;
                 initializeListView(courses);
+            }
+
+            @Override
+            public void handleProcessException(Exception e) {
+                //dialog.show("oops "); sleep(1000); kill();
             }
         });
     }
