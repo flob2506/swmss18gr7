@@ -1,8 +1,11 @@
 package com.group.tube;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -10,9 +13,10 @@ import android.webkit.WebViewClient;
 
 import com.group.tube.networking.NetworkConnector;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     private NetworkConnector networkConnector;
     public boolean videoDidLoad = false;
+
     public void setNetworkConnector(NetworkConnector new_networkConnector) {
         this.networkConnector = new_networkConnector;
     }
@@ -22,7 +26,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        this.setContentView(R.layout.activity_main);
+
         this.networkConnector = new NetworkConnector();
 
         videoView = (WebView) findViewById(R.id.webview);
@@ -43,12 +49,31 @@ public class MainActivity extends AppCompatActivity {
         // get video ID from EpisodesOverviewActivity
         Intent intent = getIntent();
         String id = intent.getStringExtra(EpisodesOverviewActivity.EXTRA_MESSAGE_EPISODE);
-        //episodeId to be replaced with id
-        this.viewEpisode("541e5b99-4225-496c-9b11-4c6e438f5c15");
+        this.viewEpisode("541e5b99-4225-496c-9b11-4c6e438f5c15", savedInstanceState);
+        //this.viewEpisode(id, savedInstanceState);
     }
 
-    public void viewEpisode(final String episodeId) {
+    @Override
+    protected void onSaveInstanceState(Bundle outState )
+    {
+        super.onSaveInstanceState(outState);
+        videoView.saveState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState(savedInstanceState);
+        videoView.restoreState(savedInstanceState);
+    }
+
+
+    public void viewEpisode(final String episodeId, Bundle savedInstanceState) {
         videoDidLoad = false;
-        videoView.loadUrl("https://tube.tugraz.at/paella/ui/frame_engage.html?id=" + episodeId);
+
+        if (savedInstanceState == null)
+        {
+            videoView.loadUrl("https://tube.tugraz.at/paella/ui/frame_engage.html?id=" + episodeId);
+        }
     }
 }
