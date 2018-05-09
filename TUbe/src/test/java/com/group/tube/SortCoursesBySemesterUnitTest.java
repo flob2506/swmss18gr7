@@ -3,7 +3,6 @@ package com.group.tube;
 
 import com.group.tube.Comparators.SemesterSortComparator;
 import com.group.tube.Models.Course;
-import com.group.tube.Models.Episodes;
 import com.group.tube.utils.TestDataGenerator;
 
 import org.junit.Before;
@@ -32,9 +31,9 @@ public class SortCoursesBySemesterUnitTest {
         for (Course course : courses) {
             if (prevCourse != null)
             {
-                assert(prevCourse.semester_year <= course.semester_year);
-                if (prevCourse.semester_year == course.semester_year)
-                    assert (!prevCourse.is_ws);
+                assert(prevCourse.getSemesterYear() <= course.getSemesterYear());
+                if (prevCourse.getSemesterYear() == course.getSemesterYear())
+                    assert (!prevCourse.isWs());
             }
             prevCourse = course;
         }
@@ -44,7 +43,7 @@ public class SortCoursesBySemesterUnitTest {
     public void verifyFalseCourse()
     {
         Course courses = new Course(UUID.randomUUID().toString(), UUID.randomUUID().toString());
-        assert(courses.is_ws && courses.semester_year == 0);
+        assert(courses.isWs() && courses.getSemesterYear() == 0);
     }
 
     @Test
@@ -53,15 +52,15 @@ public class SortCoursesBySemesterUnitTest {
         int year = ThreadLocalRandom.current().nextInt(10, 19);
         boolean is_ws = ThreadLocalRandom.current().nextBoolean();
         Course course = new Course(UUID.randomUUID().toString(), TestDataGenerator.geCourseTitle(year, is_ws));
-        assert(is_ws == course.is_ws);
-        assert((year + 2000) == course.semester_year);
+        assert(is_ws == course.isWs());
+        assert((year + 2000) == course.getSemesterYear());
     }
 
     @Test
     public void testSemesterMultiple()
     {
         Course course = new Course(UUID.randomUUID().toString(), "semester 16S 15S 17W");
-        assert(!course.is_ws);
-        assert(2016 == course.semester_year);
+        assert(!course.isWs());
+        assert(2016 == course.getSemesterYear());
     }
 }

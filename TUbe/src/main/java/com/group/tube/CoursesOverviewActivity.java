@@ -37,7 +37,7 @@ public class CoursesOverviewActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final Intent intent = new Intent(that, EpisodesOverviewActivity.class);
-                intent.putExtra(EXTRA_MESSAGE, courses.get(position).id);
+                intent.putExtra(EXTRA_MESSAGE, courses.get(position).getId());
                 startActivity(intent);
             }
         });

@@ -10,9 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.group.tube.Models.Course;
-import com.group.tube.Models.Episodes;
 import com.group.tube.R;
-import com.group.tube.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -36,7 +34,7 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
         Course currentCourse = this.getItem(position);
 
         TextView tv_course_title = listItem.findViewById(R.id.textViewCourseOverviewItemCourseTitle);
-        tv_course_title.setText(currentCourse.course_title);
+        tv_course_title.setText(currentCourse.getCourseTitle());
 
         TextView tv_course_number = listItem.findViewById(R.id.textViewCourseOverviewItemCourseNumber);
         //TODO fill course number

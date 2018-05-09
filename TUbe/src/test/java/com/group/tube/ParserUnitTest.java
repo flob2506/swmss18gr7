@@ -1,18 +1,12 @@
 package com.group.tube;
 
-import android.preference.PreferenceActivity;
-
 import com.group.tube.Models.Course;
 import com.group.tube.parser.Parser;
-import com.group.tube.Models.Episodes;
-
-import com.loopj.android.http.*;
+import com.group.tube.Models.Episode;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import java.util.concurrent.CountDownLatch;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -25,7 +19,7 @@ public class ParserUnitTest {
 
     @Test
     public void parser_returnsString() throws Exception {
-        final Episodes e = new Episodes();
+        final Episode e = new Episode();
         final Parser p = new Parser();
         final Course c = new Course();
 
@@ -138,16 +132,16 @@ public class ParserUnitTest {
                 "}";
 
         p.parseJSON(JSONFILE, c);
-        assertEquals(c.episodes.get(0).id, "876d2ecf-11df-4b69-9bc2-376bf719c759");
-        assertEquals(c.episodes.get(0).episode_title, "#6");
-        assertEquals(c.episodes.get(0).course_id, "1ace56be-eb47-4150-97c1-9e285f34e5de");
-        assertEquals(c.episodes.get(0).presentation_url, "https://tube.tugraz.at/static/mh_default_org/engage-player/876d2ecf-11df-4b69-9bc2-376bf719c759/d32e06cf-3fb1-4150-b790-e95162af31ae/track.mp4");
-        assertEquals(c.episodes.get(0).presenter_url, "https://tube.tugraz.at/static/mh_default_org/engage-player/876d2ecf-11df-4b69-9bc2-376bf719c759/8fbca277-bc51-4316-9c31-5bef03eadea0/track.mp4");
+        assertEquals(c.getEpisode(0).getId(), "876d2ecf-11df-4b69-9bc2-376bf719c759");
+        assertEquals(c.getEpisode(0).getEpisodeTitle(), "#6");
+        assertEquals(c.getEpisode(0).getCourseId(), "1ace56be-eb47-4150-97c1-9e285f34e5de");
+        assertEquals(c.getEpisode(0).getPresentationUrl(), "https://tube.tugraz.at/static/mh_default_org/engage-player/876d2ecf-11df-4b69-9bc2-376bf719c759/d32e06cf-3fb1-4150-b790-e95162af31ae/track.mp4");
+        assertEquals(c.getEpisode(0).getPresenterUrl(), "https://tube.tugraz.at/static/mh_default_org/engage-player/876d2ecf-11df-4b69-9bc2-376bf719c759/8fbca277-bc51-4316-9c31-5bef03eadea0/track.mp4");
     }
 
     @Test
     public void parser_allEpisodesTest() throws Exception {
-        final Episodes e = new Episodes();
+        final Episode e = new Episode();
         final Parser p = new Parser();
         final Course c = new Course();
 
@@ -356,8 +350,8 @@ public class ParserUnitTest {
                 "}";
 
         p.parseJSON(JSONFILE, c);
-        assertEquals(c.episodes.get(0).id, "876d2ecf-11df-4b69-9bc2-376bf719c759");
-        assertEquals(c.episodes.get(1).id, "f36eab5a-a976-4a9a-b424-a593b52fee0a");
+        assertEquals(c.getEpisode(0).getId(), "876d2ecf-11df-4b69-9bc2-376bf719c759");
+        assertEquals(c.getEpisode(1).getId(), "f36eab5a-a976-4a9a-b424-a593b52fee0a");
     }
 
 }

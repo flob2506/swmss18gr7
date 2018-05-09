@@ -4,12 +4,9 @@ package com.group.tube;
 import android.widget.ListView;
 
 import com.group.tube.ArrayAdapter.CourseArrayAdapter;
-import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
 import com.group.tube.Models.Course;
-import com.group.tube.Models.Episodes;
 import com.group.tube.utils.TestDataGenerator;
 import com.group.tube.utils.Utils;
-import com.thoughtworks.xstream.mapper.Mapper;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +15,6 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.Robolectric;
 import org.robolectric.annotation.Config;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
@@ -66,10 +62,10 @@ public class CourseOverviewUnitTest {
     public void verifyAdapterItemIDChanges()
     {
         for(Course course : courses) {
-            course.id = UUID.randomUUID().toString();
+            course.setId(UUID.randomUUID().toString());
         }
         for(int i = 0; i < courses.size(); i++) {
-            assertEquals(courses.get(i).id, ((Course)listView.getAdapter().getItem(i)).id);
+            assertEquals(courses.get(i).getId(), ((Course)listView.getAdapter().getItem(i)).getId());
         }
     }
 

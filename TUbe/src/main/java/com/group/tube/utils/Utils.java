@@ -1,6 +1,5 @@
 package com.group.tube.utils;
 
-
 import android.content.Context;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
@@ -15,8 +14,6 @@ import com.group.tube.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 
 public class Utils
