@@ -1,59 +1,79 @@
 package com.group.tube;
+import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.group.tube.Models.Episode;
+import android.view.Window;
+import android.view.WindowManager;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
-import android.util.Log;
-import android.widget.MediaController;
-import android.widget.VideoView;
-import com.group.tube.networking.AsyncResponse;
 import com.group.tube.networking.NetworkConnector;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     private NetworkConnector networkConnector;
+    public boolean videoDidLoad = false;
+
     public void setNetworkConnector(NetworkConnector new_networkConnector) {
         this.networkConnector = new_networkConnector;
     }
 
-    VideoView videoView;
-    MediaController mediaController;
+    WebView videoView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        this.networkConnector = new NetworkConnector();
-        final Episode e = new Episode();
 
+        this.setContentView(R.layout.activity_main);
+
+        this.networkConnector = new NetworkConnector();
+
+        videoView = (WebView) findViewById(R.id.webview);
+
+        final WebSettings settings = videoView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setPluginState(WebSettings.PluginState.ON);
+
+        videoView.setWebViewClient(new WebViewClient() {
+            // autoplay when finished loading via javascript injection
+            public void onPageFinished(WebView view, String url) {
+                videoView.loadUrl("javascript:(function() { document.getElementsByTagName('video')[0].play(); })()");
+                videoDidLoad = true;
+            }
+        });
+        videoView.setWebChromeClient(new WebChromeClient());
         // get video ID from EpisodesOverviewActivity
         Intent intent = getIntent();
         String id = intent.getStringExtra(EpisodesOverviewActivity.EXTRA_MESSAGE_EPISODE);
-        this.viewEpisode("91ff68f1-7a0d-4655-8cec-643c3cb8b0ae", this);
+        this.viewEpisode("541e5b99-4225-496c-9b11-4c6e438f5c15", savedInstanceState);
+        //this.viewEpisode(id, savedInstanceState);
     }
 
-    public void viewEpisode(final String episodeId, final MainActivity ma) {
-        // TODO AsyncResponse<Episode> instead of AsyncResponse<String>
-        this.networkConnector.loadEpisode(new AsyncResponse<Episode>(){
-            @Override
-            public void processFinish(Episode episode){
-                // videoPlayer would be the video view
-                // this.videoPlayer.showVideo(episode.getUrl();
-                Log.d("afkjsd", "here3");
-                videoView = (VideoView) findViewById(R.id.videoView);
-                Log.d("afkjsd", "here4");
-                mediaController = new MediaController(ma);
-                mediaController.setAnchorView(videoView);
+    @Override
+    protected void onSaveInstanceState(Bundle outState )
+    {
+        super.onSaveInstanceState(outState);
+        videoView.saveState(outState);
+    }
 
-                Uri uri = Uri.parse(episode.getPresentationUrl());
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState(savedInstanceState);
+        videoView.restoreState(savedInstanceState);
+    }
 
-                videoView.setMediaController(mediaController);
-                videoView.setVideoURI(uri);
-                videoView.start();
-                Log.d("afkjsd", "here5");
-            }
-        }, episodeId);
+
+    public void viewEpisode(final String episodeId, Bundle savedInstanceState) {
+        videoDidLoad = false;
+
+        if (savedInstanceState == null)
+        {
+            videoView.loadUrl("https://tube.tugraz.at/paella/ui/frame_engage.html?id=" + episodeId);
+        }
     }
 }
