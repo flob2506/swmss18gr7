@@ -3,18 +3,14 @@ package com.group.tube;
 import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;
 import com.group.tube.networking.AsyncResponse;
-import com.group.tube.networking.EpisodesAsyncResponse;
 import com.group.tube.networking.NetworkConnector;
 
-import org.json.JSONException;
 import org.junit.Test;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 public class NetworkConnectorUnitTest {
 

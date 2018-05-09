@@ -2,6 +2,7 @@ package com.group.tube.networking;
 
 import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;
+import com.group.tube.R;
 import com.group.tube.parser.Parser;
 
 import org.json.JSONException;
@@ -31,7 +32,7 @@ public class NetworkConnector {
             }
         });
 
-        this.networkTask.execute("https://tube-test.tugraz.at/api/series");
+        this.networkTask.execute(R.string.tube_url + "api/series");
     }
 
 
@@ -49,7 +50,7 @@ public class NetworkConnector {
                 responseHandler.processFinish(episodes);
             }
         });
-        this.networkTask.execute("https://tube-test.tugraz.at/api/events/?filter=series:" + courseID);
+        this.networkTask.execute(R.string.tube_url + "api/events/?filter=series:" + courseID);
     }
 
 

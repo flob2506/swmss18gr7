@@ -53,7 +53,7 @@ public class NetworkTaskUnitTest {
             }
         });
 
-        this.networkTask.execute("https://tube-test.tugraz.at/api/series");
+        this.networkTask.execute(R.string.tube_url + "api/series");
         signal.await();
     }
 
@@ -69,7 +69,7 @@ public class NetworkTaskUnitTest {
             }
         });
 
-        this.networkTask.execute("https://tube-test.tugraz.at/api/series");
+        this.networkTask.execute(R.string.tube_url + "api/series");
         signal.await();
     }
 
