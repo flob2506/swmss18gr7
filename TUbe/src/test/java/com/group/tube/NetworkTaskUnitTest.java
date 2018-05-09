@@ -57,6 +57,7 @@ public class NetworkTaskUnitTest {
         signal.await();
     }
 
+    //doesn't work because of exception handling
     @Test(expected = UserNotAuthenticatedException.class)
     public void networkConnector_credentialsDontWork() throws Exception {
         final CountDownLatch signal = new CountDownLatch(1);

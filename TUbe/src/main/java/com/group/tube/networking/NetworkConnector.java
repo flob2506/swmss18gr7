@@ -1,77 +1,73 @@
 package com.group.tube.networking;
+
 import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;
 import com.group.tube.parser.Parser;
-import android.util.Log;
+
 import org.json.JSONException;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
-public class NetworkConnector{
-    private NetworkTask networkTask;
+public class NetworkConnector {
+    public NetworkTask networkTask;
 
-    public NetworkConnector(){
+    public NetworkConnector() {
         this.networkTask = new NetworkTask();
     }
 
-    // TODO: episodeId nullable -> then get all episodes
-
-    public void loadEpisode(final AsyncResponse<Episode> responseHandler, String episodeId) {
-        this.networkTask.setResponseHandler(new AsyncResponse<String>(){
+    public void loadAllCourses(final AsyncResponse<ArrayList<Course>> responseHandler) {
+        this.networkTask.setResponseHandler(new AsyncResponse<String>() {
             @Override
-            public void processFinish(String jsonResponse){
-                // TODO utilize JSON parser and pass episode to processFinish
-                //Episode episode = JSONParser.getParse(jsonResponse);
-                //responseHandler.processFinish(episode);
-                Episode e = new Episode();
-                Course c = new Course();
-                Parser p = new Parser();
-                try {
-                    p.parseJSON(jsonResponse,c);
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-                responseHandler.processFinish(c.getEpisode(0));
-            }
-        });
-        this.networkTask.execute("https://tube.tugraz.at/search/episode.json?sid=" + episodeId);
-    }
-
-    //TODO: Rework this
-    public void loadEpisodes(final AsyncResponse<ArrayList<Episode>> responseHandler, String episodeId) {
-        this.networkTask.setResponseHandler(new AsyncResponse<String>(){
-            @Override
-            public void processFinish(String jsonResponse){
-                // TODO utilize JSON parser and pass episode to processFinish
-                //Episode episode = JSONParser.getParse(jsonResponse);
-                //responseHandler.processFinish(episode);
-                Course c = new Course();
-                Parser p = new Parser();
-                try {
-                    p.parseJSON(jsonResponse,c);
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-                responseHandler.processFinish(c.getEpisodes());
-            }
-        });
-        this.networkTask.execute("https://tube.tugraz.at/search/episode.json?sid=" + episodeId);
-    }
-
-    public void loadCourses(final AsyncResponse<ArrayList<Course>> responseHandler) {
-        this.networkTask.setResponseHandler(new AsyncResponse<String>(){
-            @Override
-            public void processFinish(String jsonResponse){
+            public void processFinish(String jsonResponse) {
                 ArrayList<Course> courses = new ArrayList<>();
-                Parser p = new Parser();
+                Parser parser = new Parser();
                 try {
-                    p.parseJSON(jsonResponse, courses);
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
+                    parser.parseAllCourses(jsonResponse, courses);
+                    responseHandler.processFinish(courses);
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
-                responseHandler.processFinish(courses);
             }
         });
-        this.networkTask.execute("https://tube.tugraz.at/series/series.json");
+
+        this.networkTask.execute("https://tube-test.tugraz.at/api/series");
+    }
+
+
+    public void loadEpisodesOfCourse(final AsyncResponse<ArrayList<Episode>> responseHandler, String courseID) {
+        this.networkTask.setResponseHandler(new AsyncResponse<String>() {
+            @Override
+            public void processFinish(String response) {
+                ArrayList<Episode> episodes = new ArrayList<>();
+                Parser parser = new Parser();
+                try {
+                    parser.parseEpisodesOfCourse(response, episodes);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                responseHandler.processFinish(episodes);
+            }
+        });
+        this.networkTask.execute("https://tube-test.tugraz.at/api/events/?filter=series:" + courseID);
+    }
+
+
+    /**
+     * Gives back the same episode from tube.tugraz.at every time.
+     *
+     * @deprecated use the new video player instead.
+     */
+    @Deprecated
+    public void loadEpisode(final AsyncResponse<Episode> responseHandler, String episodeId) {
+        this.networkTask.setResponseHandler(new AsyncResponse<String>() {
+            @Override
+            public void processFinish(String jsonResponse) {
+                Episode episode = new Episode();
+                episode.setPresentationUrl("https://tube.tugraz.at/static/mh_default_org/engage-player/876d2ecf-11df-4b69-9bc2-376bf719c759/d32e06cf-3fb1-4150-b790-e95162af31ae/track.mp4");
+                responseHandler.processFinish(episode);
+            }
+        });
     }
 }
+

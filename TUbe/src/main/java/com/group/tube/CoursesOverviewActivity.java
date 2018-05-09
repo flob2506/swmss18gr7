@@ -15,9 +15,6 @@ import com.group.tube.networking.NetworkConnector;
 
 import java.util.ArrayList;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-
 public class CoursesOverviewActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.group.tube.coursesOverviewActivity.MESSAGE";
 
@@ -30,7 +27,7 @@ public class CoursesOverviewActivity extends AppCompatActivity {
         setContentView(R.layout.courses_overview);
         setTitle("All Courses");
 
-        listView  = findViewById(R.id.listViewCourses);
+        listView = findViewById(R.id.listViewCourses);
 
         final Activity that = this;
 
