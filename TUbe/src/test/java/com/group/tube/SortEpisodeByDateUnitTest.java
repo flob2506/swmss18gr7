@@ -11,6 +11,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static junit.framework.Assert.assertEquals;
+
 public class SortEpisodeByDateUnitTest {
     private ArrayList<Episode> episodes;
 
@@ -27,8 +29,9 @@ public class SortEpisodeByDateUnitTest {
 
         Episode prevEpisode = null;
         for (Episode episode : episodes) {
-            if (prevEpisode != null)
-                assert(prevEpisode.getDate().compareTo(episode.getDate()) <= 0);
+            if (prevEpisode != null) {
+                assertEquals(true, prevEpisode.getDate().compareTo(episode.getDate()) <= 0);
+            }
             prevEpisode = episode;
         }
     }

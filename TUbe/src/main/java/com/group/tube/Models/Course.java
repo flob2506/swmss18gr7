@@ -6,11 +6,13 @@ import java.util.regex.Pattern;
 
 public class Course {
 
+    public final static int uninitializedSemesterYear = 0;
+
     private String id;
     private String courseTitle;
 
 
-    private int semesterYear = 0;
+    private int semesterYear = uninitializedSemesterYear;
 
 
     private boolean isWs = true;
@@ -40,7 +42,7 @@ public class Course {
         Pattern regexPattern = Pattern.compile(pattern);
         Matcher regexMatcher = regexPattern.matcher(courseTitle);
         if (regexMatcher.find()) {
-            this.semesterYear = Integer.parseInt(regexMatcher.group(1));
+            this.semesterYear = 2000 + Integer.parseInt(regexMatcher.group(1));
             this.isWs = regexMatcher.group(2).equals("W");
         }
     }
@@ -51,7 +53,7 @@ public class Course {
         if (semesterYear < 10) {
             returnString += "0";
         }
-        returnString += Integer.toString(semesterYear);
+        returnString += Integer.toString(semesterYear % 100);
         return returnString;
     }
 
