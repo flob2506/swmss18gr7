@@ -23,7 +23,7 @@ public class EpisodesOverviewActivity extends AppCompatActivity
 
 {
     ArrayList<Episode> episodes = new ArrayList<>();
-    public static final String EXTRA_MESSAGE_EPISODE = "com.group.tube.coursesOverviewActivity.MESSAGE";
+    public static final String EXTRA_EPISODE_ID = "com.group.tube.coursesOverviewActivity.EXTRA_EPISODE_ID";
 
     ListView listView;
 
@@ -35,7 +35,7 @@ public class EpisodesOverviewActivity extends AppCompatActivity
 
         Intent get_intent = getIntent();
         Bundle bundle = get_intent.getExtras();
-        Course course = (Course) bundle.getSerializable(CoursesOverviewActivity.EXTRA_COURSEOBJECT);
+        Course course = (Course) bundle.getSerializable(CoursesOverviewActivity.EXTRA_COURSE_OBJECT);
 
         this.setTitle(course.getCourseTitle());
 
@@ -45,14 +45,13 @@ public class EpisodesOverviewActivity extends AppCompatActivity
 
         listView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                intent.putExtra(EXTRA_MESSAGE_EPISODE, episodes.get(position).getId().toString());
-                Log.d("msg",episodes.get(position).getId().toString() );
+                intent.putExtra(EXTRA_EPISODE_ID, episodes.get(position).getId());
+                Log.d("msg",episodes.get(position).getId());
                 startActivity(intent);
             }
         });
         listView = this.findViewById(R.id.listViewEpisodes);
 
-        String course_id = get_intent.getStringExtra(CoursesOverviewActivity.EXTRA_MESSAGE);
         final NetworkConnector networkConnector = new NetworkConnector();
         networkConnector.networkTask.setLoginAndPassword("tube-mobile", "J8Mz4ftVNEZ54Wo6");
         networkConnector.loadEpisodesOfCourse(new AsyncResponse<ArrayList<Episode>>() {
@@ -66,7 +65,7 @@ public class EpisodesOverviewActivity extends AppCompatActivity
             public void handleProcessException(Exception e) {
                 // TODO dialog("ooops");
             }
-        }, course_id);
+        }, course.getId());
     }
 
 

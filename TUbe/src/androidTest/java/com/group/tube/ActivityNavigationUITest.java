@@ -35,10 +35,10 @@ public class ActivityNavigationUITest {
     public void validateIntentSentToPackage() throws InterruptedException {
         onData(anything()).inAdapterView(withId(R.id.listViewCourses)).atPosition(0).perform(click());
 
-        intended(hasExtras(hasEntry(equalTo(CoursesOverviewActivity.EXTRA_MESSAGE), equalTo("a8b53a40-ca6d-42d5-a018-a1c3a445c0b6"))));
+        intended(hasExtras(hasEntry(equalTo(CoursesOverviewActivity.EXTRA_COURSE_OBJECT), equalTo("a8b53a40-ca6d-42d5-a018-a1c3a445c0b6"))));
 
         onData(anything()).inAdapterView(withId(R.id.listViewEpisodes)).atPosition(0).perform(click());
 
-        intended(hasExtras(hasEntry(equalTo(EpisodesOverviewActivity.EXTRA_MESSAGE_EPISODE), equalTo("a8b53a40-ca6d-42d5-a018-a1c3a445c0b6"))));
+        intended(hasExtras(hasEntry(equalTo(EpisodesOverviewActivity.EXTRA_EPISODE_ID), equalTo("a8b53a40-ca6d-42d5-a018-a1c3a445c0b6"))));
     }
 }

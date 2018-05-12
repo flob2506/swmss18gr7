@@ -48,7 +48,7 @@ public class MainActivity extends Activity {
         videoView.setWebChromeClient(new WebChromeClient());
         // get video ID from EpisodesOverviewActivity
         Intent intent = getIntent();
-        String id = intent.getStringExtra(EpisodesOverviewActivity.EXTRA_MESSAGE_EPISODE);
+        String id = intent.getStringExtra(EpisodesOverviewActivity.EXTRA_EPISODE_ID);
         this.viewEpisode("541e5b99-4225-496c-9b11-4c6e438f5c15", savedInstanceState);
         //this.viewEpisode(id, savedInstanceState);
     }

@@ -31,7 +31,7 @@ public class NetworkConnectorUnitTest {
 
             @Override
             public void handleProcessException(Exception e) {
-                //TODO assertTrue(1);
+                fail("Exception mustn't be throw");
             }
         });
         signal.await();

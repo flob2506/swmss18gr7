@@ -16,8 +16,7 @@ import com.group.tube.networking.NetworkConnector;
 import java.util.ArrayList;
 
 public class CoursesOverviewActivity extends AppCompatActivity {
-    public static final String EXTRA_MESSAGE = "com.group.tube.coursesOverviewActivity.MESSAGE";
-    public static final String EXTRA_COURSEOBJECT = "com.group.tube.courseOverviewActivity.COURSEOBJECT";
+    public static final String EXTRA_COURSE_OBJECT = "com.group.tube.courseOverviewActivity.EXTRA_COURSE_OBJECT";
 
     ListView listView;
     ArrayList<Course> courses;
@@ -35,10 +34,8 @@ public class CoursesOverviewActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final Intent intent = new Intent(that, EpisodesOverviewActivity.class);
-                intent.putExtra(EXTRA_MESSAGE, courses.get(position).getId());
-
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(EXTRA_COURSEOBJECT, courses.get(position));
+                bundle.putSerializable(EXTRA_COURSE_OBJECT, courses.get(position));
                 intent.putExtras(bundle);
 
                 startActivity(intent);
