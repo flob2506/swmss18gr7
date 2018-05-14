@@ -7,4 +7,8 @@
     <string name="ss">SS</string>
     <string name="winter_semester">Winter Semester</string>
     <string name="summer_semester">Summer Semester</string>
+    <string name="tube_url">https://tube-test.tugraz.at/</string>
+    <string name="thumbnail_of_episode">Thumbnail of episode</string>
+    <string name="lorem_ipsum">Lorem Ipsum</string>
+    <string name="test_date">14.12.2012</string>
 </resources>

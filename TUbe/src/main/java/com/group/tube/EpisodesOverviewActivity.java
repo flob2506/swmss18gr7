@@ -72,7 +72,9 @@ public class EpisodesOverviewActivity extends AppCompatActivity
 
             @Override
             public void handleProcessException(Exception e) {
-                // TODO dialog("ooops");
+                //TODO show error message instead
+                e.printStackTrace();
+                throw new RuntimeException("Couldn't load data");
             }
         }, course.getId());
     }
