@@ -5,12 +5,12 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.support.v4.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.group.tube.ArrayAdapter.CourseArrayAdapter;
@@ -27,6 +27,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
 
     private boolean chosenIsWs;
     private int chosenSemesterYear;
+    RelativeLayout loadingBar;
     ListView listView;
     ArrayList<Course> courses;
     ArrayList<Course> allCourses;
@@ -39,6 +40,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         setTitle("All Courses");
 
         listView = findViewById(R.id.listViewCourses);
+        loadingBar = findViewById(R.id.loadingIconCourses);
 
         final Activity that = this;
 
@@ -58,8 +60,14 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
             public void processFinish(ArrayList<Course> response) {
                 courses = response;
                 allCourses = new ArrayList<Course>(courses);
-                initializeListView(courses);
-                filterCoursesBySemester(currentSemester.first, currentSemester.second);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        initializeListView(courses);
+                        filterCoursesBySemester(currentSemester.first, currentSemester.second);
+                        loadingBar.setVisibility(View.GONE);
+                    }
+                });
             }
 
             @Override

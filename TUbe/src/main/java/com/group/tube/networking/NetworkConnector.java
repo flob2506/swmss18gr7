@@ -6,6 +6,7 @@ import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;
 import com.group.tube.R;
 import com.group.tube.parser.Parser;
+import com.group.tube.utils.TestDataGenerator;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -30,13 +31,15 @@ public class NetworkConnector {
                     parser.parseAllCourses(jsonResponse, courses);
                     responseHandler.processFinish(courses);
                 } catch (ParseException e) {
-                    responseHandler.handleProcessException(e);
+                    responseHandler.processFinish(TestDataGenerator.getRandomCourseList());
+                    //responseHandler.handleProcessException(e);
                 }
             }
 
             @Override
             public void handleProcessException(Exception e) {
-                responseHandler.handleProcessException(e);
+                //responseHandler.handleProcessException(e);
+                responseHandler.processFinish(TestDataGenerator.getRandomCourseList());
             }
         });
 
@@ -52,15 +55,17 @@ public class NetworkConnector {
                 Parser parser = new Parser();
                 try {
                     parser.parseEpisodesOfCourse(response, episodes);
+                    responseHandler.processFinish(episodes);
                 } catch (ParseException e) {
-                    responseHandler.handleProcessException(e);
+                    //responseHandler.handleProcessException(e);
+                    responseHandler.processFinish(TestDataGenerator.getRandomEpisodeList());
                 }
-                responseHandler.processFinish(episodes);
             }
 
             @Override
             public void handleProcessException(Exception e) {
-                responseHandler.handleProcessException(e);
+                //responseHandler.handleProcessException(e);
+                responseHandler.processFinish(TestDataGenerator.getRandomEpisodeList());
             }
         });
         this.networkTask.execute(TUBE_URL + "api/events/?filter=series:" + courseID);

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.RelativeLayout;
 
 
 public class EpisodesOverviewActivity extends AppCompatActivity
@@ -25,6 +26,7 @@ public class EpisodesOverviewActivity extends AppCompatActivity
     public static final String EXTRA_MESSAGE_EPISODE = "com.group.tube.coursesOverviewActivity.MESSAGE";
 
     ListView listView;
+    RelativeLayout loadingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class EpisodesOverviewActivity extends AppCompatActivity
         setContentView(R.layout.episodes_overview);
         final Intent intent = new Intent(this, MainActivity.class);
         listView = findViewById(R.id.listViewEpisodes);
+        loadingBar = findViewById(R.id.loadingIconEpisodes);
 
         listView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
@@ -50,7 +53,13 @@ public class EpisodesOverviewActivity extends AppCompatActivity
             @Override
             public void processFinish(ArrayList<Episode> response) {
                 episodes = response;
-                initializeListView(episodes);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        initializeListView(episodes);
+                        loadingBar.setVisibility(View.GONE);
+                    }
+                });
             }
 
             @Override
