@@ -31,15 +31,15 @@ public class NetworkConnector {
                     parser.parseAllCourses(jsonResponse, courses);
                     responseHandler.processFinish(courses);
                 } catch (ParseException e) {
-                    responseHandler.processFinish(TestDataGenerator.getRandomCourseList());
-                    //responseHandler.handleProcessException(e);
+                    responseHandler.handleProcessException(e);
+//                    responseHandler.processFinish(TestDataGenerator.getRandomCourseList());
                 }
             }
 
             @Override
             public void handleProcessException(Exception e) {
-                //responseHandler.handleProcessException(e);
-                responseHandler.processFinish(TestDataGenerator.getRandomCourseList());
+                responseHandler.handleProcessException(e);
+//                responseHandler.processFinish(TestDataGenerator.getRandomCourseList());
             }
         });
 
@@ -57,15 +57,15 @@ public class NetworkConnector {
                     parser.parseEpisodesOfCourse(response, episodes);
                     responseHandler.processFinish(episodes);
                 } catch (ParseException e) {
-                    //responseHandler.handleProcessException(e);
-                    responseHandler.processFinish(TestDataGenerator.getRandomEpisodeList());
+                    responseHandler.handleProcessException(e);
+//                    responseHandler.processFinish(TestDataGenerator.getRandomEpisodeList());
                 }
             }
 
             @Override
             public void handleProcessException(Exception e) {
-                //responseHandler.handleProcessException(e);
-                responseHandler.processFinish(TestDataGenerator.getRandomEpisodeList());
+                responseHandler.handleProcessException(e);
+//                responseHandler.processFinish(TestDataGenerator.getRandomEpisodeList());
             }
         });
         this.networkTask.execute(TUBE_URL + "api/events/?filter=series:" + courseID);
