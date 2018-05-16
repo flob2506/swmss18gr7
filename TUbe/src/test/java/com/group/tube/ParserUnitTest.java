@@ -23,7 +23,7 @@ public class ParserUnitTest {
         parser.parseAllCourses(allCourses_working, courses);
 
         assertEquals("143.700 14S Architekturtheorie heute", courses.get(0).getCourseTitle());
-        assertEquals(14, courses.get(2).getSemesterYear());
+        assertEquals(2014, courses.get(2).getSemesterYear());
         assertEquals(true, courses.get(7).isWs());
     }
 

@@ -67,11 +67,5 @@ public class EpisodeOverviewUnitTest {
         }
     }
 
-    @Test
-    public void verifyDate()
-    {
-        Date date = Utils.getDate("20123.0230.3304e");
-        assert(date == null);
-    }
 
 }
