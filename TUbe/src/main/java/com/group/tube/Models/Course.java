@@ -8,7 +8,6 @@ public class Course {
 
     private String id;
     private String courseTitle;
-    private Boolean fav;
 
     private int semesterYear = 0;
 
@@ -78,7 +77,5 @@ public class Course {
     public ArrayList<Episode> getEpisodes() {
         return episodes;
     }
-
-    public void setFav(Boolean Fav){this.fav = Fav;}
 }
 

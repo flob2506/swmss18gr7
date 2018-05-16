@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.group.tube.List.FavouriteList;
 import com.group.tube.Models.Course;
 import com.group.tube.R;
 
@@ -45,7 +46,7 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
         if (listItem == null)
             listItem = LayoutInflater.from(context).inflate(R.layout.courses_overview_item, parent, false);
 
-        Course currentCourse = this.getItem(position);
+        final Course currentCourse = this.getItem(position);
 
         TextView tv_course_title = listItem.findViewById(R.id.textViewCourseOverviewItemCourseTitle);
         tv_course_title.setText(currentCourse.getCourseTitle());
@@ -58,8 +59,6 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
         tv_semester.setText(currentCourse.getSemesterString());
 
         final ToggleButton toggleButton = listItem.findViewById(R.id.toggleButton);
-
-
 
 
         try{
@@ -77,23 +76,13 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
-                if(b)
-                {
-                    try {
-
-
+                if (b) {
+                    FavouriteList.getInstance().list.add(currentCourse.getId());
                 }
-                catch(Exception e)  {
-                    e.printStackTrace();
+                else {
+                    FavouriteList.getInstance().list.remove(currentCourse.getId());
                 }
-
-                    System.out.println("checked TRUE");
-
-                }
-                else
-                               System.out.println("checked FALSE");
-            }
-        });
+            }});
 
         return listItem;
     }
