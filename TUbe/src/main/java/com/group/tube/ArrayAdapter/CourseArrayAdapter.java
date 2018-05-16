@@ -58,6 +58,7 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
 
         final ToggleButton toggleButton = listItem.findViewById(R.id.toggleButton);
 
+        toggleButton.setOnCheckedChangeListener(null);
         toggleButton.setChecked(currentCourse.isFavorite());
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
