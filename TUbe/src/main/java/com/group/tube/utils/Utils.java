@@ -61,7 +61,8 @@ public class Utils
         try {
             FileOutputStream outStream = context.openFileOutput(FILE_NAME, context.MODE_PRIVATE);
             ObjectOutputStream objectStream = new ObjectOutputStream(outStream);
-            objectStream.writeObject(FavouriteList.getInstance());
+            ArrayList<String> favorites = FavouriteList.getInstance();
+            objectStream.writeObject(favorites);
             objectStream.close();
             outStream.close();
         } catch (IOException e) {

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -57,27 +58,25 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
 
         final ToggleButton toggleButton = listItem.findViewById(R.id.toggleButton);
 
-
-/*
-        ArrayList<String> favorites = FavouriteList.getInstance();
-        boolean isChecked = false;
-        for(String courseId : favorites) {
-            if(courseId.equals(currentCourse.getId())) {
-                isChecked = true;
-                break;
-            }
-        }
-        toggleButton.setChecked(isChecked);
-        */
-
+        toggleButton.setChecked(currentCourse.isFavorite());
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    FavouriteList.getInstance().add(currentCourse.getId());
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                View parentRow = (View) compoundButton.getParent();
+                ListView listView = (ListView) parentRow.getParent();
+                final int position = listView.getPositionForView(parentRow);
+
+                Course course = (Course)listView.getAdapter().getItem(position);
+
+
+                ArrayList<String> favorites = FavouriteList.getInstance();
+                boolean hasFavorite = favorites.contains(course.getId());
+                if (isChecked && !hasFavorite) {
+                    favorites.add(course.getId());
                 }
-                else {
-                    FavouriteList.getInstance().remove(currentCourse.getId());
+                else if (!isChecked && hasFavorite) {
+                    favorites.remove(course.getId());
                 }
+                course.setFavorite(isChecked);
                 Utils.writeListToFile(context);
             }});
 

@@ -13,6 +13,7 @@ public class Course {
 
 
     private boolean isWs = true;
+    private boolean isFavorite = false;
 
 
     private ArrayList<Episode> episodes = new ArrayList<>();
@@ -76,6 +77,14 @@ public class Course {
 
     public ArrayList<Episode> getEpisodes() {
         return episodes;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 }
 

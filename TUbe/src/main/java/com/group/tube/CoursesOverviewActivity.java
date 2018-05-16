@@ -75,6 +75,16 @@ public class CoursesOverviewActivity extends AppCompatActivity {
 
 
     private void initializeListView(final ArrayList<Course> courses) {
+        for (Course course : courses) {
+            boolean isFavorite = false;
+            for(String courseId : FavouriteList.getInstance()) {
+                if(course.getId().equals(courseId)) {
+                    isFavorite = true;
+                    break;
+                }
+            }
+            course.setFavorite(isFavorite);
+        }
         CourseArrayAdapter arrayAdapter = new CourseArrayAdapter(this, courses);
         listView.setAdapter(arrayAdapter);
     }
