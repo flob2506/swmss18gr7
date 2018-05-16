@@ -1,6 +1,9 @@
 package com.group.tube;
+import android.content.Intent;
+import android.os.Bundle;
 import android.widget.ListView;
 import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
+import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;
 import com.group.tube.utils.TestDataGenerator;
 import com.group.tube.utils.Utils;
@@ -15,6 +18,8 @@ import org.robolectric.annotation.Config;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
+
+import static com.group.tube.CoursesOverviewActivity.EXTRA_COURSE_OBJECT;
 import static org.junit.Assert.*;
 
 @Config(manifest=Config.NONE)
@@ -28,7 +33,18 @@ public class EpisodeOverviewUnitTest {
 
     @Before
     public void setUp() {
-        activity = Robolectric.setupActivity(EpisodesOverviewActivity.class);
+        Course course = new Course();
+        String courseTitle = "143.700 14S Architekturtheorie heute";
+        String courseID = "e1ad5c57-2e78-4933-99cb-645ab5b865c5";
+
+        final Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(EXTRA_COURSE_OBJECT, course);
+        intent.putExtras(bundle);
+
+
+
+        activity = Robolectric.buildActivity(EpisodesOverviewActivity.class, intent).create().get();
         listView = activity.findViewById(R.id.listViewEpisodes);
         episodes = TestDataGenerator.getRandomEpisodeList();
         arrayAdapter = new EpisodeArrayAdapter(activity, episodes);

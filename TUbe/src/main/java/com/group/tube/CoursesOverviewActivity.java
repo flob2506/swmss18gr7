@@ -23,6 +23,8 @@ import com.group.tube.utils.Utils;
 import java.util.ArrayList;
 
 public class CoursesOverviewActivity extends AppCompatActivity implements CourseSemesterFilterDialogFragment.CourseSemesterFilterDialogListener {
+    Boolean courseListLoaded = false;
+
     public static final String EXTRA_COURSE_OBJECT = "com.group.tube.coursesOverviewActivity.EXTRA_COURSE_OBJECT";
 
     private boolean chosenIsWs;
@@ -63,6 +65,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
                 allCourses = new ArrayList<Course>(courses);
                 initializeListView(courses);
                 filterCoursesBySemester(currentSemester.first, currentSemester.second);
+                courseListLoaded = true;
             }
 
             @Override
