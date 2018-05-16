@@ -23,7 +23,9 @@ import com.group.tube.utils.Utils;
 import java.util.ArrayList;
 
 public class CoursesOverviewActivity extends AppCompatActivity implements CourseSemesterFilterDialogFragment.CourseSemesterFilterDialogListener {
-    public static final String EXTRA_MESSAGE = "com.group.tube.coursesOverviewActivity.MESSAGE";
+    Boolean courseListLoaded = false;
+
+    public static final String EXTRA_COURSE_OBJECT = "com.group.tube.coursesOverviewActivity.EXTRA_COURSE_OBJECT";
 
     private boolean chosenIsWs;
     private int chosenSemesterYear;
@@ -45,7 +47,10 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final Intent intent = new Intent(that, EpisodesOverviewActivity.class);
-                intent.putExtra(EXTRA_MESSAGE, courses.get(position).getId());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(EXTRA_COURSE_OBJECT, courses.get(position));
+                intent.putExtras(bundle);
+
                 startActivity(intent);
             }
         });
@@ -60,6 +65,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
                 allCourses = new ArrayList<Course>(courses);
                 initializeListView(courses);
                 filterCoursesBySemester(currentSemester.first, currentSemester.second);
+                courseListLoaded = true;
             }
 
             @Override
