@@ -14,22 +14,19 @@ import android.widget.ToggleButton;
 import com.group.tube.List.FavouriteList;
 import com.group.tube.Models.Course;
 import com.group.tube.R;
+import com.group.tube.utils.Utils;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 
 public class CourseArrayAdapter extends ArrayAdapter<Course> {
 
     private Context context;
-    String filename = "myfile.txt";
-    String fileContents = "TEST";
-
-    FileOutputStream Outstream;
-    FileInputStream Inpstream;
+    private String fileContents = "TEST";
 
 
     public CourseArrayAdapter(Context context, ArrayList<Course> list) {
@@ -61,27 +58,27 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
         final ToggleButton toggleButton = listItem.findViewById(R.id.toggleButton);
 
 
-        try{
-
-            Outstream = context.openFileOutput(filename, context.MODE_PRIVATE);
-            Outstream.write(fileContents.getBytes());
-            Outstream.close();
-
+/*
+        ArrayList<String> favorites = FavouriteList.getInstance();
+        boolean isChecked = false;
+        for(String courseId : favorites) {
+            if(courseId.equals(currentCourse.getId())) {
+                isChecked = true;
+                break;
+            }
         }
-        catch(Exception e)  {
-            e.printStackTrace();
-        }
-
+        toggleButton.setChecked(isChecked);
+        */
 
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
                 if (b) {
-                    FavouriteList.getInstance().list.add(currentCourse.getId());
+                    FavouriteList.getInstance().add(currentCourse.getId());
                 }
                 else {
-                    FavouriteList.getInstance().list.remove(currentCourse.getId());
+                    FavouriteList.getInstance().remove(currentCourse.getId());
                 }
+                Utils.writeListToFile(context);
             }});
 
         return listItem;

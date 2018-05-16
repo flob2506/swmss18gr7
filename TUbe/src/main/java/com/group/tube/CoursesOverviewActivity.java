@@ -9,10 +9,21 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.group.tube.ArrayAdapter.CourseArrayAdapter;
+import com.group.tube.List.FavouriteList;
 import com.group.tube.Models.Course;
 import com.group.tube.networking.AsyncResponse;
 import com.group.tube.networking.NetworkConnector;
+import com.group.tube.utils.Utils;
 
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InvalidClassException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import static junit.framework.Assert.assertFalse;
@@ -27,6 +38,7 @@ public class CoursesOverviewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initializeFavoritesList();
         setContentView(R.layout.courses_overview);
         setTitle("All Courses");
 
@@ -50,6 +62,15 @@ public class CoursesOverviewActivity extends AppCompatActivity {
                 initializeListView(courses);
             }
         });
+    }
+
+    private void initializeFavoritesList() {
+        File file = getFileStreamPath(Utils.FILE_NAME);
+        if(file == null || !file.exists()) {
+            Utils.writeListToFile(this);
+        } else {
+            Utils.readListFromFile(this);
+        }
     }
 
 

@@ -52,6 +52,8 @@
         style="@style/toggleButton"
         android:background="@drawable/ic_toggle_bg"
         app:layout_constraintEnd_toEndOf="parent"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         />
 
 
