@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
                                                   HttpAuthHandler handler,
                                                   String host,
                                                   String realm){
-                handler.proceed("tube-mobile", "J8Mz4ftVNEZ54Wo6");
+                handler.proceed(NetworkConnector.USERNAME, NetworkConnector.PASSWORD);
             }
             
             // autoplay when finished loading via javascript injection

@@ -59,7 +59,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
 
         final NetworkConnector networkConnector = new NetworkConnector();
 
-        networkConnector.networkTask.setLoginAndPassword("tube-mobile", "J8Mz4ftVNEZ54Wo6");
+        networkConnector.networkTask.setLoginAndPassword(NetworkConnector.USERNAME, NetworkConnector.PASSWORD);
         networkConnector.loadAllCourses(new AsyncResponse<ArrayList<Course>>() {
             @Override
             public void processFinish(ArrayList<Course> response) {

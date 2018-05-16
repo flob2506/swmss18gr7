@@ -20,7 +20,7 @@ public class NetworkConnectorUnitTest {
         final CountDownLatch signal = new CountDownLatch(1);
 
         final NetworkConnector networkConnector = new NetworkConnector();
-        networkConnector.networkTask.setLoginAndPassword("tube-mobile", "J8Mz4ftVNEZ54Wo6");
+        networkConnector.networkTask.setLoginAndPassword(NetworkConnector.USERNAME, NetworkConnector.PASSWORD);
         networkConnector.loadAllCourses(new AsyncResponse<ArrayList<Course>>() {
             @Override
             public void processFinish(ArrayList<Course> response) {
@@ -45,7 +45,7 @@ public class NetworkConnectorUnitTest {
         final CountDownLatch signal = new CountDownLatch(1);
 
         final NetworkConnector networkConnector = new NetworkConnector();
-        networkConnector.networkTask.setLoginAndPassword("tube-mobile", "J8Mz4ftVNEZ54Wo6");
+        networkConnector.networkTask.setLoginAndPassword(NetworkConnector.USERNAME, NetworkConnector.PASSWORD);
         networkConnector.loadEpisodesOfCourse(new AsyncResponse<ArrayList<Episode>>() {
             @Override
             public void processFinish(ArrayList<Episode> response) {
@@ -67,7 +67,7 @@ public class NetworkConnectorUnitTest {
         final CountDownLatch signal = new CountDownLatch(1);
 
         final NetworkConnector networkConnector = new NetworkConnector();
-        networkConnector.networkTask.setLoginAndPassword("tube-mobile", "J8Mz4ftVNEZ54Wo6");
+        networkConnector.networkTask.setLoginAndPassword(NetworkConnector.USERNAME, NetworkConnector.PASSWORD);
         networkConnector.loadEpisodesOfCourse(new AsyncResponse<ArrayList<Episode>>() {
             @Override
             public void processFinish(ArrayList<Episode> response) {
