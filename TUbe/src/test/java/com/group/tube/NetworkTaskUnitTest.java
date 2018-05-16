@@ -51,7 +51,7 @@ public class NetworkTaskUnitTest {
     public void networkConnector_credentialsWork() throws Exception {
         final CountDownLatch signal = new CountDownLatch(1);
 
-        this.networkTask.setLoginAndPassword("tube-mobile", "J8Mz4ftVNEZ54Wo6");
+        this.networkTask.setLoginAndPassword(NetworkConnector.USERNAME, NetworkConnector.PASSWORD);
         this.networkTask.setResponseHandler(new AsyncResponse<String>() {
 
             @Override
