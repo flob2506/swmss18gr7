@@ -7,6 +7,8 @@ import android.support.v4.util.Pair;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.util.TypedValue;
+import android.view.View;
+import android.widget.ListView;
 
 import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
 import com.group.tube.Comparators.DateSortComparator;
@@ -97,6 +99,12 @@ public class Utils
         final TypedValue value = new TypedValue();
         context.getTheme().resolveAttribute(R.attr.colorPrimary,value, true );
         return value.data;
+    }
+
+    public static View getChildViewOfListView(ListView list, int wantedPosition) {
+        int firstPosition = list.getFirstVisiblePosition() - list.getHeaderViewsCount();
+        int wantedChild = wantedPosition - firstPosition;
+        return list.getChildAt(wantedChild);
     }
 
     // nope

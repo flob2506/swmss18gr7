@@ -35,7 +35,7 @@ public class EpisodeArrayAdapter extends ArrayAdapter<Episode> {
         if(listItem == null)
             listItem = LayoutInflater.from(context).inflate(R.layout.episodes_overview_item,parent,false);
 
-        Episode currentEpisode = this.getItem(position);
+        final Episode currentEpisode = this.getItem(position);
         TextView name = listItem.findViewById(R.id.textViewEpisodeOverviewItemTitle);
         name.setText(currentEpisode.getEpisodeTitle());
         TextView date = listItem.findViewById(R.id.textViewEpisodeOverviewItemDate);
@@ -45,7 +45,7 @@ public class EpisodeArrayAdapter extends ArrayAdapter<Episode> {
         listItem.findViewById(R.id.imageViewEpisodeMore).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialog();
+                showDialog(currentEpisode);
             }
         });
 
@@ -58,9 +58,10 @@ public class EpisodeArrayAdapter extends ArrayAdapter<Episode> {
         return listItem;
     }
 
-    private void showDialog()
+    private void showDialog(Episode episode)
     {
         EpisodeOptionBarDialogFragment dialog = new EpisodeOptionBarDialogFragment();
+        dialog.setEpisode(episode);
         Activity activity = (Activity) context;
         dialog.show(activity.getFragmentManager(), "");
     }
