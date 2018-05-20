@@ -25,6 +25,11 @@ public class Episode {
         this.date = date;
     }
 
+    public String getSharedContent()
+    {
+        return this.presenterUrl;
+    }
+
     public String getId() {
         return id;
     }

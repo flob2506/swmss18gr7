@@ -66,7 +66,7 @@ public class EpisodeOptionBarDialogFragment extends DialogFragment {
     }
 
     private String getShareContent() {
-        return episode.getPresenterUrl();
+        return episode.getSharedContent();
     }
 
     private void shareEpisode() {

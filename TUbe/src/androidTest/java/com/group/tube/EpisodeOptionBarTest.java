@@ -41,19 +41,28 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.BundleMatchers.hasEntry;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtra;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtras;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.group.tube.CoursesOverviewActivity.EXTRA_COURSE_OBJECT;
 import static java.lang.Thread.sleep;
+import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class EpisodeOptionBarTest {
+
+    private ListView episodeListView;
+    private Episode firstEpisode;
+
     @Rule
     public IntentsTestRule<EpisodesOverviewActivity> episodesOverviewActivityTestRule =
             new IntentsTestRule<>(EpisodesOverviewActivity.class, false, false);
@@ -70,6 +79,8 @@ public class EpisodeOptionBarTest {
         bundle.putSerializable(EXTRA_COURSE_OBJECT, course);
         intent.putExtras(bundle);
         episodesOverviewActivityTestRule.launchActivity(intent);
+        episodeListView = episodesOverviewActivityTestRule.getActivity().findViewById(R.id.listViewEpisodes);
+        firstEpisode = (Episode)episodeListView.getItemAtPosition(0);
     }
 
     @Test
@@ -82,40 +93,21 @@ public class EpisodeOptionBarTest {
     public void verifyClipboard() {
         onData(anything()).inAdapterView(withId(R.id.listViewEpisodes)).onChildView(withId(R.id.imageViewEpisodeMore)).atPosition(0).perform(click());
         onView(withId(R.id.layoutEpisodeCopy)).perform(click());
-        onView(withId(R.id.listViewEpisodes)).check(matches(withClipboard()));
+        ClipboardManager clipboard = (ClipboardManager) episodesOverviewActivityTestRule.getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+        String clipContent = (String)clipboard.getPrimaryClip().getItemAt(0).coerceToText(episodesOverviewActivityTestRule.getActivity());
+
+        assertEquals(firstEpisode.getSharedContent(), clipContent);
     }
 
     @Test
     public void verifyShare() throws InterruptedException {
         onData(anything()).inAdapterView(withId(R.id.listViewEpisodes)).onChildView(withId(R.id.imageViewEpisodeMore)).atPosition(0).perform(click());
         onView(withId(R.id.layoutEpisodeShare)).perform(click());
-        intended(hasExtras(hasEntry(equalTo(Intent.EXTRA_TEXT), equalTo("franz strohmeier"))));
-        //onView(withText("Copy to clipboard")).perform(click());
-        //onView(withId(R.id.listViewEpisodes)).check(matches(withClipboard()));
+
+        intended(allOf(hasAction(Intent.ACTION_CHOOSER),
+                hasExtra(is(Intent.EXTRA_INTENT),
+                        allOf( hasAction(Intent.ACTION_SEND),
+                                hasExtra(Intent.EXTRA_TEXT, firstEpisode.getSharedContent()) ))));
 
     }
-
-    public Matcher<View> withClipboard () {
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public boolean matchesSafely (final View view) {
-                ClipboardManager clipboard = (ClipboardManager) episodesOverviewActivityTestRule.getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                String clipContent = (String)clipboard.getPrimaryClip().getItemAt(0).coerceToText(episodesOverviewActivityTestRule.getActivity());
-                String sharedContent = getShareContent(view);
-                return clipContent.equals(sharedContent);
-            }
-
-            @Override public void describeTo (final Description description) {
-                description.appendText ("List doesn't have clicked indexes");
-            }
-        };
-    }
-
-    private String getShareContent(final View view)
-    {
-        ListView list = ((ListView) view);
-        Episode episode = (Episode) list.getItemAtPosition(0);
-        return episode.getPresenterUrl();
-    }
-
 }
