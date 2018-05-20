@@ -8,10 +8,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
 import com.group.tube.Comparators.DateSortComparator;
+import com.group.tube.Dialogs.CourseSemesterFilterDialogFragment;
+import com.group.tube.Dialogs.EpisodeOptionBarDialogFragment;
 import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;
 import com.group.tube.networking.AsyncResponse;
 import com.group.tube.networking.NetworkConnector;
+import com.group.tube.utils.TestDataGenerator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,7 +60,7 @@ public class EpisodesOverviewActivity extends AppCompatActivity
 
         final NetworkConnector networkConnector = new NetworkConnector();
         networkConnector.networkTask.setLoginAndPassword(NetworkConnector.USERNAME, NetworkConnector.PASSWORD);
-        networkConnector.loadEpisodesOfCourse(new AsyncResponse<ArrayList<Episode>>() {
+        /*networkConnector.loadEpisodesOfCourse(new AsyncResponse<ArrayList<Episode>>() {
             @Override
             public void processFinish(ArrayList<Episode> response) {
                 episodes = response;
@@ -74,9 +77,16 @@ public class EpisodesOverviewActivity extends AppCompatActivity
             public void handleProcessException(Exception e) {
                 // TODO dialog("ooops");
             }
-        }, course.getId());
+        }, course.getId());*/
+        episodes = TestDataGenerator.getRandomEpisodeList();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                initializeListView(episodes);
+                loadingBar.setVisibility(View.GONE);
+            }
+        });
     }
-
 
     private void initializeListView(ArrayList<Episode> episodes) {
         listView = findViewById(R.id.listViewEpisodes);
