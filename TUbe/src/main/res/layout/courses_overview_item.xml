@@ -38,9 +38,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SS18"
-        android:textSize="18sp"
-
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="15sp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/textViewCourseOverviewItemCourseNumber"
         app:layout_constraintTop_toBottomOf="@+id/textViewCourseOverviewItemCourseTitle"/>
 
 
@@ -50,6 +51,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         style="@style/toggleButton"
+
         android:background="@drawable/ic_toggle_bg"
         app:layout_constraintEnd_toEndOf="parent"
         android:focusable="false"
