@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.util.concurrent.CountDownLatch;
 
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.fail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -29,8 +30,9 @@ public class NetworkConnectorUITest {
         networkConnector.downloadDrawable(new AsyncResponse<Drawable>() {
             @Override
             public void processFinish(Drawable response) {
+                assertNotNull(response);
 
-                //Safety check to make sure hashcode correct
+                //Safety check to make sure hashcode is correct
                 assertNotEquals(hashCodeTUbeLogo + 1, response.hashCode());
                 assertEquals(hashCodeTUbeLogo, response.hashCode());
                 signal.countDown();
@@ -41,6 +43,28 @@ public class NetworkConnectorUITest {
                 fail("Exception mustn't be thrown");
             }
         }, "https://tube.tugraz.at/paella/ui/img/tube-logo.png");
+        signal.await();
+    }
+
+    @Test
+    public void loadTestDrawableWrongURL() throws InterruptedException {
+        final CountDownLatch signal = new CountDownLatch(1);
+
+        final NetworkConnector networkConnector = new NetworkConnector();
+
+        networkConnector.downloadDrawable(new AsyncResponse<Drawable>() {
+            @Override
+            public void processFinish(Drawable response) {
+                fail("There must be an exception!");
+            }
+
+            @Override
+            public void handleProcessException(Exception e) {
+                //should throw fileNotFoundException
+                assertEquals(java.io.FileNotFoundException.class, e.getClass());
+                signal.countDown();
+            }
+        }, "https://tube.tugraz.at/paella/ui/img/not-existing.png");
         signal.await();
     }
 }

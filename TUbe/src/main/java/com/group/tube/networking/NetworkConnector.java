@@ -1,5 +1,8 @@
 package com.group.tube.networking;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 
@@ -7,6 +10,9 @@ import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;
 import com.group.tube.parser.Parser;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -79,11 +85,28 @@ public class NetworkConnector {
 
         @Override
         protected Drawable doInBackground(String... arg0) {
+            try {
+                URL url = new URL(arg0[0]);
+                InputStream inputStream = url.openStream();
+
+                BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+                Bitmap bMap = BitmapFactory.decodeStream(bufferedInputStream);
+
+                inputStream.close();
+                bufferedInputStream.close();
+
+                return new BitmapDrawable(bMap);
+
+            } catch (Exception e) {
+                this.responseHandler.handleProcessException(e);
+            }
+
             return null;
         }
 
         protected void onPostExecute(Drawable thumbnail) {
-            this.responseHandler.processFinish(thumbnail);
+            if (thumbnail != null)
+                this.responseHandler.processFinish(thumbnail);
         }
     }
 
