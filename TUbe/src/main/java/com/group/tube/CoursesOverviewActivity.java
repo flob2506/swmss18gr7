@@ -4,10 +4,16 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.util.Pair;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -83,6 +89,41 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         initializeFilterButton();
 
         setChosenSemester(currentSemester.first, currentSemester.second);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.item_search);
+        SearchView searchView = (SearchView)MenuItemCompat.getActionView(searchItem);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+            @Override
+            public boolean onQueryTextChange(String s) {
+                ArrayList<Course> tempcourses = new ArrayList<>();
+
+                for(Course temp : courses){
+                    if(temp.getCourseTitle().toLowerCase().contains(s.toLowerCase())){
+                        tempcourses.add(temp);
+                    }
+                }
+                //TODO: neue Items Anzeigen
+                //ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_List_item_1, tempcourses);
+                //listView.setAdapter(adapter);
+                initializeListView(tempcourses);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void initializeFilterButton()
