@@ -1,17 +1,14 @@
 package com.group.tube.networking;
 
-import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 
 import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;
-import com.group.tube.R;
 import com.group.tube.parser.Parser;
-import com.group.tube.utils.TestDataGenerator;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-
-import cz.msebera.android.httpclient.client.cache.Resource;
 
 public class NetworkConnector {
     public NetworkTask networkTask;
@@ -73,6 +70,38 @@ public class NetworkConnector {
         this.networkTask.execute(TUBE_URL + "api/events/?filter=series:" + courseID);
     }
 
+    private static class ThumbnailAsyncTask extends AsyncTask<String, Integer, Drawable> {
+        ThumbnailAsyncTask(AsyncResponse<Drawable> responseHandler) {
+            this.responseHandler = responseHandler;
+        }
+
+        AsyncResponse<Drawable> responseHandler;
+
+        @Override
+        protected Drawable doInBackground(String... arg0) {
+            return null;
+        }
+
+        protected void onPostExecute(Drawable thumbnail) {
+            this.responseHandler.processFinish(thumbnail);
+        }
+    }
+
+
+    public void downloadDrawable(final AsyncResponse<Drawable> responseHandler, final String thumbnailURL) {
+        ThumbnailAsyncTask thumbnailAsyncTask = new ThumbnailAsyncTask(new AsyncResponse<Drawable>() {
+            @Override
+            public void processFinish(Drawable response) {
+                responseHandler.processFinish(response);
+            }
+
+            @Override
+            public void handleProcessException(Exception e) {
+                responseHandler.handleProcessException(e);
+            }
+        });
+        thumbnailAsyncTask.execute(thumbnailURL);
+    }
 
     /**
      * Gives back the same episode from tube.tugraz.at every time.
