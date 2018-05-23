@@ -10,6 +10,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import android.support.test.runner.lifecycle.Stage;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 
 import com.group.tube.Models.Course;
@@ -32,9 +33,11 @@ import static android.support.test.espresso.intent.Intents.intending;
 import static android.support.test.espresso.intent.matcher.BundleMatchers.hasEntry;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtras;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.toPackage;
+import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static java.lang.Thread.sleep;
 import static junit.framework.Assert.fail;
+import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.CoreMatchers.equalTo;
 
@@ -72,9 +75,10 @@ public class ActivityNavigationUITest {
         ListView episodeListView = newActivity.findViewById(R.id.listViewEpisodes);
         Episode episode = (Episode) episodeListView.getItemAtPosition(0);
 
-        onData(anything()).inAdapterView(withId(R.id.listViewEpisodes)).atPosition(0).perform(click());
+        onData(anything()).inAdapterView(allOf(withId(R.id.listViewEpisodes), isCompletelyDisplayed())).atPosition(0).perform(click());
 
         intended(hasExtras(hasEntry(equalTo(EpisodesOverviewActivity.EXTRA_EPISODE_ID), equalTo(episode.getId()))));
+
     }
 
     private Activity getActivityInstance() {

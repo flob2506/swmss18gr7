@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:text="SS18"
         android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textViewCourseOverviewItemCourseTitle"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewCourseOverviewItemCourseTitle"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
