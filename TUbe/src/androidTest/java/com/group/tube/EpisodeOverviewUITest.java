@@ -28,7 +28,7 @@ import static org.hamcrest.CoreMatchers.anything;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class EpisodeOverviewUITest {
-    private static String validCourseID = "e1ad5c57-2e78-4933-99cb-645ab5b865c5";
+    private static String validCourseID = "88c97553-3ea1-4c62-91ac-96d7efc2eaf2";
 
     @Rule
     public ActivityTestRule<EpisodesOverviewActivity> episodesOverviewActivityTestRule =
@@ -85,7 +85,7 @@ public class EpisodeOverviewUITest {
         intent.putExtras(bundle);
 
         episodesOverviewActivityTestRule.launchActivity(intent);
-        sleep(250);
+        sleep(1000);
 
         ImageView firstImageView = episodesOverviewActivityTestRule.getActivity().findViewById(R.id.imageViewThumbnailEpisode);
         assertNotSame(firstImageView.getDrawable(), ContextCompat.getDrawable(getContext(), android.R.drawable.presence_video_busy));

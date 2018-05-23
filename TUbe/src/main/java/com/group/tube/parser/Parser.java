@@ -79,12 +79,11 @@ public class Parser {
     }
 
     /**
-     * This method parses all episodes from the provided json-string and saves them in the provided
-     * ArrayList.
+     * This method parses the ThumbnailURL from a given jsonString
      *
-     * @param jsonString String containing the episodes
-     * @param episodes   ArrayList to store the episodes in
+     * @param jsonString String containing media information
      * @throws ParseException Either the json is null or empty or a JSONException occurred
+     * @return String of thumbnailURL
      **/
     public String parseMediaOfEpisode(String jsonString) throws ParseException {
         if (jsonString == null || jsonString.isEmpty()) {

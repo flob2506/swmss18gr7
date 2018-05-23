@@ -85,7 +85,7 @@ public class NetworkConnector {
             }
         });
 
-        this.networkTask.execute(TUBE_URL + "api/events/" + episodeID + "/publications");
+        mediaURLTask.execute(TUBE_URL + "api/events/" + episodeID + "/publications");
     }
 
     public void downloadDrawable(final AsyncResponse<Drawable> responseHandler, final String thumbnailURL) {

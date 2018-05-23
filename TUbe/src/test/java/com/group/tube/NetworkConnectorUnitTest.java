@@ -24,8 +24,8 @@ public class NetworkConnectorUnitTest {
         networkConnector.loadAllCourses(new AsyncResponse<ArrayList<Course>>() {
             @Override
             public void processFinish(ArrayList<Course> response) {
-                assertEquals("bcfa6470-b7c8-4d85-8678-89c6844b1660", response.get(3).getId());
-                assertEquals("HS i13", response.get(7).getCourseTitle());
+                assertEquals("20327447-89c2-467d-b66e-8403089cdd2b", response.get(3).getId());
+                assertEquals("[CO]123.432 18S New Series After Update", response.get(7).getCourseTitle());
                 signal.countDown();
             }
 
