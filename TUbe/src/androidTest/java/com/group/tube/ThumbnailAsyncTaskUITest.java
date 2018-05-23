@@ -12,7 +12,6 @@ import java.util.concurrent.CountDownLatch;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.fail;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 public class ThumbnailAsyncTaskUITest {
 
@@ -22,9 +21,6 @@ public class ThumbnailAsyncTaskUITest {
     public void loadTestDrawable() throws InterruptedException {
         final CountDownLatch signal = new CountDownLatch(1);
 
-        //calculated with real tube-logo.png
-        final int hashCodeTUbeLogo = 258494971;
-
         final ThumbnailAsyncTask thumbnailAsyncTask = new ThumbnailAsyncTask();
 
         thumbnailAsyncTask.setResponseHandler(new AsyncResponse<Drawable>() {
@@ -32,9 +28,6 @@ public class ThumbnailAsyncTaskUITest {
             public void processFinish(Drawable response) {
                 assertNotNull(response);
 
-                //Safety check to make sure hashcode is correct
-                assertNotEquals(hashCodeTUbeLogo + 1, response.hashCode());
-                assertEquals(hashCodeTUbeLogo, response.hashCode());
                 signal.countDown();
             }
 
