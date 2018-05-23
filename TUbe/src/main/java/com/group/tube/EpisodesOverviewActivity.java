@@ -17,10 +17,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
 import com.group.tube.Comparators.DateSortComparator;
+import com.group.tube.Dialogs.CourseSemesterFilterDialogFragment;
+import com.group.tube.Dialogs.EpisodeOptionBarDialogFragment;
 import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;
 import com.group.tube.networking.AsyncResponse;
 import com.group.tube.networking.NetworkConnector;
+import com.group.tube.utils.TestDataGenerator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -129,7 +132,6 @@ public class EpisodesOverviewActivity extends AppCompatActivity
             }
         }, course.getId());
     }
-
 
     private void initializeListView(ArrayList<Episode> episodes) {
         listView = findViewById(R.id.listViewEpisodes);

@@ -9,6 +9,17 @@ import java.util.Date;
 import java.util.UUID;
 
 public final class TestDataGenerator {
+
+    public static Course getCourse() {
+        String courseTitle = "143.700 18S SEP";
+        String courseID = "b69911cc-9c04-4e21-9053-93c068283d5f";
+        return new Course(courseID, courseTitle);
+    }
+    public static String getEpisodeId() {
+        // SEP VO
+        return "dbd281f3-6072-4e34-bb3a-3a124b37fa83";
+    }
+
     public static ArrayList<Episode> getRandomEpisodeList() {
         ArrayList<Episode> episodes = new ArrayList<>();
 

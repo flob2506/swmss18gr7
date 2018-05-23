@@ -7,6 +7,8 @@ import android.support.v4.util.Pair;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.util.TypedValue;
+import android.view.View;
+import android.widget.ListView;
 
 import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
 import com.group.tube.Comparators.DateSortComparator;
@@ -101,6 +103,11 @@ public class Utils
         return value.data;
     }
 
+    public static View getChildViewOfListView(ListView list, int wantedPosition) {
+        int firstPosition = list.getFirstVisiblePosition() - list.getHeaderViewsCount();
+        int wantedChild = wantedPosition - firstPosition;
+        return list.getChildAt(wantedChild);
+    }
     public static boolean matchesAll(Course course, List<String> query) {
         for (String s : query){
             if (!course.getCourseTitle().toLowerCase().contains(s.toLowerCase()))

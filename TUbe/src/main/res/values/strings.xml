@@ -10,4 +10,6 @@
     <string name="ss">SS</string>
     <string name="winter_semester">Winter Semester</string>
     <string name="summer_semester">Summer Semester</string>
+    <string name="send_to">send to</string>
+    <string name="copied_to_clipboard">Copied to Clipboard</string>
 </resources>
