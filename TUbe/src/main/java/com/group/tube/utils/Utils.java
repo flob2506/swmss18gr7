@@ -14,12 +14,17 @@ import com.group.tube.MainActivity;
 import com.group.tube.Models.Episode;
 import com.group.tube.R;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 public class Utils
 {
+    private static final String FILE_NAME_EPISODE_TIME = "EpisodeTimesList.txt";
     public static String formatDate(Date date)
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
@@ -97,6 +102,18 @@ public class Utils
         final TypedValue value = new TypedValue();
         context.getTheme().resolveAttribute(R.attr.colorPrimary,value, true );
         return value.data;
+    }
+
+    public static void writeListToFile(Context context, HashMap<String, Float> episodeTimes)  {
+        try {
+            FileOutputStream outStream = context.openFileOutput(FILE_NAME_EPISODE_TIME, context.MODE_PRIVATE);
+            ObjectOutputStream objectStream = new ObjectOutputStream(outStream);
+            objectStream.writeObject(episodeTimes);
+            objectStream.close();
+            outStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // nope
