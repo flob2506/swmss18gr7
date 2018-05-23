@@ -9,7 +9,7 @@ import android.view.Window;
 import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
 import com.group.tube.Comparators.DateSortComparator;
 import com.group.tube.MainActivity;
-import com.group.tube.Models.Episodes;
+import com.group.tube.Models.Episode;
 import com.group.tube.R;
 
 import java.text.ParseException;

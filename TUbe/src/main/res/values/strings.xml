@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TUbe</string>
+    <string name="my_courses">My Courses</string>
+    <string name="all_courses">All Courses</string>
+    <string name="terms_of_service">Terms of Service</string>
+
 </resources>
