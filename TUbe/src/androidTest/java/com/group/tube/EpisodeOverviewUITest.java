@@ -85,7 +85,7 @@ public class EpisodeOverviewUITest {
         intent.putExtras(bundle);
 
         episodesOverviewActivityTestRule.launchActivity(intent);
-        sleep(50);
+        sleep(250);
 
         ImageView firstImageView = episodesOverviewActivityTestRule.getActivity().findViewById(R.id.imageViewThumbnailEpisode);
         assertNotSame(firstImageView.getDrawable(), ContextCompat.getDrawable(getContext(), android.R.drawable.presence_video_busy));
