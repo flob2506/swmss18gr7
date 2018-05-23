@@ -6,14 +6,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.test.uiautomator.UiDevice;
 import android.support.v4.util.Pair;
 import android.view.View;
 import android.widget.ListView;
@@ -21,6 +24,7 @@ import android.widget.NumberPicker;
 
 import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;
+import com.group.tube.utils.TestDataGenerator;
 import com.group.tube.utils.Utils;
 
 import junit.framework.Assert;
@@ -61,7 +65,6 @@ import static org.junit.Assert.assertEquals;
 public class EpisodeOptionBarTest {
 
     private ListView episodeListView;
-    private Episode firstEpisode;
 
     @Rule
     public IntentsTestRule<EpisodesOverviewActivity> episodesOverviewActivityTestRule =
@@ -72,15 +75,11 @@ public class EpisodeOptionBarTest {
     public void titleSetTest(){
         final Intent intent = new Intent();
         Bundle bundle = new Bundle();
-        Course course = new Course();
-        // TODO set course id
-        String courseTitle = "143.700 14S Architekturtheorie heute";
-        course.setCourseTitle(courseTitle);
+        Course course = TestDataGenerator.getCourse();
         bundle.putSerializable(EXTRA_COURSE_OBJECT, course);
         intent.putExtras(bundle);
         episodesOverviewActivityTestRule.launchActivity(intent);
         episodeListView = episodesOverviewActivityTestRule.getActivity().findViewById(R.id.listViewEpisodes);
-        firstEpisode = (Episode)episodeListView.getItemAtPosition(0);
     }
 
     @Test
@@ -96,18 +95,21 @@ public class EpisodeOptionBarTest {
         ClipboardManager clipboard = (ClipboardManager) episodesOverviewActivityTestRule.getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
         String clipContent = (String)clipboard.getPrimaryClip().getItemAt(0).coerceToText(episodesOverviewActivityTestRule.getActivity());
 
-        assertEquals(firstEpisode.getSharedContent(), clipContent);
+        Episode episode = (Episode)episodeListView.getItemAtPosition(0);
+        assertEquals(episode.getSharedContent(), clipContent);
     }
 
     @Test
     public void verifyShare() throws InterruptedException {
         onData(anything()).inAdapterView(withId(R.id.listViewEpisodes)).onChildView(withId(R.id.imageViewEpisodeMore)).atPosition(0).perform(click());
         onView(withId(R.id.layoutEpisodeShare)).perform(click());
-
+        Episode episode = (Episode)episodeListView.getItemAtPosition(0);
         intended(allOf(hasAction(Intent.ACTION_CHOOSER),
                 hasExtra(is(Intent.EXTRA_INTENT),
                         allOf( hasAction(Intent.ACTION_SEND),
-                                hasExtra(Intent.EXTRA_TEXT, firstEpisode.getSharedContent()) ))));
-
+                                hasExtra(Intent.EXTRA_TEXT, episode.getSharedContent()) ))));
+        UiDevice mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        mDevice.pressBack();
     }
+
 }
