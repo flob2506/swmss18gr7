@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <group android:checkableBehavior="single"
+        android:id="@+id/menu_top">
+        <item
+            android:id="@+id/nav_allCourses"
+            android:icon="@drawable/baseline_video_library_black_18dp"
+            android:title="@string/all_courses"
+            android:contentDescription="navigation drawer all courses"/>
+        <item
+            android:id="@+id/nav_myCourses"
+            android:icon="@drawable/baseline_account_box_black_18dp"
+            android:title="@string/my_courses" />
+    </group>
+
+    <group android:id="@+id/menu_bottom"
+        android:checkableBehavior="none"
+        >
+        <item
+            android:id="@+id/termsOfService"
+            android:title="@string/terms_of_service"
+            />
+    </group>
+</menu>

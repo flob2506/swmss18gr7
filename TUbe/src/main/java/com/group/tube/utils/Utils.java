@@ -13,12 +13,14 @@ import android.widget.ListView;
 import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
 import com.group.tube.Comparators.DateSortComparator;
 import com.group.tube.MainActivity;
+import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;
 import com.group.tube.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class Utils
 {
@@ -105,6 +107,13 @@ public class Utils
         int firstPosition = list.getFirstVisiblePosition() - list.getHeaderViewsCount();
         int wantedChild = wantedPosition - firstPosition;
         return list.getChildAt(wantedChild);
+    }
+    public static boolean matchesAll(Course course, List<String> query) {
+        for (String s : query){
+            if (!course.getCourseTitle().toLowerCase().contains(s.toLowerCase()))
+                return false;
+        }
+        return true;
     }
 
     // nope
