@@ -26,6 +26,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Set;
 
 public class Utils
 {
@@ -57,17 +58,20 @@ public class Utils
         return value.data;
     }
 
-    public static void writeListToFile(Context context)  {
+    public static void writeListToFile(Context context, Set<String> favorites)  {
         try {
             FileOutputStream outStream = context.openFileOutput(FILE_NAME, context.MODE_PRIVATE);
             ObjectOutputStream objectStream = new ObjectOutputStream(outStream);
-            ArrayList<String> favorites = FavouriteList.getInstance();
             objectStream.writeObject(favorites);
             objectStream.close();
             outStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void writeListToFile(Context context)  {
+        writeListToFile(context, FavouriteList.getInstance());
     }
     public static void readListFromFile(Context context)  {
         boolean isListValid;
@@ -78,15 +82,15 @@ public class Utils
             inputReturn = inputObject.readObject(); // class not found exc thrown
             inputObject.close();
             inputStream.close();
-            isListValid = inputReturn instanceof ArrayList;
+            isListValid = inputReturn instanceof Set;
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             isListValid = false;
         }
 
         if(isListValid) {
-            ArrayList<String> favoritesList = (ArrayList<String>)inputReturn;
-            FavouriteList.getInstance().addAll(favoritesList);
+            Set<String> favoritesList = (Set<String>)inputReturn;
+            FavouriteList.getInstance().overwrite(favoritesList);
         } else {
             // list is invalid -> empty list
             writeListToFile(context);

@@ -1,17 +1,10 @@
 package com.group.tube.List;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 
-public class FavouriteList extends ArrayList<String> {
+public class FavouriteList extends LinkedHashSet<String> {
     private static FavouriteList singleton = new FavouriteList();
 
     /* A private Constructor prevents any other
@@ -22,6 +15,12 @@ public class FavouriteList extends ArrayList<String> {
     /* Static 'instance' method */
     public static FavouriteList getInstance( ) {
         return singleton;
+    }
+
+    public void overwrite(Set<String> list)
+    {
+        clear();
+        addAll(list);
     }
 }
 

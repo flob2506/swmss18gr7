@@ -16,12 +16,15 @@ import com.group.tube.utils.Utils;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -39,6 +42,14 @@ public class FavoriteButtonTest {
 
     @Rule
     public ActivityTestRule<CoursesOverviewActivity> mActivityRule = new ActivityTestRule<>(CoursesOverviewActivity.class);
+
+    @Before
+    public void setup()
+    {
+        // clear favorite list
+        Utils.writeListToFile(mActivityRule.getActivity(), new LinkedHashSet<String>());
+        FavouriteList.getInstance().overwrite(new LinkedHashSet<String>());
+    }
 
     @Test
     public void verifyToggledFavoritesAreSavedAfterAppClose() {

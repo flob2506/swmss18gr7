@@ -25,6 +25,7 @@ import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;

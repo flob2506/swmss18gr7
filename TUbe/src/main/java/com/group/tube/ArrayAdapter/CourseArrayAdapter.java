@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Set;
 
 
 public class CourseArrayAdapter extends ArrayAdapter<Course> {
@@ -69,7 +70,7 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
                 Course course = (Course)listView.getAdapter().getItem(position);
 
 
-                ArrayList<String> favorites = FavouriteList.getInstance();
+                Set<String> favorites = FavouriteList.getInstance();
                 boolean hasFavorite = favorites.contains(course.getId());
                 if (isChecked && !hasFavorite) {
                     favorites.add(course.getId());
