@@ -2,11 +2,9 @@ package com.group.tube;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
-import android.view.Window;
-import android.view.WindowManager;
 import android.webkit.HttpAuthHandler;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -15,6 +13,19 @@ import android.webkit.WebViewClient;
 import com.group.tube.networking.NetworkConnector;
 
 public class MainActivity extends Activity {
+
+    private static final String JAVASCRIPT_INTERFACE = "JSInterface";
+
+    private static final String JAVA_SCRIPT_CODE = "javascript:(function() { " +
+            "document.getElementsByTagName('video')[0].play(); " +
+            "})()";
+
+    private static final String JAVA_GET_TIMESTAMP = "javascript:(function() { " +
+            "paella.player.videoContainer.currentTime().then((time) => {" +
+                    "window." + JAVASCRIPT_INTERFACE + ".currentTime(time); " +
+                "}); " +
+            "})()";
+
     private NetworkConnector networkConnector;
     public boolean videoDidLoad = false;
 
@@ -22,7 +33,7 @@ public class MainActivity extends Activity {
         this.networkConnector = new_networkConnector;
     }
 
-    WebView videoView;
+    WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +43,15 @@ public class MainActivity extends Activity {
 
         this.networkConnector = new NetworkConnector();
 
-        videoView = findViewById(R.id.webview);
+        webView = findViewById(R.id.webview);
 
-        final WebSettings settings = videoView.getSettings();
+        JavaScriptInterface scriptInterface = new JavaScriptInterface(this);
+        webView.addJavascriptInterface(scriptInterface, JAVASCRIPT_INTERFACE);
+        final WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setPluginState(WebSettings.PluginState.ON);
-
-        videoView.setWebViewClient(new WebViewClient() {
+        webView.setWebViewClient(new WebViewClient() {
 
             @Override
             public void onReceivedHttpAuthRequest(WebView view,
@@ -51,11 +63,11 @@ public class MainActivity extends Activity {
             
             // autoplay when finished loading via javascript injection
             public void onPageFinished(WebView view, String url) {
-                videoView.loadUrl("javascript:(function() { document.getElementsByTagName('video')[0].play(); })()");
+                webView.loadUrl(JAVA_SCRIPT_CODE);
                 videoDidLoad = true;
             }
         });
-        videoView.setWebChromeClient(new WebChromeClient());
+        webView.setWebChromeClient(new WebChromeClient());
 
         // get video ID from EpisodesOverviewActivity
         Intent intent = getIntent();
@@ -64,17 +76,23 @@ public class MainActivity extends Activity {
     }
 
     @Override
+    protected void onPause() {
+        webView.loadUrl(JAVA_GET_TIMESTAMP);
+        super.onPause();
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState )
     {
         super.onSaveInstanceState(outState);
-        videoView.saveState(outState);
+        webView.saveState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState)
     {
         super.onRestoreInstanceState(savedInstanceState);
-        videoView.restoreState(savedInstanceState);
+        webView.restoreState(savedInstanceState);
     }
 
 
@@ -83,7 +101,21 @@ public class MainActivity extends Activity {
 
         if (savedInstanceState == null)
         {
-            videoView.loadUrl(NetworkConnector.TUBE_URL + "/paella/ui/frame_engage.html?id=" + episodeId);
+            webView.loadUrl(NetworkConnector.TUBE_URL + "/paella/ui/frame_engage.html?id=" + episodeId);
+        }
+    }
+
+    private class JavaScriptInterface {
+        private Activity activity;
+
+        public JavaScriptInterface(Activity activity) {
+            this.activity = activity;
+        }
+
+        @JavascriptInterface
+        public void currentTime(float seconds){
+            // TODO: save time
+            System.out.println("MainActivity time " + seconds);
         }
     }
 }
