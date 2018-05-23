@@ -12,7 +12,6 @@ public class Course implements Serializable {
     private String id;
     private String courseTitle;
 
-
     private int semesterYear = uninitializedSemesterYear;
 
 

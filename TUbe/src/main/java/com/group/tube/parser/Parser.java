@@ -77,4 +77,28 @@ public class Parser {
             throw new ParseException("JSONException occurred when parsing", 0);
         }
     }
+
+    /**
+     * This method parses all episodes from the provided json-string and saves them in the provided
+     * ArrayList.
+     *
+     * @param jsonString String containing the episodes
+     * @param episodes   ArrayList to store the episodes in
+     * @throws ParseException Either the json is null or empty or a JSONException occurred
+     **/
+    public String parseMediaOfEpisode(String jsonString) throws ParseException {
+        if (jsonString == null || jsonString.isEmpty()) {
+            throw new ParseException("JSONString is null or empty", 0);
+        }
+
+        try {
+            JSONArray jsonArray = new JSONArray(jsonString);
+            JSONObject jsonObject = jsonArray.getJSONObject(1);
+            JSONArray attachmentsArray = jsonObject.getJSONArray("attachments");
+            JSONObject urlObject = attachmentsArray.getJSONObject(2);
+            return urlObject.getString("url");
+        } catch (JSONException e) {
+            throw new ParseException("JSONException occurred when parsing", 0);
+        }
+    }
 }
