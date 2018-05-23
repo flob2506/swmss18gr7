@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -45,7 +46,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
 
     private boolean chosenIsWs;
     private int chosenSemesterYear;
-    RelativeLayout loadingBar;
+    ProgressBar loadingBar;
     ListView listView;
     ArrayList<Course> courses;
     public DrawerLayout mDrawerLayout;
@@ -67,7 +68,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         setTitle("All Courses");
 
         listView = findViewById(R.id.listViewCourses);
-        loadingBar = findViewById(R.id.loadingIconCourses);
+        loadingBar = findViewById(R.id.loadingProgressBarCourses);
 
         final Activity that = this;
 
@@ -88,9 +89,14 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
 
                         int id = menuItem.getItemId();
 
+                        Intent intent;
+
                         if (id == R.id.nav_allCourses){
-                            Intent intent = new Intent(that, CoursesOverviewActivity.class);
-                            startActivity(intent);
+//                            Intent intent = new Intent(that, CoursesOverviewActivity.class);
+//                            startActivity(intent);
+                            intent = new Intent(that, CoursesOverviewActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            that.startActivity(intent);
                         } else if (id == R.id.nav_myCourses) {
                             //TODO
                         } else if (id == R.id.termsOfService){
