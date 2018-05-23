@@ -3,7 +3,7 @@ package com.group.tube;
 import android.graphics.drawable.Drawable;
 
 import com.group.tube.networking.AsyncResponse;
-import com.group.tube.networking.NetworkConnector;
+import com.group.tube.networking.ThumbnailAsyncTask;
 
 import org.junit.Test;
 
@@ -14,7 +14,7 @@ import static junit.framework.Assert.fail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-public class NetworkConnectorUITest {
+public class ThumbnailAsyncTaskUITest {
 
 
     //needs to be UI-Test due to BitMapFactory not being mocked for Espresso
@@ -23,11 +23,11 @@ public class NetworkConnectorUITest {
         final CountDownLatch signal = new CountDownLatch(1);
 
         //calculated with real tube-logo.png
-        final int hashCodeTUbeLogo = 64879524;
+        final int hashCodeTUbeLogo = 258494971;
 
-        final NetworkConnector networkConnector = new NetworkConnector();
+        final ThumbnailAsyncTask thumbnailAsyncTask = new ThumbnailAsyncTask();
 
-        networkConnector.downloadDrawable(new AsyncResponse<Drawable>() {
+        thumbnailAsyncTask.setResponseHandler(new AsyncResponse<Drawable>() {
             @Override
             public void processFinish(Drawable response) {
                 assertNotNull(response);
@@ -42,7 +42,9 @@ public class NetworkConnectorUITest {
             public void handleProcessException(Exception e) {
                 fail("Exception mustn't be thrown");
             }
-        }, "https://tube.tugraz.at/paella/ui/img/tube-logo.png");
+        });
+
+        thumbnailAsyncTask.execute("https://tube.tugraz.at/paella/ui/img/tube-logo.png");
         signal.await();
     }
 
@@ -50,9 +52,9 @@ public class NetworkConnectorUITest {
     public void loadTestDrawableWrongURL() throws InterruptedException {
         final CountDownLatch signal = new CountDownLatch(1);
 
-        final NetworkConnector networkConnector = new NetworkConnector();
+        final ThumbnailAsyncTask thumbnailAsyncTask = new ThumbnailAsyncTask();
 
-        networkConnector.downloadDrawable(new AsyncResponse<Drawable>() {
+        thumbnailAsyncTask.setResponseHandler(new AsyncResponse<Drawable>() {
             @Override
             public void processFinish(Drawable response) {
                 fail("There must be an exception!");
@@ -64,7 +66,8 @@ public class NetworkConnectorUITest {
                 assertEquals(java.io.FileNotFoundException.class, e.getClass());
                 signal.countDown();
             }
-        }, "https://tube.tugraz.at/paella/ui/img/not-existing.png");
+        });
+        thumbnailAsyncTask.execute("https://tube.tugraz.at/paella/ui/img/not-existing.png");
         signal.await();
     }
 }

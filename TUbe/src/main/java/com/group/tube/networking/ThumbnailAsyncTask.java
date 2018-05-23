@@ -11,8 +11,8 @@ import java.io.InputStream;
 import java.net.URL;
 
 public class ThumbnailAsyncTask extends AsyncTask<String, Integer, Drawable> {
-    ThumbnailAsyncTask(AsyncResponse<Drawable> responseHandler) {
-        this.responseHandler = responseHandler;
+    public ThumbnailAsyncTask() {
+        this.responseHandler = null;
     }
 
     private AsyncResponse<Drawable> responseHandler;

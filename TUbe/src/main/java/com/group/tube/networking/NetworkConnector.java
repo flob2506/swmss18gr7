@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class NetworkConnector {
     public NetworkTask networkTask;
-    private ThumbnailAsyncTask thumbnailAsyncTask = new ThumbnailAsyncTask(null);
+    private ThumbnailAsyncTask thumbnailAsyncTask = new ThumbnailAsyncTask();
 
     public static final String TUBE_URL = "https://tube-test.tugraz.at/";
     public static final String USERNAME = "tube-mobile";
