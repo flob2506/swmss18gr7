@@ -49,9 +49,6 @@ public class EpisodeArrayAdapter extends ArrayAdapter<Episode> {
 
         final ImageView imageView = listItem.findViewById(R.id.imageViewThumbnailEpisode);
 
-        //TODO set real URL whenever API has implemented it
-        String thumbnailURL = "https://tube.tugraz.at/paella/ui/img/tube-logo.png";
-
         NetworkConnector networkConnector = new NetworkConnector();
         networkConnector.downloadDrawable(new AsyncResponse<Drawable>() {
             @Override
@@ -63,7 +60,7 @@ public class EpisodeArrayAdapter extends ArrayAdapter<Episode> {
             public void handleProcessException(Exception e) {
                 e.printStackTrace();
             }
-        }, thumbnailURL);
+        }, currentEpisode.getThumbnailURL());
 
         return listItem;
     }

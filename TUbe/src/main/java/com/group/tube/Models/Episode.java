@@ -9,6 +9,7 @@ public class Episode {
     private String episodeTitle;
     private String presenterUrl;
     private String presentationUrl;
+    private String thumbnailURL;
     private Date date;
 
 
@@ -79,5 +80,13 @@ public class Episode {
 
     public void setCourseId(String courseId) {
         this.courseId = courseId;
+    }
+
+    public String getThumbnailURL() {
+        return thumbnailURL;
+    }
+
+    public void setThumbnailURL(String thumbnailURL) {
+        this.thumbnailURL = thumbnailURL;
     }
 }
