@@ -8,6 +8,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -18,7 +19,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import android.support.v4.util.Pair;
-
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -35,9 +39,15 @@ import com.group.tube.networking.NetworkConnector;
 import com.group.tube.utils.Utils;
 
 import java.util.ArrayList;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import static android.graphics.PorterDuff.*;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+
 
 public class CoursesOverviewActivity extends AppCompatActivity implements CourseSemesterFilterDialogFragment.CourseSemesterFilterDialogListener {
     Boolean courseListLoaded = false;
@@ -135,7 +145,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
                     @Override
                     public void run() {
                         initializeListView(courses);
-                        filterCoursesBySemester(currentSemester.first, currentSemester.second);
+                        filterCoursesList(currentSemester.first, currentSemester.second, null);
                         loadingBar.setVisibility(View.GONE);
                     }
                 });
@@ -151,6 +161,31 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         setChosenSemester(currentSemester.first, currentSemester.second);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.item_search);
+        SearchView searchView = (SearchView)MenuItemCompat.getActionView(searchItem);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+            @Override
+            public boolean onQueryTextChange(String s) {
+                List<String> query = Arrays.asList(s.split("\\s+"));
+                filterCoursesList(chosenSemesterYear, chosenIsWs, query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -160,7 +195,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
                 return true;
         }
         return super.onOptionsItemSelected(item);
-}
+    }
 
     private void initializeFilterButton()
     {
@@ -189,16 +224,24 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, int semesterYear, boolean isWs) {
-        filterCoursesBySemester(semesterYear, isWs);
+        filterCoursesList(semesterYear, isWs, null);
     }
 
-    private void filterCoursesBySemester(int semesterYear, boolean isWs) {
+    private void filterCoursesList(int semesterYear, boolean isWs, List<String> query) {
         setChosenSemester(semesterYear, isWs);
         CourseArrayAdapter courseAdapter = ((CourseArrayAdapter)listView.getAdapter());
         courseAdapter.clear();
-        for(int i = 0; i < allCourses.size(); i++) {
-            if (allCourses.get(i).isWs() == isWs && allCourses.get(i).getSemesterYear() == semesterYear) {
-                courseAdapter.add(allCourses.get(i));
+
+        for(Course course : allCourses) {
+            if (query == null) {
+                if (course.isWs() == isWs && course.getSemesterYear() == semesterYear) {
+                    courseAdapter.add(course);
+                }
+            } else {
+                if (course.isWs() == isWs && course.getSemesterYear() == semesterYear &&
+                        Utils.matchesAll(course, query)) {
+                    courseAdapter.add(course);
+                }
             }
         }
         courseAdapter.notifyDataSetChanged();

@@ -11,12 +11,14 @@ import android.util.TypedValue;
 import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
 import com.group.tube.Comparators.DateSortComparator;
 import com.group.tube.MainActivity;
+import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;
 import com.group.tube.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class Utils
 {
@@ -97,6 +99,14 @@ public class Utils
         final TypedValue value = new TypedValue();
         context.getTheme().resolveAttribute(R.attr.colorPrimary,value, true );
         return value.data;
+    }
+
+    public static boolean matchesAll(Course course, List<String> query) {
+        for (String s : query){
+            if (!course.getCourseTitle().toLowerCase().contains(s.toLowerCase()))
+                return false;
+        }
+        return true;
     }
 
     // nope
