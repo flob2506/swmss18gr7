@@ -13,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -27,6 +26,9 @@ import com.group.tube.networking.NetworkConnector;
 import com.group.tube.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class CoursesOverviewActivity extends AppCompatActivity implements CourseSemesterFilterDialogFragment.CourseSemesterFilterDialogListener {
     Boolean courseListLoaded = false;
@@ -75,7 +77,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
                     @Override
                     public void run() {
                         initializeListView(courses);
-                        filterCoursesBySemester(currentSemester.first, currentSemester.second);
+                        filterCoursesList(currentSemester.first, currentSemester.second, null);
                         loadingBar.setVisibility(View.GONE);
                     }
                 });
@@ -103,17 +105,8 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
             @Override
             public boolean onQueryTextChange(String s) {
-                ArrayList<Course> tempcourses = new ArrayList<>();
-
-                for(Course temp : courses){
-                    if(temp.getCourseTitle().toLowerCase().contains(s.toLowerCase())){
-                        tempcourses.add(temp);
-                    }
-                }
-                //TODO: neue Items Anzeigen
-                //ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_List_item_1, tempcourses);
-                //listView.setAdapter(adapter);
-                initializeListView(tempcourses);
+                List<String> query = Arrays.asList(s.split("\\s+"));
+                filterCoursesList(chosenSemesterYear, chosenIsWs, query);
                 return true;
             }
 
@@ -154,16 +147,24 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, int semesterYear, boolean isWs) {
-        filterCoursesBySemester(semesterYear, isWs);
+        filterCoursesList(semesterYear, isWs, null);
     }
 
-    private void filterCoursesBySemester(int semesterYear, boolean isWs) {
+    private void filterCoursesList(int semesterYear, boolean isWs, List<String> query) {
         setChosenSemester(semesterYear, isWs);
         CourseArrayAdapter courseAdapter = ((CourseArrayAdapter)listView.getAdapter());
         courseAdapter.clear();
-        for(int i = 0; i < allCourses.size(); i++) {
-            if (allCourses.get(i).isWs() == isWs && allCourses.get(i).getSemesterYear() == semesterYear) {
-                courseAdapter.add(allCourses.get(i));
+
+        for(Course course : allCourses) {
+            if (query == null) {
+                if (course.isWs() == isWs && course.getSemesterYear() == semesterYear) {
+                    courseAdapter.add(course);
+                }
+            } else {
+                if (course.isWs() == isWs && course.getSemesterYear() == semesterYear &&
+                        Utils.matchesAll(course, query)) {
+                    courseAdapter.add(course);
+                }
             }
         }
         courseAdapter.notifyDataSetChanged();
