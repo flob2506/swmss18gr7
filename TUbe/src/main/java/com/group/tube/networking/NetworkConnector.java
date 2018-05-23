@@ -56,7 +56,7 @@ public class NetworkConnector {
                 try {
                     parser.parseEpisodesOfCourse(response, episodes);
                     responseHandler.processFinish(episodes);
-                } catch (ParseException e) {
+                                    } catch (ParseException e) {
                     responseHandler.handleProcessException(e);
 //                    responseHandler.processFinish(TestDataGenerator.getRandomEpisodeList());
                 }
@@ -65,10 +65,27 @@ public class NetworkConnector {
             @Override
             public void handleProcessException(Exception e) {
                 responseHandler.handleProcessException(e);
-//                responseHandler.processFinish(TestDataGenerator.getRandomEpisodeList());
             }
         });
         this.networkTask.execute(TUBE_URL + "api/events/?filter=series:" + courseID);
+    }
+
+    public void loadMediaOfEpisode(final AsyncResponse<String> responseHandler, String episodeID) {
+        NetworkTask mediaURLTask = new NetworkTask();
+        mediaURLTask.setLoginAndPassword(this.networkTask.getLogin(), this.networkTask.getPassword());
+        mediaURLTask.setResponseHandler(new AsyncResponse<String>() {
+            @Override
+            public void processFinish(String jsonResponse) {
+                responseHandler.processFinish(jsonResponse);
+            }
+
+            @Override
+            public void handleProcessException(Exception e) {
+                responseHandler.handleProcessException(e);
+            }
+        });
+
+        this.networkTask.execute(TUBE_URL + "api/events/" + episodeID + "/publications");
     }
 
     public void downloadDrawable(final AsyncResponse<Drawable> responseHandler, final String thumbnailURL) {
