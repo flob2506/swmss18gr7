@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
 import com.group.tube.Comparators.DateSortComparator;
+import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;
 import com.group.tube.networking.AsyncResponse;
 import com.group.tube.networking.NetworkConnector;
@@ -25,15 +26,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.RelativeLayout;
 
 
 public class EpisodesOverviewActivity extends AppCompatActivity
 
 {
     ArrayList<Episode> episodes = new ArrayList<>();
-    public static final String EXTRA_MESSAGE_EPISODE = "com.group.tube.coursesOverviewActivity.MESSAGE";
+    public static final String EXTRA_EPISODE_ID = "com.group.tube.coursesOverviewActivity.EXTRA_EPISODE_ID";
 
     ListView listView;
+    RelativeLayout loadingBar;
 
     private DrawerLayout mDrawerLayout;
 
@@ -50,7 +53,17 @@ public class EpisodesOverviewActivity extends AppCompatActivity
         toolbar.setTitleTextColor(Color.WHITE);
 
         final Intent intent = new Intent(this, MainActivity.class);
+
+        Intent get_intent = getIntent();
+        Bundle bundle = get_intent.getExtras();
+        Course course = (Course) bundle.getSerializable(CoursesOverviewActivity.EXTRA_COURSE_OBJECT);
+
+        this.setTitle(course.getCourseTitle());
+
+
+
         listView = findViewById(R.id.listViewEpisodes);
+        loadingBar = findViewById(R.id.loadingIconEpisodes);
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
@@ -88,23 +101,33 @@ public class EpisodesOverviewActivity extends AppCompatActivity
 
         listView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                intent.putExtra(EXTRA_MESSAGE_EPISODE, episodes.get(position).getId().toString());
-                Log.d("msg",episodes.get(position).getId().toString() );
+                intent.putExtra(EXTRA_EPISODE_ID, episodes.get(position).getId());
+                Log.d("msg",episodes.get(position).getId());
                 startActivity(intent);
             }
         });
         listView = this.findViewById(R.id.listViewEpisodes);
 
-        Intent get_intent = getIntent();
-        String course_id = get_intent.getStringExtra(CoursesOverviewActivity.EXTRA_MESSAGE);
         final NetworkConnector networkConnector = new NetworkConnector();
-        networkConnector.loadEpisodes(new AsyncResponse<ArrayList<Episode>>() {
+        networkConnector.networkTask.setLoginAndPassword(NetworkConnector.USERNAME, NetworkConnector.PASSWORD);
+        networkConnector.loadEpisodesOfCourse(new AsyncResponse<ArrayList<Episode>>() {
             @Override
             public void processFinish(ArrayList<Episode> response) {
                 episodes = response;
-                initializeListView(episodes);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        initializeListView(episodes);
+                        loadingBar.setVisibility(View.GONE);
+                    }
+                });
             }
-        }, course_id);
+
+            @Override
+            public void handleProcessException(Exception e) {
+                // TODO dialog("ooops");
+            }
+        }, course.getId());
     }
 
 

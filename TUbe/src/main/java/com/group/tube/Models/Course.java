@@ -1,22 +1,23 @@
 package com.group.tube.Models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Course {
+public class Course implements Serializable {
+
+    public final static int uninitializedSemesterYear = 0;
 
     private String id;
     private String courseTitle;
 
 
-    private int semesterYear = 0;
+    private int semesterYear = uninitializedSemesterYear;
 
 
     private boolean isWs = true;
 
-
-    private ArrayList<Episode> episodes = new ArrayList<>();
 
     public Course() {
     }
@@ -26,21 +27,13 @@ public class Course {
         setCourseTitle(courseTitle);
     }
 
-    public void addEpisode(Episode episode) {
-        episodes.add(episode);
-    }
-
-    public Episode getEpisode(int index) {
-        return episodes.get(index);
-    }
-
     public void setCourseTitle(String courseTitle) {
         this.courseTitle = courseTitle;
         String pattern = "([0-9][0-9])([SW])";
         Pattern regexPattern = Pattern.compile(pattern);
         Matcher regexMatcher = regexPattern.matcher(courseTitle);
         if (regexMatcher.find()) {
-            this.semesterYear = Integer.parseInt(regexMatcher.group(1));
+            this.semesterYear = 2000 + Integer.parseInt(regexMatcher.group(1));
             this.isWs = regexMatcher.group(2).equals("W");
         }
     }
@@ -51,7 +44,7 @@ public class Course {
         if (semesterYear < 10) {
             returnString += "0";
         }
-        returnString += Integer.toString(semesterYear);
+        returnString += Integer.toString(semesterYear % 100);
         return returnString;
     }
 
@@ -75,8 +68,5 @@ public class Course {
         this.id = id;
     }
 
-    public ArrayList<Episode> getEpisodes() {
-        return episodes;
-    }
 }
 

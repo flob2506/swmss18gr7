@@ -1,59 +1,85 @@
 package com.group.tube;
 
+import com.group.tube.Models.Course;
+import com.group.tube.Models.Episode;
 import com.group.tube.networking.AsyncResponse;
-import com.group.tube.networking.NetworkTask;
+import com.group.tube.networking.NetworkConnector;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
-import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.assertTrue;
-
+import static junit.framework.Assert.fail;
+import static org.junit.Assert.assertEquals;
 
 public class NetworkConnectorUnitTest {
-    private NetworkTask networkTask = new NetworkTask();
 
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
+    @Test
+    public void loadAllCourses() throws InterruptedException {
+        final CountDownLatch signal = new CountDownLatch(1);
+
+        final NetworkConnector networkConnector = new NetworkConnector();
+        networkConnector.networkTask.setLoginAndPassword(NetworkConnector.USERNAME, NetworkConnector.PASSWORD);
+        networkConnector.loadAllCourses(new AsyncResponse<ArrayList<Course>>() {
+            @Override
+            public void processFinish(ArrayList<Course> response) {
+                assertEquals("bcfa6470-b7c8-4d85-8678-89c6844b1660", response.get(3).getId());
+                assertEquals("HS i13", response.get(7).getCourseTitle());
+                signal.countDown();
+            }
+
+            @Override
+            public void handleProcessException(Exception e) {
+                fail("Exception mustn't be throw");
+            }
+        });
+        signal.await();
+    }
+
+
 
 
     @Test
-    public void networkConnector_returnsString() throws Exception {
+    public void loadEpisodesOfCourse() throws InterruptedException {
         final CountDownLatch signal = new CountDownLatch(1);
 
-        this.networkTask.setResponseHandler(new AsyncResponse<String>(){
-
+        final NetworkConnector networkConnector = new NetworkConnector();
+        networkConnector.networkTask.setLoginAndPassword(NetworkConnector.USERNAME, NetworkConnector.PASSWORD);
+        networkConnector.loadEpisodesOfCourse(new AsyncResponse<ArrayList<Episode>>() {
             @Override
-            public void processFinish(String jsonResponse){
-                assertFalse(jsonResponse.isEmpty());
+            public void processFinish(ArrayList<Episode> response) {
+                assertEquals("2a96ea26-1e1c-4ab8-8dee-d7ebeb076512", response.get(0).getId());
+                assertEquals("Test Event", response.get(1).getEpisodeTitle());
                 signal.countDown();
             }
-        });
 
-        this.networkTask.execute("https://baconipsum.com/api/?type=meat-and-filler");
+            @Override
+            public void handleProcessException(Exception e) {
+                fail("Exception mustn't be thrown");
+            }
+        }, "bcfa6470-b7c8-4d85-8678-89c6844b1660");
         signal.await();
-
     }
 
     @Test
-    public void networkConnector_wronghttp() throws Exception {
+    public void loadEpisodesOfCourse_wrongCourseID() throws InterruptedException {
         final CountDownLatch signal = new CountDownLatch(1);
 
-        this.networkTask.setResponseHandler(new AsyncResponse<String>(){
-
+        final NetworkConnector networkConnector = new NetworkConnector();
+        networkConnector.networkTask.setLoginAndPassword(NetworkConnector.USERNAME, NetworkConnector.PASSWORD);
+        networkConnector.loadEpisodesOfCourse(new AsyncResponse<ArrayList<Episode>>() {
             @Override
-            public void processFinish(String jsonResponse){
-                assertNull(jsonResponse);
+            public void processFinish(ArrayList<Episode> response) {
+                assertEquals(0, response.size());
                 signal.countDown();
             }
-        });
-        this.networkTask.execute("https://notexistingsite.getId()ontexist.net/");
-        signal.await();
 
+            @Override
+            public void handleProcessException(Exception e) {
+                fail("Exception mustn't be thrown");
+            }
+        }, "This-is-wrong");
+        signal.await();
     }
 }
