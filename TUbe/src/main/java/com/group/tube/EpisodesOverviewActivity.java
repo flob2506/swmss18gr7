@@ -60,7 +60,7 @@ public class EpisodesOverviewActivity extends AppCompatActivity
 
         final NetworkConnector networkConnector = new NetworkConnector();
         networkConnector.networkTask.setLoginAndPassword(NetworkConnector.USERNAME, NetworkConnector.PASSWORD);
-        /*networkConnector.loadEpisodesOfCourse(new AsyncResponse<ArrayList<Episode>>() {
+        networkConnector.loadEpisodesOfCourse(new AsyncResponse<ArrayList<Episode>>() {
             @Override
             public void processFinish(ArrayList<Episode> response) {
                 episodes = response;
@@ -77,15 +77,7 @@ public class EpisodesOverviewActivity extends AppCompatActivity
             public void handleProcessException(Exception e) {
                 // TODO dialog("ooops");
             }
-        }, course.getId());*/
-        episodes = TestDataGenerator.getRandomEpisodeList();
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                initializeListView(episodes);
-                loadingBar.setVisibility(View.GONE);
-            }
-        });
+        }, course.getId());
     }
 
     private void initializeListView(ArrayList<Episode> episodes) {

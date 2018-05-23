@@ -61,7 +61,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         final NetworkConnector networkConnector = new NetworkConnector();
 
         networkConnector.networkTask.setLoginAndPassword(NetworkConnector.USERNAME, NetworkConnector.PASSWORD);
-        /*networkConnector.loadAllCourses(new AsyncResponse<ArrayList<Course>>() {
+        networkConnector.loadAllCourses(new AsyncResponse<ArrayList<Course>>() {
             @Override
             public void processFinish(ArrayList<Course> response) {
                 courses = response;
@@ -79,16 +79,6 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
             @Override
             public void handleProcessException(Exception e) {
                 //dialog.show("oops "); sleep(1000); kill();
-            }
-        });*/
-        courses = TestDataGenerator.getRandomCourseList();
-        allCourses = new ArrayList<Course>(courses);
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                initializeListView(courses);
-                filterCoursesBySemester(currentSemester.first, currentSemester.second);
-                loadingBar.setVisibility(View.GONE);
             }
         });
         initializeFilterButton();
