@@ -28,12 +28,12 @@ public class DisplayLoadingIconTest {
 
     @Test
     public void checkIfLoadingIconCoursesAppears() {
-        onView(withId(R.id.loadingIconCourses)).check(matches(not(isDisplayed())));
+        onView(withId(R.id.loadingProgressBarCourses)).check(matches(not(isDisplayed())));
     }
 
     @Test
     public void checkIfLoadingIconEpisodesAppears() {
-        onView(withId(R.id.loadingIconCourses)).check(matches(not(isDisplayed())));
+        onView(withId(R.id.loadingProgressBarCourses)).check(matches(not(isDisplayed())));
         onData(anything()).inAdapterView(withId(R.id.listViewCourses)).atPosition(0).perform(click());
         onView(withId(R.id.loadingIconEpisodes)).check(matches(not(isDisplayed())));
     }
