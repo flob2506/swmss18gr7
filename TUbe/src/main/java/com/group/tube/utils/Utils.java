@@ -86,7 +86,7 @@ public class Utils
 
         if(isListValid) {
             ArrayList<String> favoritesList = (ArrayList<String>)inputReturn;
-            favoritesList.addAll(FavouriteList.getInstance());
+            FavouriteList.getInstance().addAll(favoritesList);
         } else {
             // list is invalid -> empty list
             writeListToFile(context);

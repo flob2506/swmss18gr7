@@ -1,5 +1,7 @@
 package com.group.tube;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -37,6 +39,19 @@ public class FavoriteButtonTest {
 
     @Rule
     public ActivityTestRule<CoursesOverviewActivity> mActivityRule = new ActivityTestRule<>(CoursesOverviewActivity.class);
+
+    @Test
+    public void verifyToggledFavoritesAreSavedAfterAppClose() {
+        // don't change the order, since both listitems need to be in view so they are inflated
+        // and thus can be checked if their toggle button is toggled
+        onData(anything()).inAdapterView(withId(R.id.listViewCourses)).onChildView(withId(R.id.toggleButton)).atPosition(2).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.listViewCourses)).onChildView(withId(R.id.toggleButton)).atPosition(1).perform(click());
+        Intent intent = mActivityRule.getActivity().getIntent();
+        mActivityRule.finishActivity();
+        mActivityRule.launchActivity(intent);
+        onView(withId(R.id.listViewCourses)).check(matches(withFavorites()));
+
+    }
 
     @Test
     public void verifyToggledFavoritesAreSaved() {
