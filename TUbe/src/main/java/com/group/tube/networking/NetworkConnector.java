@@ -1,23 +1,18 @@
 package com.group.tube.networking;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 
 import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;
 import com.group.tube.parser.Parser;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
 
 public class NetworkConnector {
     public NetworkTask networkTask;
+    private ThumbnailAsyncTask thumbnailAsyncTask = new ThumbnailAsyncTask(null);
+
     public static final String TUBE_URL = "https://tube-test.tugraz.at/";
     public static final String USERNAME = "tube-mobile";
     public static final String PASSWORD = "J8Mz4ftVNEZ54Wo6";
@@ -76,53 +71,8 @@ public class NetworkConnector {
         this.networkTask.execute(TUBE_URL + "api/events/?filter=series:" + courseID);
     }
 
-    private static class ThumbnailAsyncTask extends AsyncTask<String, Integer, Drawable> {
-        ThumbnailAsyncTask(AsyncResponse<Drawable> responseHandler) {
-            this.responseHandler = responseHandler;
-        }
-
-        AsyncResponse<Drawable> responseHandler;
-
-        @Override
-        protected Drawable doInBackground(String... arg0) {
-            try {
-                URL url = new URL(arg0[0]);
-                InputStream inputStream = url.openStream();
-
-                BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
-                Bitmap bMap = BitmapFactory.decodeStream(bufferedInputStream);
-
-                inputStream.close();
-                bufferedInputStream.close();
-
-                return new BitmapDrawable(bMap);
-
-            } catch (Exception e) {
-                this.responseHandler.handleProcessException(e);
-            }
-
-            return null;
-        }
-
-        protected void onPostExecute(Drawable thumbnail) {
-            if (thumbnail != null)
-                this.responseHandler.processFinish(thumbnail);
-        }
-    }
-
-
     public void downloadDrawable(final AsyncResponse<Drawable> responseHandler, final String thumbnailURL) {
-        ThumbnailAsyncTask thumbnailAsyncTask = new ThumbnailAsyncTask(new AsyncResponse<Drawable>() {
-            @Override
-            public void processFinish(Drawable response) {
-                responseHandler.processFinish(response);
-            }
-
-            @Override
-            public void handleProcessException(Exception e) {
-                responseHandler.handleProcessException(e);
-            }
-        });
+        thumbnailAsyncTask.setResponseHandler(responseHandler);
         thumbnailAsyncTask.execute(thumbnailURL);
     }
 
