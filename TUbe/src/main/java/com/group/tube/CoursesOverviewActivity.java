@@ -222,7 +222,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         dialog.show(getFragmentManager(), "");
     }
 
-    private void initializeListView(final ArrayList<Course> courses) {
+    public void initializeListView(final ArrayList<Course> courses) {
         for (Course course : courses) {
             boolean isFavorite = false;
             for(String courseId : FavouriteList.getInstance()) {
