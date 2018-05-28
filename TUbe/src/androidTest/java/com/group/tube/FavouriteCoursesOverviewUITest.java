@@ -1,9 +1,13 @@
 package com.group.tube;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.support.test.espresso.core.internal.deps.guava.collect.Iterables;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
+import android.support.test.runner.lifecycle.Stage;
 import android.view.View;
 import android.widget.ListView;
 
@@ -21,8 +25,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -100,6 +107,24 @@ public class FavouriteCoursesOverviewUITest {
         assertEquals(2, ((ListView) favouriteActivityRule.getActivity().findViewById(R.id.listViewCourses)).getCount());
     }
 
+    @Test
+    public void checkActivityNavigationFromFavouriteCourses() {
+        // toggling 3 courses
+        onData(anything()).inAdapterView(withId(R.id.listViewCourses)).onChildView(withId(R.id.toggleButton)).atPosition(2).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.listViewCourses)).onChildView(withId(R.id.toggleButton)).atPosition(1).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.listViewCourses)).onChildView(withId(R.id.toggleButton)).atPosition(0).perform(click());
+
+        // this should save them
+        mActivityRule.finishActivity();
+
+        // launching My Courses (should display 3 courses)
+        favouriteActivityRule.launchActivity(null);
+
+        // click on first element
+        onData(anything()).inAdapterView(withId(R.id.listViewCourses)).onChildView(withId(R.id.textViewCourseOverviewItemCourseTitle)).atPosition(0).perform(click());
+        assertEquals(getActivityInstance().getClass(), EpisodesOverviewActivity.class);
+    }
+
 
     // adapted from FavoriteButtonTest
     public static Matcher<View> withFavorites() {
@@ -127,6 +152,18 @@ public class FavouriteCoursesOverviewUITest {
         };
     }
 
+    private Activity getActivityInstance() {
+        final Activity[] currentActivity = {null};
 
+        getInstrumentation().runOnMainSync(new Runnable() {
+            public void run() {
+                Collection<Activity> resumedActivity = ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED);
+                Iterator<Activity> it = resumedActivity.iterator();
+                currentActivity[0] = it.next();
+            }
+        });
+
+        return currentActivity[0];
+    }
 }
 
