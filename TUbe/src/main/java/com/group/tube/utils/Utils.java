@@ -10,21 +10,26 @@ import android.util.TypedValue;
 
 import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
 import com.group.tube.Comparators.DateSortComparator;
+import com.group.tube.List.EpisodeTimeList;
 import com.group.tube.MainActivity;
 import com.group.tube.Models.Episode;
 import com.group.tube.R;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class Utils
 {
-    private static final String FILE_NAME_EPISODE_TIME = "EpisodeTimesList.txt";
+    public static final String FILE_NAME_EPISODE_TIME = "EpisodeTimesList.txt";
     public static String formatDate(Date date)
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
@@ -115,6 +120,35 @@ public class Utils
             e.printStackTrace();
         }
     }
+
+    public static void readEpisodeListFromFile(Context context)  {
+        boolean isListValid;
+        Object inputReturn = null;
+        try {
+            FileInputStream inputStream = context.openFileInput(Utils.FILE_NAME_EPISODE_TIME);
+            ObjectInputStream inputObject = new ObjectInputStream(inputStream);
+            inputReturn = inputObject.readObject(); // class not found exc thrown
+            inputObject.close();
+            inputStream.close();
+            isListValid = inputReturn instanceof Map;
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            isListValid = false;
+        }
+
+        if(isListValid) {
+            Map<String, Float> favoritesList = (Map<String, Float>)inputReturn;
+            EpisodeTimeList.getInstance().overwrite(favoritesList);
+        } else {
+            // list is invalid -> empty list
+            writeEpisodeListToFile(context);
+        }
+    }
+
+    public static void writeEpisodeListToFile(Context context)  {
+        writeListToFile(context, EpisodeTimeList.getInstance());
+    }
+
 
     // nope
     private Utils() {};

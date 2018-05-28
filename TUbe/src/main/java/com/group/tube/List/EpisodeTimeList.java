@@ -2,6 +2,7 @@ package com.group.tube.List;
 
 import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -16,6 +17,11 @@ public class EpisodeTimeList extends HashMap<String, Float> {
     /* Static 'instance' method */
     public static EpisodeTimeList getInstance( ) {
         return singleton;
+    }
+    public void overwrite(Map<String, Float> map)
+    {
+        clear();
+        putAll(map);
     }
 }
 

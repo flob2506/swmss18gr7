@@ -12,13 +12,23 @@ import android.webkit.WebViewClient;
 
 import com.group.tube.List.EpisodeTimeList;
 import com.group.tube.networking.NetworkConnector;
+import com.group.tube.utils.Utils;
+
+import java.io.File;
+import java.util.Map;
+import java.util.Set;
 
 public class MainActivity extends Activity {
 
     private static final String JAVASCRIPT_INTERFACE = "JSInterface";
 
     private static final String JAVA_SCRIPT_CODE = "javascript:(function() { " +
-            "document.getElementsByTagName('video')[0].play(); " +
+                "function startVideo() {" +
+                    "paella.player.play().then(() => {" +
+                        "window." + JAVASCRIPT_INTERFACE + ".videoStarted(); " +
+                    "});" +
+                "} " +
+                "paella.events.bind(paella.events.loadComplete, startVideo);"+
             "})()";
 
     private static final String JAVA_GET_TIMESTAMP = "javascript:(function() { " +
@@ -35,10 +45,15 @@ public class MainActivity extends Activity {
     }
 
     WebView webView;
+    String episodeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // get video ID from EpisodesOverviewActivity
+        Intent intent = getIntent();
+        episodeId = intent.getStringExtra(EpisodesOverviewActivity.EXTRA_EPISODE_ID);
+        initializeEpisodesList();
 
         this.setContentView(R.layout.activity_main);
 
@@ -52,6 +67,8 @@ public class MainActivity extends Activity {
         settings.setJavaScriptEnabled(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setPluginState(WebSettings.PluginState.ON);
+        webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
+        webView.setWebChromeClient(new WebChromeClient());
         webView.setWebViewClient(new WebViewClient() {
 
             @Override
@@ -63,17 +80,20 @@ public class MainActivity extends Activity {
             }
             
             // autoplay when finished loading via javascript injection
+            @Override
             public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
                 webView.loadUrl(JAVA_SCRIPT_CODE);
-                videoDidLoad = true;
+            }
+
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                super.onReceivedError(view, errorCode, description, failingUrl);
+                System.out.println("MainActivity hold aus " + description);
             }
         });
-        webView.setWebChromeClient(new WebChromeClient());
 
-        // get video ID from EpisodesOverviewActivity
-        Intent intent = getIntent();
-        String id = intent.getStringExtra(EpisodesOverviewActivity.EXTRA_EPISODE_ID);
-        this.viewEpisode(id, savedInstanceState);
+        this.viewEpisode(episodeId, savedInstanceState);
     }
 
     @Override
@@ -96,6 +116,14 @@ public class MainActivity extends Activity {
         webView.restoreState(savedInstanceState);
     }
 
+    private void initializeEpisodesList() {
+        File file = getFileStreamPath(Utils.FILE_NAME_EPISODE_TIME);
+        if(file == null || !file.exists()) {
+            Utils.writeEpisodeListToFile(this);
+        } else {
+            Utils.readEpisodeListFromFile(this);
+        }
+    }
 
     public void viewEpisode(final String episodeId, Bundle savedInstanceState) {
         videoDidLoad = false;
@@ -115,9 +143,16 @@ public class MainActivity extends Activity {
 
         @JavascriptInterface
         public void currentTime(float seconds){
-            // TODO: save time
-            System.out.println("MainActivity time " + seconds);
-            
+            Map<String, Float> favorites = EpisodeTimeList.getInstance();
+            favorites.put(episodeId, seconds);
+            Utils.writeEpisodeListToFile(activity);
+        }
+
+        @JavascriptInterface
+        public void videoStarted(){
+            videoDidLoad = true;
+            // TODO use events or some shit
+
         }
     }
 }
