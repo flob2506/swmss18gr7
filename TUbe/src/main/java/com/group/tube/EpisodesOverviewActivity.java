@@ -148,8 +148,10 @@ public class EpisodesOverviewActivity extends AppCompatActivity
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
+
 
     /*
 

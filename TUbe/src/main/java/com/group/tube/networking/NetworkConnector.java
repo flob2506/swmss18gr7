@@ -35,14 +35,14 @@ public class NetworkConnector {
                     responseHandler.processFinish(courses);
                 } catch (ParseException e) {
                     responseHandler.handleProcessException(e);
-//                    responseHandler.processFinish(TestDataGenerator.getRandomCourseList());
+                    responseHandler.processFinish(TestDataGenerator.getRandomCourseList());
                 }
             }
 
             @Override
             public void handleProcessException(Exception e) {
                 responseHandler.handleProcessException(e);
-//                responseHandler.processFinish(TestDataGenerator.getRandomCourseList());
+                responseHandler.processFinish(TestDataGenerator.getRandomCourseList());
             }
         });
 
@@ -61,14 +61,14 @@ public class NetworkConnector {
                     responseHandler.processFinish(episodes);
                 } catch (ParseException e) {
                     responseHandler.handleProcessException(e);
-//                    responseHandler.processFinish(TestDataGenerator.getRandomEpisodeList());
+                    responseHandler.processFinish(TestDataGenerator.getRandomEpisodeList());
                 }
             }
 
             @Override
             public void handleProcessException(Exception e) {
                 responseHandler.handleProcessException(e);
-//                responseHandler.processFinish(TestDataGenerator.getRandomEpisodeList());
+                responseHandler.processFinish(TestDataGenerator.getRandomEpisodeList());
             }
         });
         this.networkTask.execute(TUBE_URL + "api/events/?filter=series:" + courseID);

@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <LinearLayout
+            android:id="@+id/watchLaterLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center_vertical"
@@ -25,6 +26,7 @@
                 android:src="@drawable/ic_watch_later_black_24dp"
                 android:tint="@android:color/darker_gray"/>
             <TextView
+                android:id="@+id/textViewEpisodeWatchLater"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Watch later"/>

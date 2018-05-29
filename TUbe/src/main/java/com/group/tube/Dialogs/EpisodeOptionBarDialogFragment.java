@@ -10,21 +10,25 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.group.tube.Models.Episode;
 import com.group.tube.R;
 
+import java.io.Console;
 import java.util.Date;
 
 public class EpisodeOptionBarDialogFragment extends DialogFragment {
     private Episode episode;
+    private View dialog;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -41,20 +45,26 @@ public class EpisodeOptionBarDialogFragment extends DialogFragment {
 
     private View initializeDialogView() {
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View dialog = inflater.inflate(R.layout.episode_option_bar_dialog, null);
-        dialog.findViewById(R.id.layoutEpisodeShare).setOnClickListener(new View.OnClickListener() {
+        this.dialog = inflater.inflate(R.layout.episode_option_bar_dialog, null);
+        this.dialog.findViewById(R.id.layoutEpisodeShare).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 shareEpisode();
             }
         });
-        dialog.findViewById(R.id.layoutEpisodeCopy).setOnClickListener(new View.OnClickListener() {
+        this.dialog.findViewById(R.id.layoutEpisodeCopy).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 copyToClipboard();
             }
         });
-        return dialog;
+        this.dialog.findViewById(R.id.watchLaterLinearLayout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setWatchLater();
+            }
+        });
+        return this.dialog;
     }
 
     private void copyToClipboard() {
@@ -81,4 +91,17 @@ public class EpisodeOptionBarDialogFragment extends DialogFragment {
     public void setEpisode(Episode episode) {
         this.episode = episode;
     }
+
+    private void setWatchLater() {
+        Log.d("msg","We got here!");
+        if (this.episode.getIsInWatchLaterList()) {
+            ((TextView)this.dialog.findViewById(R.id.textViewEpisodeWatchLater)).setText("Remove from Watch later");
+        } else {
+            ((TextView)this.dialog.findViewById(R.id.textViewEpisodeWatchLater)).setText("Watch later");
+        }
+        //TODO need reference to episode
+        this.episode.toggleIsInWatchLaterList();
+        getDialog().dismiss();
+    }
+
 }
