@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">TUbe</string>
+    <string name="my_courses">My Courses</string>
+    <string name="all_courses">All Courses</string>
+    <string name="terms_of_service">Terms of Service</string>
+    <string name="filter_by_semester">Filter by Semester</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="ws">WS</string>
+    <string name="ss">SS</string>
+    <string name="winter_semester">Winter Semester</string>
+    <string name="summer_semester">Summer Semester</string>
+    <string name="send_to">send to</string>
+    <string name="copied_to_clipboard">Copied to Clipboard</string>
 </resources>

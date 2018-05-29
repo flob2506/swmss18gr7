@@ -1,5 +1,7 @@
 package com.group.tube.Models;
 
+import com.group.tube.networking.NetworkConnector;
+
 import java.util.Date;
 
 public class Episode {
@@ -23,6 +25,11 @@ public class Episode {
         this.presenterUrl = presenterUrl;
         this.presentationUrl = presentationUrl;
         this.date = date;
+    }
+
+    public String getSharedContent()
+    {
+        return NetworkConnector.PAELLA_UI_URL + "browse.html?episode=" + id;
     }
 
     public String getId() {

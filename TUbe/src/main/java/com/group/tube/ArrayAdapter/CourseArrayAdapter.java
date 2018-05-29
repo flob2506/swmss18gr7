@@ -1,6 +1,7 @@
 package com.group.tube.ArrayAdapter;
 
 import android.content.Context;
+import android.graphics.CornerPathEffect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -23,19 +24,19 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 public class CourseArrayAdapter extends ArrayAdapter<Course> {
 
     private Context context;
     private String fileContents = "TEST";
-
+    private ArrayList<Course> courses;
 
     public CourseArrayAdapter(Context context, ArrayList<Course> list) {
         super(context, 0, list);
         this.context = context;
-
-
+        this.courses = list;
     }
 
     @NonNull
