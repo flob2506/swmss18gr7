@@ -32,6 +32,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.group.tube.ArrayAdapter.CourseArrayAdapter;
+import com.group.tube.List.FavouriteList;
+import com.group.tube.Models.Course;
+import com.group.tube.networking.AsyncResponse;
+import com.group.tube.networking.NetworkConnector;
 import com.group.tube.Dialogs.CourseSemesterFilterDialogFragment;
 import com.group.tube.Models.Course;
 import com.group.tube.networking.AsyncResponse;
@@ -39,7 +43,17 @@ import com.group.tube.networking.NetworkConnector;
 import com.group.tube.utils.TestDataGenerator;
 import com.group.tube.utils.Utils;
 
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InvalidClassException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -68,6 +82,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initializeFavoritesList();
         setContentView(R.layout.courses_overview);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -162,6 +177,15 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         setChosenSemester(currentSemester.first, currentSemester.second);
     }
 
+    private void initializeFavoritesList() {
+        File file = getFileStreamPath(Utils.FILE_NAME);
+        if(file == null || !file.exists()) {
+            Utils.writeListToFile(this);
+        } else {
+            Utils.readListFromFile(this);
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -218,6 +242,16 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
     }
 
     private void initializeListView(final ArrayList<Course> courses) {
+        for (Course course : courses) {
+            boolean isFavorite = false;
+            for(String courseId : FavouriteList.getInstance()) {
+                if(course.getId().equals(courseId)) {
+                    isFavorite = true;
+                    break;
+                }
+            }
+            course.setFavorite(isFavorite);
+        }
         CourseArrayAdapter arrayAdapter = new CourseArrayAdapter(this, courses);
         listView.setAdapter(arrayAdapter);
         courseListLoaded = true;
