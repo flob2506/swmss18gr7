@@ -68,10 +68,6 @@ public class Course implements Serializable {
         this.id = id;
     }
 
-    public ArrayList<Episode> getEpisodes() {
-        return episodes;
-    }
-
     public boolean isFavorite() {
         return isFavorite;
     }
