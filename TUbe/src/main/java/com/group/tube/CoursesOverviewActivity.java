@@ -131,6 +131,9 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
                         return true;
                     }
                 });
+        //update drawer
+        navigationView.getMenu().getItem(0).setChecked(true);
+        navigationView.getMenu().getItem(1).setChecked(false);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

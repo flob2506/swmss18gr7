@@ -21,6 +21,10 @@ public class FavouriteCoursesOverviewActivity extends CoursesOverviewActivity {
         setTitle("My Courses");
         LinearLayout filterLayout = findViewById(R.id.linearLayout5);
         filterLayout.setVisibility(View.GONE);
+
+        //update drawer
+        navigationView.getMenu().getItem(0).setChecked(false);
+        navigationView.getMenu().getItem(1).setChecked(true);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.group.tube;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.design.widget.NavigationView;
 import android.support.test.espresso.core.internal.deps.guava.collect.Iterables;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
@@ -37,6 +38,8 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.CoreMatchers.anything;
 
 
@@ -124,6 +127,24 @@ public class FavouriteCoursesOverviewUITest {
         // click on first element
         onData(anything()).inAdapterView(withId(R.id.listViewCourses)).onChildView(withId(R.id.textViewCourseOverviewItemCourseTitle)).atPosition(0).perform(click());
         assertEquals(getActivityInstance().getClass(), EpisodesOverviewActivity.class);
+    }
+
+    @Test
+    public void checkActiveDrawerItemAfterNavigation(){
+        // toggling 1 course
+        onData(anything()).inAdapterView(withId(R.id.listViewCourses)).onChildView(withId(R.id.toggleButton)).atPosition(2).perform(click());
+
+        // check Drawer Item (first should be checked)
+        assertTrue(((NavigationView)mActivityRule.getActivity().findViewById(R.id.nav_view)).getMenu().getItem(0).isChecked());
+        assertFalse(((NavigationView)mActivityRule.getActivity().findViewById(R.id.nav_view)).getMenu().getItem(1).isChecked());
+
+        // navigate to different activity
+        mActivityRule.finishActivity();
+        favouriteActivityRule.launchActivity(null);
+
+        // check Drawer Item (second should be checked)
+        assertFalse(((NavigationView)favouriteActivityRule.getActivity().findViewById(R.id.nav_view)).getMenu().getItem(0).isChecked());
+        assertTrue(((NavigationView)favouriteActivityRule.getActivity().findViewById(R.id.nav_view)).getMenu().getItem(1).isChecked());
     }
 
 
