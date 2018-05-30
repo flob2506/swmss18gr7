@@ -88,7 +88,8 @@ public class EpisodesOverviewActivity extends AppCompatActivity
                             Intent intent = new Intent(that, CoursesOverviewActivity.class);
                             startActivity(intent);
                         } else if (id == R.id.nav_myCourses) {
-                            //TODO
+                            Intent intent = new Intent(that, FavouriteCoursesOverviewActivity.class);
+                            that.startActivity(intent);
                         } else if (id == R.id.termsOfService){
                             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.tugraz.at/en/about-this-page/legal-notice/"));
                             startActivity(browserIntent);

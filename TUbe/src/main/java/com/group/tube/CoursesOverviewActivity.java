@@ -64,7 +64,11 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initializeFavoritesList();
-        setContentView(R.layout.courses_overview);
+
+        //needs to be a function to be overridable
+        setContentViewOverride();
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
@@ -101,11 +105,20 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
                         if (id == R.id.nav_allCourses){
 //                            Intent intent = new Intent(that, CoursesOverviewActivity.class);
 //                            startActivity(intent);
+
+
+
+
                             intent = new Intent(that, CoursesOverviewActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             that.startActivity(intent);
                         } else if (id == R.id.nav_myCourses) {
-                            //TODO
+                            //update drawer
+                            navigationView.setCheckedItem(R.id.nav_myCourses);
+
+                            intent = new Intent(that, FavouriteCoursesOverviewActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            that.startActivity(intent);
                         } else if (id == R.id.termsOfService){
                             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.tugraz.at/en/about-this-page/legal-notice/"));
                             startActivity(browserIntent);
@@ -118,6 +131,9 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
                         return true;
                     }
                 });
+        //update drawer
+        navigationView.getMenu().getItem(0).setChecked(true);
+        navigationView.getMenu().getItem(1).setChecked(false);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -156,6 +172,10 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         initializeFilterButton();
 
         setChosenSemester(currentSemester.first, currentSemester.second);
+    }
+
+    public void setContentViewOverride() {
+        setContentView(R.layout.courses_overview);
     }
 
     private void initializeFavoritesList() {
@@ -203,7 +223,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         return super.onOptionsItemSelected(item);
     }
 
-    private void initializeFilterButton()
+    public void initializeFilterButton()
     {
         ImageView filterButton = findViewById(R.id.imageViewFilterCourseList);
         filterButton.setOnClickListener(new View.OnClickListener() {
@@ -222,7 +242,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         dialog.show(getFragmentManager(), "");
     }
 
-    private void initializeListView(final ArrayList<Course> courses) {
+    public void initializeListView(final ArrayList<Course> courses) {
         for (Course course : courses) {
             boolean isFavorite = false;
             for(String courseId : FavouriteList.getInstance()) {
@@ -243,7 +263,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         filterCoursesList(semesterYear, isWs, null);
     }
 
-    private void filterCoursesList(int semesterYear, boolean isWs, List<String> query) {
+    public void filterCoursesList(int semesterYear, boolean isWs, List<String> query) {
         setChosenSemester(semesterYear, isWs);
         CourseArrayAdapter courseAdapter = ((CourseArrayAdapter)listView.getAdapter());
         courseAdapter.clear();
