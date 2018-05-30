@@ -105,7 +105,9 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             that.startActivity(intent);
                         } else if (id == R.id.nav_myCourses) {
-                            //TODO
+                            intent = new Intent(that, FavouriteCoursesOverviewActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            that.startActivity(intent);
                         } else if (id == R.id.termsOfService){
                             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.tugraz.at/en/about-this-page/legal-notice/"));
                             startActivity(browserIntent);
@@ -203,7 +205,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         return super.onOptionsItemSelected(item);
     }
 
-    private void initializeFilterButton()
+    public void initializeFilterButton()
     {
         ImageView filterButton = findViewById(R.id.imageViewFilterCourseList);
         filterButton.setOnClickListener(new View.OnClickListener() {
@@ -243,7 +245,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         filterCoursesList(semesterYear, isWs, null);
     }
 
-    private void filterCoursesList(int semesterYear, boolean isWs, List<String> query) {
+    public void filterCoursesList(int semesterYear, boolean isWs, List<String> query) {
         setChosenSemester(semesterYear, isWs);
         CourseArrayAdapter courseAdapter = ((CourseArrayAdapter)listView.getAdapter());
         courseAdapter.clear();

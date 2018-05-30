@@ -1,6 +1,9 @@
 package com.group.tube;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.group.tube.ArrayAdapter.CourseArrayAdapter;
 import com.group.tube.List.FavouriteList;
@@ -8,6 +11,7 @@ import com.group.tube.Models.Course;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class FavouriteCoursesOverviewActivity extends CoursesOverviewActivity {
 
@@ -15,6 +19,8 @@ public class FavouriteCoursesOverviewActivity extends CoursesOverviewActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("My Courses");
+        LinearLayout filterLayout = findViewById(R.id.linearLayout5);
+        filterLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -36,6 +42,16 @@ public class FavouriteCoursesOverviewActivity extends CoursesOverviewActivity {
         }
         CourseArrayAdapter arrayAdapter = new CourseArrayAdapter(this, courses);
         listView.setAdapter(arrayAdapter);
+    }
+
+    @Override
+    public void filterCoursesList(int semesterYear, boolean isWs, List<String> query) {
+        //Don't filter anything
+    }
+
+    @Override
+    public void initializeFilterButton(){
+        //Do nothing
     }
 
 }
