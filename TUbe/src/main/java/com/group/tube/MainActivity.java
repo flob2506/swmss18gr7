@@ -83,7 +83,7 @@ public class MainActivity extends Activity {
 
         if (savedInstanceState == null)
         {
-            videoView.loadUrl(NetworkConnector.TUBE_URL + "/paella/ui/frame_engage.html?id=" + episodeId);
+            videoView.loadUrl(NetworkConnector.PAELLA_UI_URL + "frame_engage.html?id=" + episodeId);
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.group.tube.ArrayAdapter;
 
+import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -12,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.group.tube.Dialogs.EpisodeOptionBarDialogFragment;
 import com.group.tube.Models.Episode;
 import com.group.tube.R;
 import com.group.tube.networking.AsyncResponse;
@@ -46,7 +49,14 @@ public class EpisodeArrayAdapter extends ArrayAdapter<Episode> {
         name.setText(currentEpisode.getEpisodeTitle());
         TextView date = listItem.findViewById(R.id.textViewEpisodeOverviewItemDate);
 
-        if (currentEpisode.getDate() == null) {
+        listItem.findViewById(R.id.imageViewEpisodeMore).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialog(currentEpisode);
+            }
+        });
+
+        if(currentEpisode.getDate() == null) {
             date.setText("");
         } else {
             date.setText(Utils.formatDate(currentEpisode.getDate()));
@@ -120,5 +130,13 @@ public class EpisodeArrayAdapter extends ArrayAdapter<Episode> {
                 }
             }, thumbnailURL);//currentEpisode.getThumbnailURL());
         }
+    }
+  
+    private void showDialog(Episode episode)
+    {
+        EpisodeOptionBarDialogFragment dialog = new EpisodeOptionBarDialogFragment();
+        dialog.setEpisode(episode);
+        Activity activity = (Activity) context;
+        dialog.show(activity.getFragmentManager(), "");
     }
 }

@@ -1,6 +1,6 @@
 package com.group.tube.Models;
 
-import android.graphics.drawable.Drawable;
+import com.group.tube.networking.NetworkConnector;
 
 import java.util.Date;
 
@@ -28,6 +28,11 @@ public class Episode {
         this.presentationUrl = presentationUrl;
         this.date = date;
         //this.thumbnailDrawable = null;
+    }
+
+    public String getSharedContent()
+    {
+        return NetworkConnector.PAELLA_UI_URL + "browse.html?episode=" + id;
     }
 
     public String getId() {
