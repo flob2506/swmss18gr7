@@ -49,9 +49,9 @@ public class EpisodeOptionBarDialogFragment extends DialogFragment {
         this.dialog = inflater.inflate(R.layout.episode_option_bar_dialog, null);
 
         if (this.episode.getIsInWatchLaterList()) {
-            ((TextView)this.dialog.findViewById(R.id.textViewEpisodeWatchLater)).setText("Remove from Watch later");
+            ((TextView)this.dialog.findViewById(R.id.textViewEpisodeWatchLater)).setText("Remove from Watch later list");
         } else {
-            ((TextView)this.dialog.findViewById(R.id.textViewEpisodeWatchLater)).setText("Watch later");
+            ((TextView)this.dialog.findViewById(R.id.textViewEpisodeWatchLater)).setText("Add to Watch later list");
         }
 
         this.dialog.findViewById(R.id.layoutEpisodeShare).setOnClickListener(new View.OnClickListener() {
@@ -101,19 +101,7 @@ public class EpisodeOptionBarDialogFragment extends DialogFragment {
     }
 
     private void setWatchLater() {
-        Log.d("msg","We got here!");
-        if (this.episode.getIsInWatchLaterList()) {
-            ((TextView)this.dialog.findViewById(R.id.textViewEpisodeWatchLater)).setText("Watch later");
-        } else {
-            ((TextView)this.dialog.findViewById(R.id.textViewEpisodeWatchLater)).setText("Remove from Watch later");
-        }
-        //TODO need reference to episode
         this.episode.toggleIsInWatchLaterList();
         getDialog().dismiss();
     }
-
-    public boolean setIsWatched() {
-        return this.isMarkedAsWatched;
-    }
-
 }

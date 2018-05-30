@@ -68,12 +68,12 @@ public class AddEpisodeToWatchLaterUITest {
     public void checkIfItemDisplaysCorrectText() throws InterruptedException{
         onData(anything()).inAdapterView(withId(R.id.listViewEpisodes)).onChildView(withId(R.id.imageViewEpisodeMore)).atPosition(0).perform(click());
         onView(withId(R.id.episodeOptionBarDialog)).check(matches(isDisplayed()));
-        onView(withText("Watch later")).check(matches(isDisplayed()));
+        onView(withText("Add to Watch later list")).check(matches(isDisplayed()));
         onView(withId(R.id.episodeOptionBarDialog)).check(matches(isDisplayed()));
         onView(withId(R.id.watchLaterLinearLayout)).perform(click());
 
         onData(anything()).inAdapterView(withId(R.id.listViewEpisodes)).onChildView(withId(R.id.imageViewEpisodeMore)).atPosition(0).perform(click());
         onView(withId(R.id.episodeOptionBarDialog)).check(matches(isDisplayed()));
-        onView(withText("Remove from Watch later")).check(matches(isDisplayed()));
+        onView(withText("Remove from Watch later list")).check(matches(isDisplayed()));
     }
 }
