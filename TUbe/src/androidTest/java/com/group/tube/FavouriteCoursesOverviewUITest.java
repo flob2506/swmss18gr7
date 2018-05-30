@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import com.group.tube.List.FavouriteList;
 import com.group.tube.Models.Course;
+import com.group.tube.utils.LocalStorageUtils;
 import com.group.tube.utils.Utils;
 
 import org.hamcrest.Description;
@@ -52,7 +53,7 @@ public class FavouriteCoursesOverviewUITest {
     @Before
     public void setup() {
         // clear favourite list
-        Utils.writeListToFile(mActivityRule.getActivity(), new LinkedHashSet<String>());
+        LocalStorageUtils.writeListToFile(mActivityRule.getActivity(), new LinkedHashSet<String>());
         FavouriteList.getInstance().overwrite(new LinkedHashSet<String>());
     }
 

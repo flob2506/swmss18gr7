@@ -64,7 +64,11 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initializeFavoritesList();
-        setContentView(R.layout.courses_overview);
+
+        //needs to be a function to be overridable
+        setContentViewOverride();
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
@@ -101,10 +105,17 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
                         if (id == R.id.nav_allCourses){
 //                            Intent intent = new Intent(that, CoursesOverviewActivity.class);
 //                            startActivity(intent);
+
+
+
+
                             intent = new Intent(that, CoursesOverviewActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             that.startActivity(intent);
                         } else if (id == R.id.nav_myCourses) {
+                            //update drawer
+                            navigationView.setCheckedItem(R.id.nav_myCourses);
+
                             intent = new Intent(that, FavouriteCoursesOverviewActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             that.startActivity(intent);
@@ -158,6 +169,10 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         initializeFilterButton();
 
         setChosenSemester(currentSemester.first, currentSemester.second);
+    }
+
+    public void setContentViewOverride() {
+        setContentView(R.layout.courses_overview);
     }
 
     private void initializeFavoritesList() {

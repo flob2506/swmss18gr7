@@ -54,4 +54,9 @@ public class FavouriteCoursesOverviewActivity extends CoursesOverviewActivity {
         //Do nothing
     }
 
+    @Override
+    public void setContentViewOverride() {
+        setContentView(R.layout.favourite_courses_overview);
+    }
+
 }

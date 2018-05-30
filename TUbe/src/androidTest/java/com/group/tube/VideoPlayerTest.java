@@ -34,14 +34,14 @@ public class VideoPlayerTest {
         mActivityRule.launchActivity(intent);
 
         //Wait for webView to load
-        long max_waiting_time_in_milliseconds = 7000;
+        /*long max_waiting_time_in_milliseconds = 7000;
         long start_time = System.currentTimeMillis();
-        max_waiting_time_in_milliseconds += start_time;
+        max_waiting_time_in_milliseconds += start_time;*/
 
         while (!mActivityRule.getActivity().videoDidLoad) {
-            if (max_waiting_time_in_milliseconds <= System.currentTimeMillis()) {
+            /*if (max_waiting_time_in_milliseconds <= System.currentTimeMillis()) {
                 fail("Waiting too long for webView to load");
-            }
+            }*/
             sleep(250);
         }
 
