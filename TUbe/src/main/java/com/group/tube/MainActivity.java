@@ -12,11 +12,11 @@ import android.webkit.WebViewClient;
 
 import com.group.tube.List.EpisodeTimeList;
 import com.group.tube.networking.NetworkConnector;
+import com.group.tube.utils.LocalStorageUtils;
 import com.group.tube.utils.Utils;
 
 import java.io.File;
 import java.util.Map;
-import java.util.Set;
 
 public class MainActivity extends Activity {
 
@@ -117,11 +117,11 @@ public class MainActivity extends Activity {
     }
 
     private void initializeEpisodesList() {
-        File file = getFileStreamPath(Utils.FILE_NAME_EPISODE_TIME);
+        File file = getFileStreamPath(LocalStorageUtils.FILE_NAME_EPISODE_TIMES);
         if(file == null || !file.exists()) {
-            Utils.writeEpisodeListToFile(this);
+            LocalStorageUtils.writeEpisodeListToFile(this);
         } else {
-            Utils.readEpisodeListFromFile(this);
+            LocalStorageUtils.readEpisodeListFromFile(this);
         }
     }
 
@@ -145,7 +145,7 @@ public class MainActivity extends Activity {
         public void currentTime(float seconds){
             Map<String, Float> favorites = EpisodeTimeList.getInstance();
             favorites.put(episodeId, seconds);
-            Utils.writeEpisodeListToFile(activity);
+            LocalStorageUtils.writeEpisodeListToFile(activity);
         }
 
         @JavascriptInterface

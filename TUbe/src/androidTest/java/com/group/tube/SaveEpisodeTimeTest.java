@@ -8,6 +8,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.webkit.WebView;
 
 import com.group.tube.List.EpisodeTimeList;
+import com.group.tube.utils.LocalStorageUtils;
 import com.group.tube.utils.Utils;
 
 import org.junit.Before;
@@ -40,7 +41,7 @@ public class SaveEpisodeTimeTest {
         String episodeId = "dbd281f3-6072-4e34-bb3a-3a124b37fa83";
         intent.putExtra(EXTRA_EPISODE_ID, episodeId);
         mActivityRule.launchActivity(intent);
-        Utils.writeListToFile(mActivityRule.getActivity(), new HashMap<String, Float>());
+        LocalStorageUtils.writeListToFile(mActivityRule.getActivity(), new HashMap<String, Float>());
         EpisodeTimeList.getInstance().overwrite(new HashMap<String, Float>());
 
         long acceptable_lower_margin = 300;
