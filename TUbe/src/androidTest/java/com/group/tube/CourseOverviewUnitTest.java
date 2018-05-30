@@ -1,6 +1,8 @@
 package com.group.tube;
 
 
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
 import android.widget.ListView;
 
 import com.group.tube.ArrayAdapter.CourseArrayAdapter;
@@ -9,11 +11,9 @@ import com.group.tube.utils.TestDataGenerator;
 import com.group.tube.utils.Utils;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.Robolectric;
-import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,21 +21,26 @@ import java.util.UUID;
 
 import static org.junit.Assert.*;
 
-@Config(manifest=Config.NONE)
-@RunWith(RobolectricTestRunner.class)
+@RunWith(AndroidJUnit4.class)
 public class CourseOverviewUnitTest {
-    private CoursesOverviewActivity coursesOverviewActivity;
+    @Rule
+    public ActivityTestRule<CoursesOverviewActivity> mCoursesOverviewActivity = new ActivityTestRule<>(
+            CoursesOverviewActivity.class);
     private ListView listView;
     private CourseArrayAdapter courseArrayAdapter;
     private ArrayList<Course> courses;
 
     @Before
     public void setUp() {
-        coursesOverviewActivity = Robolectric.setupActivity(CoursesOverviewActivity.class);
-        listView = coursesOverviewActivity.findViewById(R.id.listViewCourses);
+        listView = mCoursesOverviewActivity.getActivity().findViewById(R.id.listViewCourses);
         courses = TestDataGenerator.getRandomCourseList();
-        courseArrayAdapter = new CourseArrayAdapter(coursesOverviewActivity, courses);
-        listView.setAdapter(courseArrayAdapter);
+        courseArrayAdapter = new CourseArrayAdapter(mCoursesOverviewActivity.getActivity(), courses);
+        mCoursesOverviewActivity.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                listView.setAdapter(courseArrayAdapter);
+            }
+        });
     }
 
     @Test
