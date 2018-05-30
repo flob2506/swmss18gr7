@@ -11,7 +11,9 @@ public class Episode {
     private String episodeTitle;
     private String presenterUrl;
     private String presentationUrl;
+    private String thumbnailURL;
     private Date date;
+    //private Drawable thumbnailDrawable;
 
 
     public Episode() {
@@ -25,6 +27,7 @@ public class Episode {
         this.presenterUrl = presenterUrl;
         this.presentationUrl = presentationUrl;
         this.date = date;
+        //this.thumbnailDrawable = null;
     }
 
     public String getSharedContent()
@@ -87,4 +90,20 @@ public class Episode {
     public void setCourseId(String courseId) {
         this.courseId = courseId;
     }
+
+    public String getThumbnailURL() {
+        return thumbnailURL;
+    }
+
+    public void setThumbnailURL(String thumbnailURL) {
+        this.thumbnailURL = thumbnailURL;
+    }
+
+    /*public Drawable getThumbnailDrawable() {
+        return thumbnailDrawable;
+    }
+
+    public void setThumbnailDrawable(Drawable thumbnailDrawable) {
+        this.thumbnailDrawable = thumbnailDrawable;
+    }*/
 }

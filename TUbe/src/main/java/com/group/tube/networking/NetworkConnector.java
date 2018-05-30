@@ -1,20 +1,18 @@
 package com.group.tube.networking;
 
-import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 
 import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;
-import com.group.tube.R;
 import com.group.tube.parser.Parser;
-import com.group.tube.utils.TestDataGenerator;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 
-import cz.msebera.android.httpclient.client.cache.Resource;
-
 public class NetworkConnector {
     public NetworkTask networkTask;
+    private ThumbnailAsyncTask thumbnailAsyncTask = new ThumbnailAsyncTask();
+
     public static final String TUBE_URL = "https://tube-test.tugraz.at/";
     public static final String PAELLA_UI_URL = TUBE_URL + "paella/ui/";
     public static final String USERNAME = "tube-mobile";
@@ -59,7 +57,7 @@ public class NetworkConnector {
                 try {
                     parser.parseEpisodesOfCourse(response, episodes);
                     responseHandler.processFinish(episodes);
-                } catch (ParseException e) {
+                                    } catch (ParseException e) {
                     responseHandler.handleProcessException(e);
 //                    responseHandler.processFinish(TestDataGenerator.getRandomEpisodeList());
                 }
@@ -68,12 +66,33 @@ public class NetworkConnector {
             @Override
             public void handleProcessException(Exception e) {
                 responseHandler.handleProcessException(e);
-//                responseHandler.processFinish(TestDataGenerator.getRandomEpisodeList());
             }
         });
         this.networkTask.execute(TUBE_URL + "api/events/?filter=series:" + courseID);
     }
 
+    public void loadMediaOfEpisode(final AsyncResponse<String> responseHandler, String episodeID) {
+        NetworkTask mediaURLTask = new NetworkTask();
+        mediaURLTask.setLoginAndPassword(this.networkTask.getLogin(), this.networkTask.getPassword());
+        mediaURLTask.setResponseHandler(new AsyncResponse<String>() {
+            @Override
+            public void processFinish(String jsonResponse) {
+                responseHandler.processFinish(jsonResponse);
+            }
+
+            @Override
+            public void handleProcessException(Exception e) {
+                responseHandler.handleProcessException(e);
+            }
+        });
+
+        mediaURLTask.execute(TUBE_URL + "api/events/" + episodeID + "/publications");
+    }
+
+    public void downloadDrawable(final AsyncResponse<Drawable> responseHandler, final String thumbnailURL) {
+        thumbnailAsyncTask.setResponseHandler(responseHandler);
+        thumbnailAsyncTask.execute(thumbnailURL);
+    }
 
     /**
      * Gives back the same episode from tube.tugraz.at every time.

@@ -13,6 +13,15 @@ import okhttp3.Response;
 public class NetworkTask extends AsyncTask {
     private OkHttpClient httpClient;
     private AsyncResponse<String> responseHandler = null;
+
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     private String login;
     private String password;
 
