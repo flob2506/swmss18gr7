@@ -46,21 +46,36 @@ public class CourseOverviewUnitTest {
     @Test
     public void verifyAdapterIsCourseAdapter()
     {
-        assertTrue(listView.getAdapter() instanceof CourseArrayAdapter);
+        mCoursesOverviewActivity.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                assertTrue(listView.getAdapter() instanceof CourseArrayAdapter);
+            }
+        });
     }
 
     @Test
     public void verifyAdapterFilled()
     {
-        assertTrue(listView.getAdapter().getCount() == courses.size());
+        mCoursesOverviewActivity.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                assertTrue(listView.getAdapter().getCount() == courses.size());
+            }
+        });
     }
 
     @Test
     public void verifyAdapterSameItems()
     {
-        for(int i = 0; i < courses.size(); i++) {
-            assertEquals(courses.get(i), listView.getAdapter().getItem(i));
-        }
+        mCoursesOverviewActivity.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for(int i = 0; i < courses.size(); i++) {
+                    assertEquals(courses.get(i), listView.getAdapter().getItem(i));
+                }
+            }
+        });
     }
 
     @Test
@@ -69,9 +84,14 @@ public class CourseOverviewUnitTest {
         for(Course course : courses) {
             course.setId(UUID.randomUUID().toString());
         }
-        for(int i = 0; i < courses.size(); i++) {
-            assertEquals(courses.get(i).getId(), ((Course)listView.getAdapter().getItem(i)).getId());
-        }
+        mCoursesOverviewActivity.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for(int i = 0; i < courses.size(); i++) {
+                    assertEquals(courses.get(i).getId(), ((Course)listView.getAdapter().getItem(i)).getId());
+                }
+            }
+        });
     }
 
     @Test
