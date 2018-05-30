@@ -29,6 +29,7 @@ import java.util.Date;
 public class EpisodeOptionBarDialogFragment extends DialogFragment {
     private Episode episode;
     private View dialog;
+    private boolean isMarkedAsWatched;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -46,6 +47,13 @@ public class EpisodeOptionBarDialogFragment extends DialogFragment {
     private View initializeDialogView() {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         this.dialog = inflater.inflate(R.layout.episode_option_bar_dialog, null);
+
+        if (this.episode.getIsInWatchLaterList()) {
+            ((TextView)this.dialog.findViewById(R.id.textViewEpisodeWatchLater)).setText("Remove from Watch later");
+        } else {
+            ((TextView)this.dialog.findViewById(R.id.textViewEpisodeWatchLater)).setText("Watch later");
+        }
+
         this.dialog.findViewById(R.id.layoutEpisodeShare).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,13 +103,17 @@ public class EpisodeOptionBarDialogFragment extends DialogFragment {
     private void setWatchLater() {
         Log.d("msg","We got here!");
         if (this.episode.getIsInWatchLaterList()) {
-            ((TextView)this.dialog.findViewById(R.id.textViewEpisodeWatchLater)).setText("Remove from Watch later");
-        } else {
             ((TextView)this.dialog.findViewById(R.id.textViewEpisodeWatchLater)).setText("Watch later");
+        } else {
+            ((TextView)this.dialog.findViewById(R.id.textViewEpisodeWatchLater)).setText("Remove from Watch later");
         }
         //TODO need reference to episode
         this.episode.toggleIsInWatchLaterList();
         getDialog().dismiss();
+    }
+
+    public boolean setIsWatched() {
+        return this.isMarkedAsWatched;
     }
 
 }
