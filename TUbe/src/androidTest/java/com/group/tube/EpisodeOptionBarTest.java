@@ -72,7 +72,7 @@ public class EpisodeOptionBarTest {
 
 
     @Before
-    public void titleSetTest(){
+    public void setup(){
         final Intent intent = new Intent();
         Bundle bundle = new Bundle();
         Course course = TestDataGenerator.getCourse();
