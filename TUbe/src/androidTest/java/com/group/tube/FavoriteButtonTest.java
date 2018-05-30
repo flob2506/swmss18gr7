@@ -1,6 +1,5 @@
 package com.group.tube;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
@@ -11,6 +10,7 @@ import android.widget.ToggleButton;
 
 import com.group.tube.List.FavouriteList;
 import com.group.tube.Models.Course;
+import com.group.tube.utils.LocalStorageUtils;
 import com.group.tube.utils.Utils;
 
 import org.hamcrest.Description;
@@ -24,7 +24,6 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.Set;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -47,7 +46,7 @@ public class FavoriteButtonTest {
     public void setup()
     {
         // clear favorite list
-        Utils.writeListToFile(mActivityRule.getActivity(), new LinkedHashSet<String>());
+        LocalStorageUtils.writeListToFile(mActivityRule.getActivity(), new LinkedHashSet<String>());
         FavouriteList.getInstance().overwrite(new LinkedHashSet<String>());
     }
 
@@ -76,8 +75,8 @@ public class FavoriteButtonTest {
 
     @Test
     public void verifyFileCreated() throws InterruptedException {
-        Utils.writeListToFile(mActivityRule.getActivity());
-        File file = mActivityRule.getActivity().getFileStreamPath(Utils.FILE_NAME);
+        LocalStorageUtils.writeCourseFavoriteListToFile(mActivityRule.getActivity());
+        File file = mActivityRule.getActivity().getFileStreamPath(LocalStorageUtils.FILE_NAME_COURSE_FAVORITES);
         assertTrue(file.exists());
     }
 

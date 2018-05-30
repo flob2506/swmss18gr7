@@ -1,5 +1,6 @@
 package com.group.tube;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
@@ -33,7 +34,7 @@ public class VideoPlayerTest {
         mActivityRule.launchActivity(intent);
 
         //Wait for webView to load
-        long max_waiting_time_in_milliseconds = 5000;
+        long max_waiting_time_in_milliseconds = 7000;
         long start_time = System.currentTimeMillis();
         max_waiting_time_in_milliseconds += start_time;
 
@@ -47,11 +48,12 @@ public class VideoPlayerTest {
         //check if we got redirected
         final String[] originalURL = new String[1];
         final String[] URL = new String[1];
-        mActivityRule.getActivity().findViewById(R.id.webview).post(new Runnable() {
+        final Activity activity = mActivityRule.getActivity();
+        activity.findViewById(R.id.webview).post(new Runnable() {
             @Override
             public void run() {
-                originalURL[0] = ((WebView)mActivityRule.getActivity().findViewById(R.id.webview)).getOriginalUrl();
-                URL[0] = ((WebView)mActivityRule.getActivity().findViewById(R.id.webview)).getUrl();
+                originalURL[0] = ((WebView)activity.findViewById(R.id.webview)).getOriginalUrl();
+                URL[0] = ((WebView)activity.findViewById(R.id.webview)).getUrl();
             }
         });
         sleep(100);

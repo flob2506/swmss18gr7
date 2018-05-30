@@ -16,6 +16,7 @@ import android.widget.ToggleButton;
 import com.group.tube.List.FavouriteList;
 import com.group.tube.Models.Course;
 import com.group.tube.R;
+import com.group.tube.utils.LocalStorageUtils;
 import com.group.tube.utils.Utils;
 
 import java.io.FileInputStream;
@@ -80,7 +81,7 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
                     favorites.remove(course.getId());
                 }
                 course.setFavorite(isChecked);
-                Utils.writeListToFile(context);
+                LocalStorageUtils.writeCourseFavoriteListToFile(context);
             }});
 
         return listItem;
