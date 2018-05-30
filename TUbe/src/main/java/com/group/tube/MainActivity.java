@@ -130,7 +130,7 @@ public class MainActivity extends Activity {
 
         if (savedInstanceState == null)
         {
-            webView.loadUrl(NetworkConnector.TUBE_URL + "/paella/ui/frame_engage.html?id=" + episodeId);
+            webView.loadUrl(NetworkConnector.PAELLA_UI_URL + "frame_engage.html?id=" + episodeId);
         }
     }
 
@@ -151,8 +151,6 @@ public class MainActivity extends Activity {
         @JavascriptInterface
         public void videoStarted(){
             videoDidLoad = true;
-            // TODO use events or some shit
-
         }
     }
 }

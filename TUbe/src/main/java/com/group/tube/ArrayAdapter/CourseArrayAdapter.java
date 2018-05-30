@@ -8,18 +8,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
+import com.group.tube.List.FavouriteList;
 import com.group.tube.Models.Course;
 import com.group.tube.R;
+import com.group.tube.utils.Utils;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
 public class CourseArrayAdapter extends ArrayAdapter<Course> {
 
     private Context context;
+    private String fileContents = "TEST";
     private ArrayList<Course> courses;
 
     public CourseArrayAdapter(Context context, ArrayList<Course> list) {
@@ -35,7 +46,7 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
         if (listItem == null)
             listItem = LayoutInflater.from(context).inflate(R.layout.courses_overview_item, parent, false);
 
-        Course currentCourse = this.getItem(position);
+        final Course currentCourse = this.getItem(position);
 
         TextView tv_course_title = listItem.findViewById(R.id.textViewCourseOverviewItemCourseTitle);
         tv_course_title.setText(currentCourse.getCourseTitle());
@@ -46,6 +57,31 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
 
         TextView tv_semester = listItem.findViewById(R.id.textViewCourseOverviewItemSemester);
         tv_semester.setText(currentCourse.getSemesterString());
+
+        final ToggleButton toggleButton = listItem.findViewById(R.id.toggleButton);
+
+        toggleButton.setOnCheckedChangeListener(null);
+        toggleButton.setChecked(currentCourse.isFavorite());
+        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                View parentRow = (View) compoundButton.getParent();
+                ListView listView = (ListView) parentRow.getParent();
+                final int position = listView.getPositionForView(parentRow);
+
+                Course course = (Course)listView.getAdapter().getItem(position);
+
+
+                Set<String> favorites = FavouriteList.getInstance();
+                boolean hasFavorite = favorites.contains(course.getId());
+                if (isChecked && !hasFavorite) {
+                    favorites.add(course.getId());
+                }
+                else if (!isChecked && hasFavorite) {
+                    favorites.remove(course.getId());
+                }
+                course.setFavorite(isChecked);
+                Utils.writeListToFile(context);
+            }});
 
         return listItem;
     }

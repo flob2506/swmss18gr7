@@ -4,12 +4,15 @@ import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;
 import com.group.tube.networking.AsyncResponse;
 import com.group.tube.networking.NetworkConnector;
+import com.group.tube.utils.TestDataGenerator;
 
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 import static org.junit.Assert.assertEquals;
 
@@ -24,8 +27,7 @@ public class NetworkConnectorUnitTest {
         networkConnector.loadAllCourses(new AsyncResponse<ArrayList<Course>>() {
             @Override
             public void processFinish(ArrayList<Course> response) {
-                assertEquals("bcfa6470-b7c8-4d85-8678-89c6844b1660", response.get(3).getId());
-                assertEquals("HS i13", response.get(7).getCourseTitle());
+                assertTrue(response.size() > 0);
                 signal.countDown();
             }
 
@@ -44,13 +46,13 @@ public class NetworkConnectorUnitTest {
     public void loadEpisodesOfCourse() throws InterruptedException {
         final CountDownLatch signal = new CountDownLatch(1);
 
+        Course course = TestDataGenerator.getCourse();
         final NetworkConnector networkConnector = new NetworkConnector();
         networkConnector.networkTask.setLoginAndPassword(NetworkConnector.USERNAME, NetworkConnector.PASSWORD);
         networkConnector.loadEpisodesOfCourse(new AsyncResponse<ArrayList<Episode>>() {
             @Override
             public void processFinish(ArrayList<Episode> response) {
-                assertEquals("2a96ea26-1e1c-4ab8-8dee-d7ebeb076512", response.get(0).getId());
-                assertEquals("Test Event", response.get(1).getEpisodeTitle());
+                assertTrue(response.size() > 0);
                 signal.countDown();
             }
 
@@ -58,7 +60,7 @@ public class NetworkConnectorUnitTest {
             public void handleProcessException(Exception e) {
                 fail("Exception mustn't be thrown");
             }
-        }, "bcfa6470-b7c8-4d85-8678-89c6844b1660");
+        }, course.getId());
         signal.await();
     }
 

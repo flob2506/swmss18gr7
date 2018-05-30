@@ -16,6 +16,7 @@ import cz.msebera.android.httpclient.client.cache.Resource;
 public class NetworkConnector {
     public NetworkTask networkTask;
     public static final String TUBE_URL = "https://tube-test.tugraz.at/";
+    public static final String PAELLA_UI_URL = TUBE_URL + "paella/ui/";
     public static final String USERNAME = "tube-mobile";
     public static final String PASSWORD = "J8Mz4ftVNEZ54Wo6";
 

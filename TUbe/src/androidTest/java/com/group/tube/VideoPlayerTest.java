@@ -7,6 +7,8 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.webkit.WebView;
 
+import com.group.tube.utils.TestDataGenerator;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +30,7 @@ public class VideoPlayerTest {
     @Test
     public void videoStartsAfterTimeOut() throws InterruptedException {
         Intent intent = new Intent();
-        intent.putExtra(EXTRA_EPISODE_ID, "dbd281f3-6072-4e34-bb3a-3a124b37fa83");
+        intent.putExtra(EXTRA_EPISODE_ID, TestDataGenerator.getEpisodeId());
         mActivityRule.launchActivity(intent);
 
         //Wait for webView to load

@@ -12,11 +12,11 @@ public class Course implements Serializable {
     private String id;
     private String courseTitle;
 
-
     private int semesterYear = uninitializedSemesterYear;
 
 
     private boolean isWs = true;
+    private boolean isFavorite = false;
 
 
     public Course() {
@@ -68,5 +68,12 @@ public class Course implements Serializable {
         this.id = id;
     }
 
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
 }
 
