@@ -35,7 +35,7 @@ public class SaveEpisodeTimeTest {
 
 
     @Test
-    public void videoStartsAfterTimeOut() throws InterruptedException {
+    public void verifyEpisodeTimeSavedAfterAppClose() throws InterruptedException {
         Intent intent = new Intent();
         String episodeId = "dbd281f3-6072-4e34-bb3a-3a124b37fa83";
         intent.putExtra(EXTRA_EPISODE_ID, episodeId);
@@ -45,7 +45,7 @@ public class SaveEpisodeTimeTest {
 
         long acceptable_lower_margin = 300;
         long acceptable_top_margin = 1500;
-        long play_time = 2000;
+        long playTime = 2000;
         //Wait for webView to load
         long max_waiting_time_in_milliseconds = 15000;
         long start_time = System.currentTimeMillis();
@@ -57,13 +57,12 @@ public class SaveEpisodeTimeTest {
             }
             sleep(250);
         }
-        sleep(play_time);
+        sleep(playTime);
         Intent currentIntent = mActivityRule.getActivity().getIntent();
         mActivityRule.finishActivity();
         mActivityRule.launchActivity(currentIntent);
-
         Map<String, Float> map = EpisodeTimeList.getInstance();
         Float time = map.get(episodeId) * 1000;
-        assertTrue(time > (play_time - acceptable_lower_margin) && time < (play_time + acceptable_top_margin));
+        assertTrue(time > (playTime - acceptable_lower_margin) && time < (playTime + acceptable_top_margin));
     }
 }
