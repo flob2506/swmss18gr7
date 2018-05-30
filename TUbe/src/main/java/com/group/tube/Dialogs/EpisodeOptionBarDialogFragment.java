@@ -20,16 +20,21 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.group.tube.List.FavouriteList;
+import com.group.tube.List.WatchLaterList;
 import com.group.tube.Models.Episode;
 import com.group.tube.R;
+import com.group.tube.utils.LocalStorageUtils;
+import com.group.tube.utils.Utils;
 
 import java.io.Console;
 import java.util.Date;
+import java.util.Set;
 
 public class EpisodeOptionBarDialogFragment extends DialogFragment {
+    private Context context;
     private Episode episode;
     private View dialog;
-    private boolean isMarkedAsWatched;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -96,12 +101,23 @@ public class EpisodeOptionBarDialogFragment extends DialogFragment {
         getDialog().dismiss();
     }
 
-    public void setEpisode(Episode episode) {
+    public void setEpisode(Episode episode, Context context) {
         this.episode = episode;
+        this.context = context;
     }
 
     private void setWatchLater() {
         this.episode.toggleIsInWatchLaterList();
         getDialog().dismiss();
+
+        Set<String> watchLaterList = WatchLaterList.getInstance();
+        boolean isMarkedAsWatched = watchLaterList.contains(episode.getId());
+        if (!isMarkedAsWatched) {
+            watchLaterList.add(episode.getId());
+        }
+        else {
+            watchLaterList.remove(episode.getId());
+        }
+        LocalStorageUtils.writeWatchLaterListToFile(this.context);
     }
 }

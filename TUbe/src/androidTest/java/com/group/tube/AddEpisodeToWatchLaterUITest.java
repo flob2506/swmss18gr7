@@ -1,5 +1,6 @@
 package com.group.tube;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
@@ -13,8 +14,11 @@ import android.widget.ListView;
 
 import com.group.tube.ArrayAdapter.CourseArrayAdapter;
 import com.group.tube.Models.Course;
+import com.group.tube.utils.LocalStorageUtils;
 import com.group.tube.utils.TestDataGenerator;
 import com.group.tube.utils.Utils;
+
+import junit.framework.Assert;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -24,6 +28,7 @@ import org.junit.Test;
 import org.junit.internal.matchers.TypeSafeMatcher;
 import org.junit.runner.RunWith;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,4 +81,21 @@ public class AddEpisodeToWatchLaterUITest {
         onView(withId(R.id.episodeOptionBarDialog)).check(matches(isDisplayed()));
         onView(withText("Remove from Watch later list")).check(matches(isDisplayed()));
     }
+
+
+//    @Test
+//    public void checkIfItemIsAddedToList() throws InterruptedException {
+//        onData(anything()).inAdapterView(withId(R.id.listViewEpisodes)).onChildView(withId(R.id.imageViewEpisodeMore)).atPosition(0).perform(click());
+//        onView(withId(R.id.watchLaterLinearLayout)).perform(click());
+//        Context context = episodeListView.getContext();
+//        LocalStorageUtils.readWatchListFromFile(context);
+//    }
+
+    @Test
+    public void verifyFileCreated() throws InterruptedException {
+        LocalStorageUtils.writeWatchLaterListToFile(episodesOverviewActivityTestRule.getActivity());
+        File file = episodesOverviewActivityTestRule.getActivity().getFileStreamPath(Utils.FILE_NAME);
+        Assert.assertTrue(file.exists());
+    }
+
 }

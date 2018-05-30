@@ -67,7 +67,7 @@ public class EpisodeArrayAdapter extends ArrayAdapter<Episode> {
 
     private void showDialog(Episode episode) {
         EpisodeOptionBarDialogFragment dialog = new EpisodeOptionBarDialogFragment();
-        dialog.setEpisode(episode);
+        dialog.setEpisode(episode, context);
         Activity activity = (Activity) context;
         dialog.show(activity.getFragmentManager(), "");
     }

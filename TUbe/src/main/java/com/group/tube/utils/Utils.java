@@ -14,6 +14,7 @@ import android.widget.ListView;
 import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
 import com.group.tube.Comparators.DateSortComparator;
 import com.group.tube.List.FavouriteList;
+import com.group.tube.List.WatchLaterList;
 import com.group.tube.MainActivity;
 import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;
@@ -130,6 +131,7 @@ public class Utils
     public static void writeListToFile(Context context)  {
         writeListToFile(context, FavouriteList.getInstance());
     }
+
     public static void readListFromFile(Context context)  {
         boolean isListValid;
         Object inputReturn = null;
