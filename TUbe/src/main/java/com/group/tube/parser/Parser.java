@@ -92,9 +92,23 @@ public class Parser {
 
         try {
             JSONArray jsonArray = new JSONArray(jsonString);
-            JSONObject jsonObject = jsonArray.getJSONObject(1);
+            JSONObject jsonObject = new JSONObject();
+            for(int i = 0; i < jsonArray.length(); i++){
+                jsonObject = jsonArray.getJSONObject(i);
+                if(jsonObject.getString("channel").equals("api")){
+                    break;
+                }
+            }
+
             JSONArray attachmentsArray = jsonObject.getJSONArray("attachments");
-            JSONObject urlObject = attachmentsArray.getJSONObject(2);
+
+            JSONObject urlObject = new JSONObject();
+            for(int i = 0; i < attachmentsArray.length(); i++){
+                urlObject = attachmentsArray.getJSONObject(i);
+                if(urlObject.getString("flavor").equals("presenter/search+preview")){
+                    break;
+                }
+            }
             return urlObject.getString("url");
         } catch (JSONException e) {
             throw new ParseException("JSONException occurred when parsing", 0);

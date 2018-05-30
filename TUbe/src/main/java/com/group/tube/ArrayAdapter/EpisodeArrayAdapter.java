@@ -22,6 +22,8 @@ import com.group.tube.utils.Utils;
 import java.text.ParseException;
 import java.util.ArrayList;
 
+import static java.lang.StrictMath.max;
+
 
 public class EpisodeArrayAdapter extends ArrayAdapter<Episode> {
 
@@ -53,7 +55,7 @@ public class EpisodeArrayAdapter extends ArrayAdapter<Episode> {
 
         final ImageView imageView = listItem.findViewById(R.id.imageViewThumbnailEpisode);
         // if the thumbnailURL hasn't been set already
-        if(currentEpisode.getThumbnailURL() == null) {
+        if (currentEpisode.getThumbnailURL() == null) {
             NetworkConnector networkConnector = new NetworkConnector();
             networkConnector.networkTask.setLoginAndPassword(NetworkConnector.USERNAME, NetworkConnector.PASSWORD);
             networkConnector.loadMediaOfEpisode(new AsyncResponse<String>() {
@@ -63,6 +65,7 @@ public class EpisodeArrayAdapter extends ArrayAdapter<Episode> {
                     try {
                         currentEpisode.setThumbnailURL(parser.parseMediaOfEpisode(response));
                         downloadAndSetImage(imageView, currentEpisode.getThumbnailURL());
+                        //downloadAndSetImage(imageView, currentEpisode);
                     } catch (ParseException e) {
                         e.printStackTrace();
                         currentEpisode.setThumbnailURL("");
@@ -74,13 +77,31 @@ public class EpisodeArrayAdapter extends ArrayAdapter<Episode> {
                     e.printStackTrace();
                 }
             }, currentEpisode.getId());
-        }
+        } /*else if(currentEpisode.getThumbnailDrawable() != null){
+            imageView.setImageDrawable(currentEpisode.getThumbnailDrawable());
+        } else {
+            imageView.setImageDrawable(getContext().getResources().getDrawable(android.R.drawable.presence_video_busy));
+        }*/
 
         return listItem;
     }
 
+    @Override
+    public int getViewTypeCount() {
+        return max(1, getCount());
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return max(1, position);
+    }
+
+    /*private void downloadAndSetImage(final ImageView imageView, final Episode currentEpisode) {
+        if (currentEpisode.getThumbnailURL() != null && !currentEpisode.getThumbnailURL().equals("")) {*/
     private void downloadAndSetImage(final ImageView imageView, String thumbnailURL) {
+
         if (thumbnailURL != null && !thumbnailURL.equals("")) {
+
             NetworkConnector networkConnector = new NetworkConnector();
             networkConnector.networkTask.setLoginAndPassword(NetworkConnector.USERNAME, NetworkConnector.PASSWORD);
 
@@ -89,6 +110,7 @@ public class EpisodeArrayAdapter extends ArrayAdapter<Episode> {
                 public void processFinish(Drawable response) {
                     if (response != null) {
                         imageView.setImageDrawable(response);
+                        //currentEpisode.setThumbnailDrawable(response);
                     }
                 }
 
@@ -96,7 +118,7 @@ public class EpisodeArrayAdapter extends ArrayAdapter<Episode> {
                 public void handleProcessException(Exception e) {
                     e.printStackTrace();
                 }
-            }, thumbnailURL);
+            }, thumbnailURL);//currentEpisode.getThumbnailURL());
         }
     }
 }

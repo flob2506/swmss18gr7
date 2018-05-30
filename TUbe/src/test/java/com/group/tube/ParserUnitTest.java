@@ -102,7 +102,7 @@ public class ParserUnitTest {
         Parser parser = new Parser();
         String result = parser.parseMediaOfEpisode(mediaResponse);
 
-        String expectedURL = "https://tube-test.tugraz.at/static/mh_default_org/api/0ebba909-dfcb-4bb1-b809-c49a518a8c40/253952ee-109d-462b-a0b9-1f0d8950ddf8/coverimage.png";
+        String expectedURL = "https://tube-test.tugraz.at/static/mh_default_org/api/0ebba909-dfcb-4bb1-b809-c49a518a8c40/attachment-5/bunny_1_000s_search.jpg";
 
         assertEquals(expectedURL, result);
     }

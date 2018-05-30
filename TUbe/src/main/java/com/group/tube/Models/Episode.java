@@ -1,5 +1,7 @@
 package com.group.tube.Models;
 
+import android.graphics.drawable.Drawable;
+
 import java.util.Date;
 
 public class Episode {
@@ -11,6 +13,7 @@ public class Episode {
     private String presentationUrl;
     private String thumbnailURL;
     private Date date;
+    //private Drawable thumbnailDrawable;
 
 
     public Episode() {
@@ -24,6 +27,7 @@ public class Episode {
         this.presenterUrl = presenterUrl;
         this.presentationUrl = presentationUrl;
         this.date = date;
+        //this.thumbnailDrawable = null;
     }
 
     public String getId() {
@@ -89,4 +93,12 @@ public class Episode {
     public void setThumbnailURL(String thumbnailURL) {
         this.thumbnailURL = thumbnailURL;
     }
+
+    /*public Drawable getThumbnailDrawable() {
+        return thumbnailDrawable;
+    }
+
+    public void setThumbnailDrawable(Drawable thumbnailDrawable) {
+        this.thumbnailDrawable = thumbnailDrawable;
+    }*/
 }
