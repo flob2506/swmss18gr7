@@ -12,7 +12,6 @@ import com.group.tube.utils.Utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
 
 public class EpisodeWatchlistActivity extends EpisodesOverviewActivity {
@@ -43,8 +42,7 @@ public class EpisodeWatchlistActivity extends EpisodesOverviewActivity {
     }
 
     @Override
-    public void loadEpisodes(final Course course) {
-        // TODO: refactor what happens with Course object? we don't have/need it here?
+    public void loadEpisodes() {
         final NetworkConnector networkConnector = new NetworkConnector();
         networkConnector.networkTask.setLoginAndPassword(NetworkConnector.USERNAME, NetworkConnector.PASSWORD);
         networkConnector.loadAllEpisodes(new AsyncResponse<ArrayList<Episode>>() {

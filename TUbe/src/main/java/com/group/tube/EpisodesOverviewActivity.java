@@ -119,7 +119,7 @@ public class EpisodesOverviewActivity extends AppCompatActivity
         });
         listView = this.findViewById(R.id.listViewEpisodes);
 
-        loadEpisodes(course);
+        loadEpisodes();
     }
 
     public void evaluateIntent() {
@@ -127,7 +127,7 @@ public class EpisodesOverviewActivity extends AppCompatActivity
         course = (Course) bundle.getSerializable(CoursesOverviewActivity.EXTRA_COURSE_OBJECT);
     }
 
-    public void loadEpisodes(Course course) {
+    public void loadEpisodes() {
         final NetworkConnector networkConnector = new NetworkConnector();
         networkConnector.networkTask.setLoginAndPassword(NetworkConnector.USERNAME, NetworkConnector.PASSWORD);
         networkConnector.loadEpisodesOfCourse(new AsyncResponse<ArrayList<Episode>>() {

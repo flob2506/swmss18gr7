@@ -25,6 +25,7 @@ public class FavouriteCoursesOverviewActivity extends CoursesOverviewActivity {
         //update drawer
         navigationView.getMenu().getItem(0).setChecked(false);
         navigationView.getMenu().getItem(1).setChecked(true);
+        navigationView.getMenu().getItem(2).setChecked(false);
     }
 
     @Override
