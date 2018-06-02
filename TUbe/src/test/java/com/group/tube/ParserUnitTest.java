@@ -62,7 +62,7 @@ public class ParserUnitTest {
         ArrayList<Episode> episodes = new ArrayList<>();
         String episodesOfCourse_working = "[{\"identifier\":\"05035dc4-3938-485d-8ea8-5081b9d6bc57\",\"creator\":\"Ypatios Grigoriadis\",\"presenter\":[\"Wagner A\"],\"created\":\"2014-04-07T06:00:00Z\",\"subjects\":[],\"start\":\"2014-04-07T06:00:00Z\",\"description\":\"\",\"title\":\"7. April 2014 [MP4]\",\"processing_state\":\"SUCCEEDED\",\"archive_version\":31,\"contributor\":[],\"has_previews\":true,\"location\":\"\",\"publication_status\":[\"internal\",\"engage-player\"]},{\"identifier\":\"23e9d34e-8d0f-4da1-9000-e5ced77ee3ae\",\"creator\":\"Ypatios Grigoriadis\",\"presenter\":[\"Wagner A\"],\"created\":\"2014-06-16T06:00:00Z\",\"subjects\":[],\"start\":\"2014-06-16T06:00:00Z\",\"description\":\"\",\"title\":\"16. Juni 2014 [MP4]\",\"processing_state\":\"SUCCEEDED\",\"archive_version\":31,\"contributor\":[],\"has_previews\":true,\"location\":\"\",\"publication_status\":[\"internal\",\"engage-player\"]},{\"identifier\":\"d28fed90-9def-4f6d-b451-34ef58e67c09\",\"creator\":\"Ypatios Grigoriadis\",\"presenter\":[\"Wagner A\"],\"created\":\"2014-03-10T06:00:00Z\",\"subjects\":[],\"start\":\"2014-03-10T06:00:00Z\",\"description\":\"\",\"title\":\"10. März 2014 [MP4]\",\"processing_state\":\"SUCCEEDED\",\"archive_version\":34,\"contributor\":[],\"has_previews\":true,\"location\":\"\",\"publication_status\":[\"internal\",\"engage-player\"]},{\"identifier\":\"f9338064-4099-4c75-a674-06741b198347\",\"creator\":\"Ypatios Grigoriadis\",\"presenter\":[\"Wagner A\"],\"created\":\"2014-05-26T06:00:00Z\",\"subjects\":[],\"start\":\"2014-05-26T06:00:00Z\",\"description\":\"\",\"title\":\"26. Mai 2014 [MP4]\",\"processing_state\":\"SUCCEEDED\",\"archive_version\":30,\"contributor\":[],\"has_previews\":true,\"location\":\"\",\"publication_status\":[\"internal\",\"engage-player\"]},{\"identifier\":\"b9217e1d-f5c5-47a3-87db-0cc63f0e8143\",\"creator\":\"Ypatios Grigoriadis\",\"presenter\":[\"Wagner A\"],\"created\":\"2014-06-02T06:00:00Z\",\"subjects\":[],\"start\":\"2014-06-02T06:00:00Z\",\"description\":\"\",\"title\":\"2. Juni 2014 [MP4]\",\"processing_state\":\"SUCCEEDED\",\"archive_version\":32,\"contributor\":[],\"has_previews\":true,\"location\":\"\",\"publication_status\":[\"internal\",\"engage-player\"]},{\"identifier\":\"efa1061f-f420-4e5b-888a-a1addadd054c\",\"creator\":\"Ypatios Grigoriadis\",\"presenter\":[\"Wagner A\"],\"created\":\"2014-06-30T06:00:00Z\",\"subjects\":[],\"start\":\"2014-06-30T06:00:00Z\",\"description\":\"\",\"title\":\"30. Juni 2014 [MP4]\",\"processing_state\":\"SUCCEEDED\",\"archive_version\":30,\"contributor\":[],\"has_previews\":true,\"location\":\"\",\"publication_status\":[\"internal\",\"engage-player\"]},{\"identifier\":\"aa4ed4a9-71e1-47de-ae31-2d437827a123\",\"creator\":\"Ypatios Grigoriadis\",\"presenter\":[\"Wagner A\"],\"created\":\"2014-06-23T06:00:00Z\",\"subjects\":[],\"start\":\"2014-06-23T06:00:00Z\",\"description\":\"\",\"title\":\"23. Juni 2014 [MP4]\",\"processing_state\":\"SUCCEEDED\",\"archive_version\":31,\"contributor\":[],\"has_previews\":true,\"location\":\"\",\"publication_status\":[\"internal\",\"engage-player\"]},{\"identifier\":\"9a74fbf4-1c64-49b7-ba53-5a274da37ca9\",\"creator\":\"Ypatios Grigoriadis\",\"presenter\":[\"Wagner A\"],\"created\":\"2014-05-05T06:00:00Z\",\"subjects\":[],\"start\":\"2014-05-05T06:00:00Z\",\"description\":\"\",\"title\":\"5. Mai 2014 [MP4]\",\"processing_state\":\"SUCCEEDED\",\"archive_version\":31,\"contributor\":[],\"has_previews\":true,\"location\":\"\",\"publication_status\":[\"internal\",\"engage-player\"]}]";
 
-        parser.parseEpisodesOfCourse(episodesOfCourse_working, episodes);
+        parser.parseEpisodes(episodesOfCourse_working, episodes);
 
 
         assertEquals("05035dc4-3938-485d-8ea8-5081b9d6bc57", episodes.get(0).getId());
@@ -76,7 +76,7 @@ public class ParserUnitTest {
         ArrayList<Episode> episodes = new ArrayList<>();
         String episodesOfCourse_nonsense = "nonsense";
         try {
-            parser.parseEpisodesOfCourse(episodesOfCourse_nonsense, episodes);
+            parser.parseEpisodes(episodesOfCourse_nonsense, episodes);
         } catch (ParseException e) {
             assertEquals("JSONException occurred when parsing", e.getMessage());
             throw e;
@@ -90,7 +90,7 @@ public class ParserUnitTest {
         String episodesOfCourse_null = "";
 
         try {
-            parser.parseEpisodesOfCourse(episodesOfCourse_null, episodes);
+            parser.parseEpisodes(episodesOfCourse_null, episodes);
         } catch (ParseException e) {
             assertEquals("JSONString is null or empty", e.getMessage());
             throw e;

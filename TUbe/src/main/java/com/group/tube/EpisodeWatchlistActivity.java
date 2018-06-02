@@ -7,16 +7,18 @@ import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;
 import com.group.tube.networking.AsyncResponse;
 import com.group.tube.networking.NetworkConnector;
+import com.group.tube.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
 public class EpisodeWatchlistActivity extends EpisodesOverviewActivity {
 
     private Map<String, String> IDToCourseName = new HashMap<>();
-    private List<String> episodeIDs;
+    private LinkedHashSet<String> episodeIDs = new LinkedHashSet<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +34,24 @@ public class EpisodeWatchlistActivity extends EpisodesOverviewActivity {
         setTitle("Watchlist");
     }
 
+    private void simulateWatchlist(ArrayList<Episode> episodes) {
+        for (int i = 0; i < episodes.size(); i++) {
+            if(i % 4 == 0) {
+                episodeIDs.add(episodes.get(i).getId());
+            }
+        }
+    }
+
     @Override
     public void loadEpisodes(final Course course) {
+        // TODO: refactor what happens with Course object? we don't have/need it here?
         final NetworkConnector networkConnector = new NetworkConnector();
         networkConnector.networkTask.setLoginAndPassword(NetworkConnector.USERNAME, NetworkConnector.PASSWORD);
-        networkConnector.loadEpisodesOfCourse(new AsyncResponse<ArrayList<Episode>>() {
+        networkConnector.loadAllEpisodes(new AsyncResponse<ArrayList<Episode>>() {
             @Override
             public void processFinish(ArrayList<Episode> response) {
-                episodes = response;
+                simulateWatchlist(response);
+                Utils.addToEpisodeListIfInSet(response, episodes, episodeIDs);
                 for(Episode episode : episodes){
                     episode.setCourseTitle(IDToCourseName.get(episode.getId()));
                 }
@@ -58,7 +70,7 @@ public class EpisodeWatchlistActivity extends EpisodesOverviewActivity {
                 e.printStackTrace();
                 throw new RuntimeException("Couldn't load data");
             }
-        }, course.getId());
+        });
     }
 
     @Override

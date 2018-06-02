@@ -55,7 +55,7 @@ public class NetworkConnector {
                 ArrayList<Episode> episodes = new ArrayList<>();
                 Parser parser = new Parser();
                 try {
-                    parser.parseEpisodesOfCourse(response, episodes);
+                    parser.parseEpisodes(response, episodes);
                     responseHandler.processFinish(episodes);
                                     } catch (ParseException e) {
                     responseHandler.handleProcessException(e);
@@ -69,6 +69,28 @@ public class NetworkConnector {
             }
         });
         this.networkTask.execute(TUBE_URL + "api/events/?filter=series:" + courseID);
+    }
+
+    public void loadAllEpisodes(final AsyncResponse<ArrayList<Episode>> responseHandler) {
+        this.networkTask.setResponseHandler(new AsyncResponse<String>() {
+            @Override
+            public void processFinish(String response) {
+                ArrayList<Episode> episodes = new ArrayList<>();
+                Parser parser = new Parser();
+                try {
+                    parser.parseEpisodes(response, episodes);
+                    responseHandler.processFinish(episodes);
+                } catch (ParseException e) {
+                    responseHandler.handleProcessException(e);
+                }
+            }
+
+            @Override
+            public void handleProcessException(Exception e) {
+                responseHandler.handleProcessException(e);
+            }
+        });
+        this.networkTask.execute(TUBE_URL + "api/events");
     }
 
     public void loadMediaOfEpisode(final AsyncResponse<String> responseHandler, String episodeID) {
