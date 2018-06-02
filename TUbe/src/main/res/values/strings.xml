@@ -16,4 +16,5 @@
     <string name="test_date">14.12.2012</string>
     <string name="send_to">send to</string>
     <string name="copied_to_clipboard">Copied to Clipboard</string>
+    <string name="watchlist">Watchlist</string>
 </resources>

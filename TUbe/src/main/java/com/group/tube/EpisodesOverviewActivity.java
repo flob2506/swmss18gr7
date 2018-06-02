@@ -40,6 +40,9 @@ public class EpisodesOverviewActivity extends AppCompatActivity
 
     ListView listView;
     RelativeLayout loadingBar;
+    NavigationView navigationView;
+
+    Course course;
 
     private DrawerLayout mDrawerLayout;
 
@@ -55,11 +58,11 @@ public class EpisodesOverviewActivity extends AppCompatActivity
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
         toolbar.setTitleTextColor(Color.WHITE);
 
+
+
         final Intent intent = new Intent(this, MainActivity.class);
 
-        Intent get_intent = getIntent();
-        Bundle bundle = get_intent.getExtras();
-        Course course = (Course) bundle.getSerializable(CoursesOverviewActivity.EXTRA_COURSE_OBJECT);
+        evaluateIntent();
 
         this.setTitle(course.getCourseTitle());
 
@@ -72,7 +75,7 @@ public class EpisodesOverviewActivity extends AppCompatActivity
 
         final Activity that = this;
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -93,6 +96,10 @@ public class EpisodesOverviewActivity extends AppCompatActivity
                         } else if (id == R.id.termsOfService){
                             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.tugraz.at/en/about-this-page/legal-notice/"));
                             startActivity(browserIntent);
+                        } else if (id == R.id.nav_watchList) {
+                            Intent intent = new Intent(that, EpisodeWatchlistActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            that.startActivity(intent);
                         }
 
 
@@ -112,6 +119,15 @@ public class EpisodesOverviewActivity extends AppCompatActivity
         });
         listView = this.findViewById(R.id.listViewEpisodes);
 
+        loadEpisodes(course);
+    }
+
+    public void evaluateIntent() {
+        Bundle bundle = getIntent().getExtras();
+        course = (Course) bundle.getSerializable(CoursesOverviewActivity.EXTRA_COURSE_OBJECT);
+    }
+
+    public void loadEpisodes(Course course) {
         final NetworkConnector networkConnector = new NetworkConnector();
         networkConnector.networkTask.setLoginAndPassword(NetworkConnector.USERNAME, NetworkConnector.PASSWORD);
         networkConnector.loadEpisodesOfCourse(new AsyncResponse<ArrayList<Episode>>() {
@@ -136,7 +152,7 @@ public class EpisodesOverviewActivity extends AppCompatActivity
         }, course.getId());
     }
 
-    private void initializeListView(ArrayList<Episode> episodes) {
+    public void initializeListView(ArrayList<Episode> episodes) {
         listView = findViewById(R.id.listViewEpisodes);
         this.episodes = episodes;
         Collections.sort(episodes, new DateSortComparator());

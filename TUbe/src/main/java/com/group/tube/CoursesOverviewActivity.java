@@ -112,7 +112,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
                             intent = new Intent(that, CoursesOverviewActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             that.startActivity(intent);
-                        } else if (id == R.id.nav_myCourses) {
+                        } else if (id == R.id.nav_myCourses){
                             //update drawer
                             navigationView.setCheckedItem(R.id.nav_myCourses);
 
@@ -122,6 +122,10 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
                         } else if (id == R.id.termsOfService){
                             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.tugraz.at/en/about-this-page/legal-notice/"));
                             startActivity(browserIntent);
+                        } else if (id == R.id.nav_watchList){
+                            intent = new Intent(that, EpisodeWatchlistActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            that.startActivity(intent);
                         }
 
 
@@ -134,6 +138,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         //update drawer
         navigationView.getMenu().getItem(0).setChecked(true);
         navigationView.getMenu().getItem(1).setChecked(false);
+        navigationView.getMenu().getItem(2).setChecked(false);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
