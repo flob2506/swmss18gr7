@@ -1,7 +1,6 @@
 package com.group.tube.ArrayAdapter;
 
 import android.content.Context;
-import android.graphics.CornerPathEffect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -16,15 +15,10 @@ import android.widget.ToggleButton;
 import com.group.tube.List.FavouriteList;
 import com.group.tube.Models.Course;
 import com.group.tube.R;
-import com.group.tube.utils.Utils;
+import com.group.tube.utils.LocalStorageUtils;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
 public class CourseArrayAdapter extends ArrayAdapter<Course> {
@@ -53,7 +47,8 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
 
         TextView tv_course_number = listItem.findViewById(R.id.textViewCourseOverviewItemCourseNumber);
         //TODO fill course number
-        tv_course_number.setText("");
+        //tv_course_number.setText("");
+        tv_course_number.setVisibility(View.GONE);
 
         TextView tv_semester = listItem.findViewById(R.id.textViewCourseOverviewItemSemester);
         tv_semester.setText(currentCourse.getSemesterString());
@@ -80,7 +75,7 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
                     favorites.remove(course.getId());
                 }
                 course.setFavorite(isChecked);
-                Utils.writeListToFile(context);
+                LocalStorageUtils.writeCourseFavoriteListToFile(context);
             }});
 
         return listItem;

@@ -11,8 +11,10 @@ public class Episode {
     private String episodeTitle;
     private String presenterUrl;
     private String presentationUrl;
+    private String thumbnailURL;
     private Date date;
     private boolean isInWatchLaterList;
+    //private Drawable thumbnailDrawable;
 
 
     public Episode() {
@@ -27,6 +29,7 @@ public class Episode {
         this.presentationUrl = presentationUrl;
         this.date = date;
         this.isInWatchLaterList = false;
+        //this.thumbnailDrawable = null;
     }
 
     public String getSharedContent()
@@ -97,4 +100,20 @@ public class Episode {
     public boolean getIsInWatchLaterList() {
         return this.isInWatchLaterList;
     }
+
+    public String getThumbnailURL() {
+        return thumbnailURL;
+    }
+
+    public void setThumbnailURL(String thumbnailURL) {
+        this.thumbnailURL = thumbnailURL;
+    }
+
+    /*public Drawable getThumbnailDrawable() {
+        return thumbnailDrawable;
+    }
+
+    public void setThumbnailDrawable(Drawable thumbnailDrawable) {
+        this.thumbnailDrawable = thumbnailDrawable;
+    }*/
 }

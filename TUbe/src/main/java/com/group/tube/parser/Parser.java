@@ -77,4 +77,41 @@ public class Parser {
             throw new ParseException("JSONException occurred when parsing", 0);
         }
     }
+
+    /**
+     * This method parses the ThumbnailURL from a given jsonString
+     *
+     * @param jsonString String containing media information
+     * @throws ParseException Either the json is null or empty or a JSONException occurred
+     * @return String of thumbnailURL
+     **/
+    public String parseMediaOfEpisode(String jsonString) throws ParseException {
+        if (jsonString == null || jsonString.isEmpty()) {
+            throw new ParseException("JSONString is null or empty", 0);
+        }
+
+        try {
+            JSONArray jsonArray = new JSONArray(jsonString);
+            JSONObject jsonObject = new JSONObject();
+            for(int i = 0; i < jsonArray.length(); i++){
+                jsonObject = jsonArray.getJSONObject(i);
+                if(jsonObject.getString("channel").equals("api")){
+                    break;
+                }
+            }
+
+            JSONArray attachmentsArray = jsonObject.getJSONArray("attachments");
+
+            JSONObject urlObject = new JSONObject();
+            for(int i = 0; i < attachmentsArray.length(); i++){
+                urlObject = attachmentsArray.getJSONObject(i);
+                if(urlObject.getString("flavor").equals("presenter/search+preview")){
+                    break;
+                }
+            }
+            return urlObject.getString("url");
+        } catch (JSONException e) {
+            throw new ParseException("JSONException occurred when parsing", 0);
+        }
+    }
 }

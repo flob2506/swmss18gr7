@@ -94,7 +94,7 @@ public class AddEpisodeToWatchLaterUITest {
     @Test
     public void verifyFileCreated() throws InterruptedException {
         LocalStorageUtils.writeWatchLaterListToFile(episodesOverviewActivityTestRule.getActivity());
-        File file = episodesOverviewActivityTestRule.getActivity().getFileStreamPath(Utils.FILE_NAME);
+        File file = episodesOverviewActivityTestRule.getActivity().getFileStreamPath(LocalStorageUtils.FILE_NAME_COURSE_FAVORITES);
         Assert.assertTrue(file.exists());
     }
 

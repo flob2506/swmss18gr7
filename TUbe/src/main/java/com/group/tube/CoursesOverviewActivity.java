@@ -4,13 +4,10 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -22,13 +19,11 @@ import android.support.v4.util.Pair;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.group.tube.ArrayAdapter.CourseArrayAdapter;
@@ -37,29 +32,15 @@ import com.group.tube.Models.Course;
 import com.group.tube.networking.AsyncResponse;
 import com.group.tube.networking.NetworkConnector;
 import com.group.tube.Dialogs.CourseSemesterFilterDialogFragment;
-import com.group.tube.Models.Course;
-import com.group.tube.networking.AsyncResponse;
-import com.group.tube.networking.NetworkConnector;
-import com.group.tube.utils.TestDataGenerator;
+import com.group.tube.utils.LocalStorageUtils;
 import com.group.tube.utils.Utils;
 
-import java.io.EOFException;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InvalidClassException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-import static android.graphics.PorterDuff.*;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
@@ -84,7 +65,11 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initializeFavoritesList();
-        setContentView(R.layout.courses_overview);
+
+        //needs to be a function to be overridable
+        setContentViewOverride();
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
@@ -121,11 +106,20 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
                         if (id == R.id.nav_allCourses){
 //                            Intent intent = new Intent(that, CoursesOverviewActivity.class);
 //                            startActivity(intent);
+
+
+
+
                             intent = new Intent(that, CoursesOverviewActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             that.startActivity(intent);
                         } else if (id == R.id.nav_myCourses) {
-                            //TODO
+                            //update drawer
+                            navigationView.setCheckedItem(R.id.nav_myCourses);
+
+                            intent = new Intent(that, FavouriteCoursesOverviewActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            that.startActivity(intent);
                         } else if (id == R.id.termsOfService){
                             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.tugraz.at/en/about-this-page/legal-notice/"));
                             startActivity(browserIntent);
@@ -138,6 +132,9 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
                         return true;
                     }
                 });
+        //update drawer
+        navigationView.getMenu().getItem(0).setChecked(true);
+        navigationView.getMenu().getItem(1).setChecked(false);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -181,12 +178,16 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         setChosenSemester();
     }
 
+    public void setContentViewOverride() {
+        setContentView(R.layout.courses_overview);
+    }
+
     private void initializeFavoritesList() {
-        File file = getFileStreamPath(Utils.FILE_NAME);
+        File file = getFileStreamPath(LocalStorageUtils.FILE_NAME_COURSE_FAVORITES);
         if(file == null || !file.exists()) {
-            Utils.writeListToFile(this);
+            LocalStorageUtils.writeCourseFavoriteListToFile(this);
         } else {
-            Utils.readListFromFile(this);
+            LocalStorageUtils.readCourseFavoriteListFromFile(this);
         }
     }
 
@@ -226,7 +227,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         return super.onOptionsItemSelected(item);
     }
 
-    private void initializeFilterButton()
+    public void initializeFilterButton()
     {
         ImageView filterButton = findViewById(R.id.imageViewFilterCourseList);
         filterButton.setOnClickListener(new View.OnClickListener() {
@@ -245,7 +246,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         dialog.show(getFragmentManager(), "");
     }
 
-    private void initializeListView(final ArrayList<Course> courses) {
+    public void initializeListView(final ArrayList<Course> courses) {
         for (Course course : courses) {
             boolean isFavorite = false;
             for(String courseId : FavouriteList.getInstance()) {
@@ -268,7 +269,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         filterCoursesList(null);
     }
 
-    private void filterCoursesList(List<String> query) {
+    public void filterCoursesList(List<String> query) {
         setChosenSemester();
         CourseArrayAdapter courseAdapter = ((CourseArrayAdapter)listView.getAdapter());
 
