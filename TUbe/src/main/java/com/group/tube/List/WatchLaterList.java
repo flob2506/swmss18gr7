@@ -1,5 +1,8 @@
 package com.group.tube.List;
 
+import com.group.tube.Models.Episode;
+
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
 

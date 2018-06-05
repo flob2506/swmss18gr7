@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.group.tube.ArrayAdapter.CourseArrayAdapter;
 import com.group.tube.List.FavouriteList;
+import com.group.tube.List.WatchLaterList;
 import com.group.tube.Models.Course;
 import com.group.tube.networking.AsyncResponse;
 import com.group.tube.networking.NetworkConnector;
@@ -65,6 +66,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initializeFavoritesList();
+        initializeWatchLaterList();
 
         //needs to be a function to be overridable
         setContentViewOverride();
@@ -183,11 +185,21 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
     }
 
     private void initializeFavoritesList() {
-        File file = getFileStreamPath(LocalStorageUtils.FILE_NAME_COURSE_FAVORITES);
-        if(file == null || !file.exists()) {
+        File favourites = getFileStreamPath(LocalStorageUtils.FILE_NAME_COURSE_FAVORITES);
+        if(favourites == null || !favourites.exists()) {
             LocalStorageUtils.writeCourseFavoriteListToFile(this);
         } else {
             LocalStorageUtils.readCourseFavoriteListFromFile(this);
+        }
+    }
+
+    private void initializeWatchLaterList() {
+        File watchLaterList = getFileStreamPath(LocalStorageUtils.FILE_NAME_WATCH_LATER_LIST);
+        if(watchLaterList == null || !watchLaterList.exists()) {
+            LocalStorageUtils.writeWatchLaterListToFile(this);
+        } else {
+            LocalStorageUtils.readWatchListFromFile(this);
+
         }
     }
 

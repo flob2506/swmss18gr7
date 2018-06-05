@@ -46,7 +46,7 @@ public class FavoriteButtonTest {
     public void setup()
     {
         // clear favorite list
-        LocalStorageUtils.writeListToFile(mActivityRule.getActivity(), new LinkedHashSet<String>());
+        LocalStorageUtils.writeListToFile(mActivityRule.getActivity(), new LinkedHashSet<String>(), LocalStorageUtils.FILE_NAME_COURSE_FAVORITES);
         FavouriteList.getInstance().overwrite(new LinkedHashSet<String>());
     }
 
