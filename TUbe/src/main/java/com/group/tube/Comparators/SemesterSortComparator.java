@@ -6,12 +6,12 @@ import java.util.Comparator;
 public class SemesterSortComparator implements Comparator<Course> {
     @Override
     public int compare(Course course1, Course course2) {
-        if(course1.semester_year == course2.semester_year &&
-            course1.is_ws == course2.is_ws) {
+        if(course1.getSemesterYear() == course2.getSemesterYear() &&
+            course1.isWs() == course2.isWs()) {
             return 0;
         }
-        if(course1.semester_year > course2.semester_year ||
-                (course1.semester_year == course2.semester_year && course1.is_ws)) {
+        if(course1.getSemesterYear() > course2.getSemesterYear() ||
+                (course1.getSemesterYear() == course2.getSemesterYear() && course1.isWs())) {
             return 1;
         }
         return -1;

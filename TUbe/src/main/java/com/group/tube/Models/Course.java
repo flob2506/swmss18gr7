@@ -1,44 +1,79 @@
 package com.group.tube.Models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Course {
-    public String id;
+public class Course implements Serializable {
 
-    public String course_title;
-    public int semester_year = 0;
-    public boolean is_ws = true;
-    public ArrayList<Episodes> episodes = new ArrayList<>();
+    public final static int uninitializedSemesterYear = 0;
+
+    private String id;
+    private String courseTitle;
+
+    private int semesterYear = uninitializedSemesterYear;
+
+
+    private boolean isWs = true;
+    private boolean isFavorite = false;
+
 
     public Course() {
     }
 
-    public Course(String id, String course_title) {
+    public Course(String id, String courseTitle) {
         this.id = id;
-        setCourseTitle(course_title);
+        setCourseTitle(courseTitle);
     }
 
-    public void setCourseTitle(String course_title) {
-        this.course_title = course_title;
+    public void setCourseTitle(String courseTitle) {
+        this.courseTitle = courseTitle;
         String pattern = "([0-9][0-9])([SW])";
         Pattern regexPattern = Pattern.compile(pattern);
-        Matcher regexMatcher = regexPattern.matcher(course_title);
+        Matcher regexMatcher = regexPattern.matcher(courseTitle);
         if (regexMatcher.find()) {
-            this.semester_year = Integer.parseInt(regexMatcher.group(1));
-            this.is_ws = regexMatcher.group(2).equals("W");
+            this.semesterYear = 2000 + Integer.parseInt(regexMatcher.group(1));
+            this.isWs = regexMatcher.group(2).equals("W");
         }
     }
 
     public String getSemesterString() {
-        String return_string = is_ws ? "W" : "S";
-        return_string += "S ";
-        if (semester_year < 10) {
-            return_string += "0";
+        String returnString = isWs ? "W" : "S";
+        returnString += "S ";
+        if (semesterYear < 10) {
+            returnString += "0";
         }
-        return_string += Integer.toString(semester_year);
-        return return_string;
+        returnString += Integer.toString(semesterYear % 100);
+        return returnString;
+    }
+
+    public String getCourseTitle() {
+        return courseTitle;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public int getSemesterYear() {
+        return semesterYear;
+    }
+
+    public boolean isWs() {
+        return isWs;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 }
 

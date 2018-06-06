@@ -1,11 +1,11 @@
 package com.group.tube.Comparators;
-import com.group.tube.Models.Episodes;
+import com.group.tube.Models.Episode;
 
 import java.util.Comparator;
 
-public class DateSortComparator implements Comparator<Episodes> {
+public class DateSortComparator implements Comparator<Episode> {
     @Override
-    public int compare(Episodes episode1, Episodes episode2) {
-        return episode2.getDate().compareTo(episode1.getDate());
+    public int compare(Episode episode1, Episode episode2) {
+        return episode1.getDate().compareTo(episode2.getDate());
     }
 }

@@ -1,13 +1,7 @@
 package com.group.tube.utils;
 
-import android.widget.ListView;
-
-import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
-import com.group.tube.EpisodesOverviewActivity;
 import com.group.tube.Models.Course;
-import com.group.tube.Models.Episodes;
-import com.group.tube.Models.Semester;
-import com.group.tube.R;
+import com.group.tube.Models.Episode;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
@@ -15,14 +9,25 @@ import java.util.Date;
 import java.util.UUID;
 
 public final class TestDataGenerator {
-    public static ArrayList<Episodes> getRandomEpisodeList() {
-        ArrayList<Episodes> episodes = new ArrayList<>();
 
-        episodes.add(new Episodes("bla", "bla", "bla", "bla", "bla", getRandomDate()));
+    public static Course getCourse() {
+        String courseTitle = "INH.02007UF 18S Softwareentwicklung Praktikum";
+        String courseID = "b69911cc-9c04-4e21-9053-93c068283d5f";
+        return new Course(courseID, courseTitle);
+    }
+    public static String getEpisodeId() {
+        // SEP VO
+        return "dbd281f3-6072-4e34-bb3a-3a124b37fa83";
+    }
+
+    public static ArrayList<Episode> getRandomEpisodeList() {
+        ArrayList<Episode> episodes = new ArrayList<>();
+
+        episodes.add(new Episode("bla", "bla", "bla", "bla", "bla", getRandomDate(), "01:25:34"));
 
         int numOfEpisodes = ThreadLocalRandom.current().nextInt(10, 20);
         for (int i = 0; i < numOfEpisodes; i++) {
-            episodes.add(new Episodes("1ace56be-eb47-4150-97c1-9e285f34e5de&limit=12 - " + i,"Wissenschaftliches Arbeiten","Teil 1","franz strohmeier","elektropepi.at", getRandomDate()));
+            episodes.add(new Episode("asdfasdface56be-eb47-4150-97c1-9e285f34e5de&limit=12 - " + i,"Wissenschaftliches Arbeiten","Teil 1","franz strohmeier","elektropepi.at", getRandomDate(), "01:25:34"));
         }
 
 
