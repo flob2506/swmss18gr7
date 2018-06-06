@@ -11,10 +11,10 @@
 
 ### Structure
 
-- Tests location `app/TUbe/src/androidTest`
-  - UI Tests  `app/TUbe/src/androidTest/java/com/group/tube`
-  - Unit Tests `app/TUbe/src/androidTest/java/unitTests`
-  - Mocking classes `app/TUbe/src/androidTest/java/android`
+- Tests location `TUbe/src/androidTest`
+  - UI Tests  `TUbe/src/androidTest/java/com/group/tube`
+  - Unit Tests `TUbe/src/androidTest/java/unitTests`
+  - Mocking classes `TUbe/src/androidTest/java/android`
 
 ### Test Tube State
 
@@ -36,7 +36,7 @@
 #### Testing Code Coverage
 
 1. In the project tree view, choose "Project" 
-2. Right Click on the folder `java` under `app -> TUbe -> src -> androidTest -> java`
+2. Right Click on the folder `java` under `TUbe -> src -> androidTest -> java`
 
 ## Collaborators
 ![group](readme/group.JPG)
