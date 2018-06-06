@@ -23,11 +23,11 @@ public final class TestDataGenerator {
     public static ArrayList<Episode> getRandomEpisodeList() {
         ArrayList<Episode> episodes = new ArrayList<>();
 
-        episodes.add(new Episode("bla", "bla", "bla", "bla", "bla", getRandomDate(), "00:00:00"));
+        episodes.add(new Episode("bla", "bla", "bla", "bla", "bla", getRandomDate(), "01:25:34"));
 
         int numOfEpisodes = ThreadLocalRandom.current().nextInt(10, 20);
         for (int i = 0; i < numOfEpisodes; i++) {
-            episodes.add(new Episode("1ace56be-eb47-4150-97c1-9e285f34e5de&limit=12 - " + i,"Wissenschaftliches Arbeiten","Teil 1","franz strohmeier","elektropepi.at", getRandomDate(), "00:00:00"));
+            episodes.add(new Episode("1ace56be-eb47-4150-97c1-9e285f34e5de&limit=12 - " + i,"Wissenschaftliches Arbeiten","Teil 1","franz strohmeier","elektropepi.at", getRandomDate(), "01:25:34"));
         }
 
 
