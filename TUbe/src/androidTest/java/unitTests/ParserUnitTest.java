@@ -1,4 +1,4 @@
-package com.group.tube;
+package unitTests;
 
 import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;

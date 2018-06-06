@@ -1,4 +1,4 @@
-package com.group.tube;
+package unitTests;
 
 
 import com.group.tube.Comparators.DateSortComparator;
@@ -17,14 +17,12 @@ public class SortEpisodeByDateUnitTest {
     private ArrayList<Episode> episodes;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         episodes = TestDataGenerator.getRandomEpisodeList();
     }
 
     @Test
-    public void verifyListSorted()
-    {
+    public void verifyListSorted() {
         Collections.sort(episodes, new DateSortComparator());
 
         Episode prevEpisode = null;
