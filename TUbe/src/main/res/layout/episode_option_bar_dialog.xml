@@ -32,25 +32,6 @@
                 android:text="Watch later"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/imageViewEpisodeMakeAvailableOffline"
-                android:layout_width="30dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="20dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_offline_pin_black_24dp"
-                android:tint="@android:color/darker_gray"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Make available offline"/>
-        </LinearLayout>
-        <LinearLayout
             android:id="@+id/layoutEpisodeShare"
             android:layout_width="match_parent"
             android:layout_height="50dp"
