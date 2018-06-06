@@ -19,6 +19,7 @@ import com.group.tube.ArrayAdapter.EpisodeArrayAdapter;
 import com.group.tube.Comparators.DateSortComparator;
 import com.group.tube.Dialogs.CourseSemesterFilterDialogFragment;
 import com.group.tube.Dialogs.EpisodeOptionBarDialogFragment;
+import com.group.tube.List.WatchLaterList;
 import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;
 import com.group.tube.networking.AsyncResponse;
@@ -27,6 +28,7 @@ import com.group.tube.utils.TestDataGenerator;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout;
@@ -137,6 +139,7 @@ public class EpisodesOverviewActivity extends AppCompatActivity
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        initializeWatchLaterEpisodes(episodes);
                         initializeListView(episodes);
                         loadingBar.setVisibility(View.GONE);
                     }
@@ -167,8 +170,10 @@ public class EpisodesOverviewActivity extends AppCompatActivity
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
+
 
     /*
 
@@ -180,4 +185,13 @@ public class EpisodesOverviewActivity extends AppCompatActivity
         episodes.add(new Episode("i bims die ID5","Wissenschaftliches Arbeiten","Teil 1","franz strohmeier","elektropepi.at"));
         ArrayAdapter<Episode> arrayAdapter = new ArrayAdapter<Episode>(this, R.layout.episodes_overview_item, episodes);
      */
+
+    public void initializeWatchLaterEpisodes(ArrayList<Episode> list) {
+        for (int i = 0; i < list.size(); i++) {
+            if (WatchLaterList.getInstance().contains(list.get(i).getId()))
+            {
+                list.get(i).toggleIsInWatchLaterList();
+            }
+        }
+    }
 }
