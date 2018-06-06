@@ -26,15 +26,18 @@ public class MainActivity extends Activity {
     private static final String JAVASCRIPT_INTERFACE = "JSInterface";
 
     private static final String JAVA_SCRIPT_CODE = "javascript:(function() { " +
-                "function startVideo() {" +
-                        "paella.player.play().then(() => {" +
-                            "window." + JAVASCRIPT_INTERFACE + ".videoStarted(); " +
-                        "});" +
-            "paella.player.videoContainer.seekToTime(%s);" +
-
+        "function startVideo() {" +
+                "paella.player.play().then(() => {" +
+                    "window." + JAVASCRIPT_INTERFACE + ".videoStarted(); " +
+                "});" +
+                "paella.player.videoContainer.seekToTime(%s);" +
             "} " +
-                    "paella.events.bind(paella.events.loadComplete, startVideo);"+
-            "})()";
+        "var interval = setInterval(() => {" +
+            "if(!window['paella']) return;" +
+            "paella.events.bind(paella.events.loadComplete, startVideo);" +
+            "clearInterval(interval);" +
+        "}, 200);"+
+    "})()";
 
     private static final String JAVA_GET_TIMESTAMP = "javascript:(function() { " +
             "paella.player.videoContainer.currentTime().then((time) => {" +
