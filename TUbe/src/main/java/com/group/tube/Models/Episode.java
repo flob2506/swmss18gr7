@@ -2,6 +2,7 @@ package com.group.tube.Models;
 
 import com.group.tube.networking.NetworkConnector;
 
+
 import java.util.Date;
 
 public class Episode {
@@ -13,6 +14,7 @@ public class Episode {
     private String presentationUrl;
     private String thumbnailURL;
     private Date date;
+    private String time;
     private boolean isInWatchLaterList;
     //private Drawable thumbnailDrawable;
 
@@ -21,13 +23,14 @@ public class Episode {
 
     }
 
-    public Episode(String id, String courseTitle, String episodeTitle, String presenterUrl, String presentationUrl, Date date) {
+    public Episode(String id, String courseTitle, String episodeTitle, String presenterUrl, String presentationUrl, Date date, String time) {
         this.id = id;
         this.courseTitle = courseTitle;
         this.episodeTitle = episodeTitle;
         this.presenterUrl = presenterUrl;
         this.presentationUrl = presentationUrl;
         this.date = date;
+        this.time = time;
         this.isInWatchLaterList = false;
         //this.thumbnailDrawable = null;
     }
@@ -108,6 +111,17 @@ public class Episode {
     public void setThumbnailURL(String thumbnailURL) {
         this.thumbnailURL = thumbnailURL;
     }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+
+    //private Drawable thumbnailDrawable;
 
     /*public Drawable getThumbnailDrawable() {
         return thumbnailDrawable;

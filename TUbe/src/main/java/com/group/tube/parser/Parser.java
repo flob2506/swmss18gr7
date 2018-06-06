@@ -1,11 +1,14 @@
 package com.group.tube.parser;
 
+import android.text.format.Time;
+
 import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -114,4 +117,29 @@ public class Parser {
             throw new ParseException("JSONException occurred when parsing", 0);
         }
     }
+
+    public String parseTimeOfEpisode(String jsonString) throws ParseException {
+        if (jsonString == null || jsonString.isEmpty()) {
+            throw new ParseException("JSONString is null or empty", 0);
+        }
+
+        try {
+            JSONArray jsonArray = new JSONArray(jsonString);
+            JSONObject jsonObject = jsonArray.getJSONObject(0);
+            JSONArray fieldsArray = jsonObject.getJSONArray("fields");
+
+            JSONObject durationObject = new JSONObject();
+            for(int i = 0; i < fieldsArray.length(); i++){
+                durationObject = fieldsArray.getJSONObject(i);
+                if(durationObject.getString("label").equals("EVENTS.EVENTS.DETAILS.METADATA.DURATION")){
+                    break;
+                }
+            }
+            return durationObject.getString("value");
+        } catch (JSONException e) {
+            throw new ParseException("JSONException occurred when parsing", 0);
+        }
+    }
+
+
 }

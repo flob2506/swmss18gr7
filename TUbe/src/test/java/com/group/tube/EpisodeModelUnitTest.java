@@ -24,10 +24,11 @@ public class EpisodeModelUnitTest {
         String episodeTitle = "this episode";
         String presenterUrl = "url";
         String presentationUrl = "presenter url";
+        String time = "00:00:00";
         Date date = getRandomDate();
 
         Episode episode = new Episode(id, courseTitle, episodeTitle, presenterUrl,
-                presentationUrl, date);
+                presentationUrl, date, time);
 
         assertEquals(id, episode.getId(), id);
         assertEquals(courseTitle, episode.getCourseTitle());
@@ -41,7 +42,7 @@ public class EpisodeModelUnitTest {
     public void checkGetterAndSetter() throws Exception {
 
         Episode episode = new Episode("1", "course", "episode",
-                "presenter url", "presentation url", getRandomDate());
+                "presenter url", "presentation url", getRandomDate(), "00:00:00");
 
 
         String id = "2";

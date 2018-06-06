@@ -38,7 +38,7 @@ public class CourseModelUnitTest {
         Course course = new Course("1", "course");
 
         Episode episode = new Episode("1", "course", "episode",
-                "presenter url", "presentation url", getRandomDate());
+                "presenter url", "presentation url", getRandomDate(), "00:00:00");
 
         String id = "2";
         String courseTitle = "new course";
