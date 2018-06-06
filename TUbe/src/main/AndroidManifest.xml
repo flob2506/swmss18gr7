@@ -20,6 +20,8 @@
         </activity>
         <activity android:name=".EpisodesOverviewActivity" >
         </activity>
+        <activity android:name=".EpisodeWatchlistActivity" >
+        </activity>
         <activity android:name=".CoursesOverviewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

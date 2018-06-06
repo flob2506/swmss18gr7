@@ -55,7 +55,13 @@ public class EpisodeArrayAdapter extends ArrayAdapter<Episode> {
 
         final Episode currentEpisode = this.getItem(position);
         TextView name = listItem.findViewById(R.id.textViewEpisodeOverviewItemTitle);
-        name.setText(currentEpisode.getEpisodeTitle());
+
+        if(currentEpisode.getCourseTitle() != null) {
+            String nameWithCourse = currentEpisode.getEpisodeTitle() + " (" + currentEpisode.getCourseTitle() + ")";
+            name.setText(nameWithCourse);
+        } else {
+            name.setText(currentEpisode.getEpisodeTitle());
+        }
         TextView date = listItem.findViewById(R.id.textViewEpisodeOverviewItemDate);
 
         listItem.findViewById(R.id.imageViewEpisodeMore).setOnClickListener(new View.OnClickListener() {
