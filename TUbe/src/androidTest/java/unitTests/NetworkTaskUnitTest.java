@@ -1,6 +1,4 @@
-package com.group.tube;
-
-import android.security.keystore.UserNotAuthenticatedException;
+package unitTests;
 
 import com.group.tube.networking.AsyncResponse;
 import com.group.tube.networking.NetworkConnector;
@@ -12,9 +10,7 @@ import org.junit.rules.ExpectedException;
 
 import java.util.concurrent.CountDownLatch;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.fail;
 
 

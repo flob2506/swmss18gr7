@@ -1,4 +1,4 @@
-package com.group.tube;
+package unitTests;
 
 import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;
@@ -11,7 +11,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
-import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 import static org.junit.Assert.assertEquals;
@@ -60,8 +59,6 @@ public class NetworkConnectorUnitTest {
         });
         signal.await();
     }
-
-
 
 
     @Test

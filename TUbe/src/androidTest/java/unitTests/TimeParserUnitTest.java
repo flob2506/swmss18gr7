@@ -1,12 +1,10 @@
-package com.group.tube;
+package unitTests;
 
 import com.group.tube.networking.AsyncResponse;
 import com.group.tube.networking.NetworkConnector;
-import com.group.tube.parser.Parser;
 
 import org.junit.Test;
 
-import java.text.ParseException;
 import java.util.concurrent.CountDownLatch;
 
 import static junit.framework.Assert.fail;
@@ -15,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 public class TimeParserUnitTest {
 
     @Test
-    public void parseTimeFromStamp() throws InterruptedException{
+    public void parseTimeFromStamp() throws InterruptedException {
         final CountDownLatch signal = new CountDownLatch(1);
 
         final NetworkConnector networkConnector = new NetworkConnector();

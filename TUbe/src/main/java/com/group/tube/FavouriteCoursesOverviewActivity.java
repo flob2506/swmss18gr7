@@ -54,6 +54,10 @@ public class FavouriteCoursesOverviewActivity extends CoursesOverviewActivity {
         listView.setAdapter(arrayAdapter);
     }
 
+    @Override
+    public void filterCoursesList(List<String> query) {
+        // Do nothing
+    }
 
     @Override
     public void initializeFilterButton(){

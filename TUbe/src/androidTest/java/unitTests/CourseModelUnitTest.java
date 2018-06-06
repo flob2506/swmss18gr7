@@ -1,4 +1,4 @@
-package com.group.tube;
+package unitTests;
 
 import com.group.tube.Enums.Semester;
 import com.group.tube.Models.Course;
@@ -7,19 +7,10 @@ import com.group.tube.Models.Episode;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import static com.group.tube.utils.TestDataGenerator.getRandomDate;
 import static org.junit.Assert.assertEquals;
 
-import java.util.HashSet;
-import java.util.concurrent.ThreadLocalRandom;
-
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
 public class CourseModelUnitTest {
     @Test
     public void checkConstructorOfCourseModel() throws Exception {
@@ -61,7 +52,11 @@ public class CourseModelUnitTest {
         Semester semester = Semester.WS;
         assertEquals(Semester.WS, semester);
 
+        assertEquals(Semester.valueOf("WS"), semester);
+
         semester = Semester.SS;
         assertEquals(Semester.SS, semester);
+
+        assertEquals(Semester.valueOf("SS"), semester);
     }
 }

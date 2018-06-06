@@ -130,27 +130,5 @@ public class NetworkConnector {
         thumbnailAsyncTask.setResponseHandler(responseHandler);
         thumbnailAsyncTask.execute(thumbnailURL);
     }
-
-    /**
-     * Gives back the same episode from tube.tugraz.at every time.
-     *
-     * @deprecated use the new video player instead.
-     */
-    @Deprecated
-    public void loadEpisode(final AsyncResponse<Episode> responseHandler, String episodeId) {
-        this.networkTask.setResponseHandler(new AsyncResponse<String>() {
-            @Override
-            public void processFinish(String jsonResponse) {
-                Episode episode = new Episode();
-                episode.setPresentationUrl("https://tube.tugraz.at/static/mh_default_org/engage-player/876d2ecf-11df-4b69-9bc2-376bf719c759/d32e06cf-3fb1-4150-b790-e95162af31ae/track.mp4");
-                responseHandler.processFinish(episode);
-            }
-
-            @Override
-            public void handleProcessException(Exception e) {
-                responseHandler.handleProcessException(e);
-            }
-        });
-    }
 }
 
