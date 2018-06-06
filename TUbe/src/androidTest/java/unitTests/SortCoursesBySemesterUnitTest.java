@@ -1,4 +1,4 @@
-package com.group.tube;
+package unitTests;
 
 
 import com.group.tube.Comparators.SemesterSortComparator;
@@ -14,26 +14,22 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 
 public class SortCoursesBySemesterUnitTest {
     private ArrayList<Course> courses;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         courses = TestDataGenerator.getRandomCourseList();
     }
 
     @Test
-    public void verifyListSorted()
-    {
+    public void verifyListSorted() {
         Collections.sort(courses, new SemesterSortComparator());
 
         Course prevCourse = null;
         for (Course course : courses) {
-            if (prevCourse != null)
-            {
+            if (prevCourse != null) {
                 assertEquals(true, prevCourse.getSemesterYear() <= course.getSemesterYear());
                 if (prevCourse.getSemesterYear() == course.getSemesterYear())
                     assert (!prevCourse.isWs());
@@ -43,15 +39,13 @@ public class SortCoursesBySemesterUnitTest {
     }
 
     @Test
-    public void verifyFalseCourse()
-    {
+    public void verifyFalseCourse() {
         Course courses = new Course(UUID.randomUUID().toString(), UUID.randomUUID().toString());
         assertEquals(true, courses.isWs() && courses.getSemesterYear() == 0);
     }
 
     @Test
-    public void testSemester()
-    {
+    public void testSemester() {
         int year = ThreadLocalRandom.current().nextInt(10, 19);
         boolean is_ws = ThreadLocalRandom.current().nextBoolean();
         Course course = new Course(UUID.randomUUID().toString(), TestDataGenerator.geCourseTitle(year, is_ws));
@@ -60,8 +54,7 @@ public class SortCoursesBySemesterUnitTest {
     }
 
     @Test
-    public void testSemesterMultiple()
-    {
+    public void testSemesterMultiple() {
         Course course = new Course(UUID.randomUUID().toString(), "semester 16S 15S 17W");
         assertEquals(false, course.isWs());
         assertEquals(2016, course.getSemesterYear());

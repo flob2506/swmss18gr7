@@ -1,4 +1,4 @@
-package com.group.tube;
+package unitTests;
 
 import com.group.tube.Models.Episode;
 
@@ -9,13 +9,6 @@ import java.util.Date;
 import static com.group.tube.utils.TestDataGenerator.getRandomDate;
 import static org.junit.Assert.assertEquals;
 
-import java.util.concurrent.ThreadLocalRandom;
-
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
 public class EpisodeModelUnitTest {
     @Test
     public void checkConstructorOfEpisodeModel() throws Exception {
