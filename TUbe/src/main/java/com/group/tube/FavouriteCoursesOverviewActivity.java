@@ -48,10 +48,6 @@ public class FavouriteCoursesOverviewActivity extends CoursesOverviewActivity {
         listView.setAdapter(arrayAdapter);
     }
 
-    @Override
-    public void filterCoursesList(int semesterYear, boolean isWs, List<String> query) {
-        //Don't filter anything
-    }
 
     @Override
     public void initializeFilterButton(){

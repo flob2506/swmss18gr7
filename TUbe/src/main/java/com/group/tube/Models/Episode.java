@@ -13,6 +13,7 @@ public class Episode {
     private String presentationUrl;
     private String thumbnailURL;
     private Date date;
+    private boolean isInWatchLaterList;
     //private Drawable thumbnailDrawable;
 
 
@@ -27,6 +28,7 @@ public class Episode {
         this.presenterUrl = presenterUrl;
         this.presentationUrl = presentationUrl;
         this.date = date;
+        this.isInWatchLaterList = false;
         //this.thumbnailDrawable = null;
     }
 
@@ -89,6 +91,14 @@ public class Episode {
 
     public void setCourseId(String courseId) {
         this.courseId = courseId;
+    }
+
+    public void toggleIsInWatchLaterList() {
+        this.isInWatchLaterList = !this.isInWatchLaterList;
+    }
+
+    public boolean getIsInWatchLaterList() {
+        return this.isInWatchLaterList;
     }
 
     public String getThumbnailURL() {

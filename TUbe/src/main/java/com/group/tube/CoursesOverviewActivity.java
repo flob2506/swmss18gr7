@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.group.tube.ArrayAdapter.CourseArrayAdapter;
 import com.group.tube.List.FavouriteList;
+import com.group.tube.List.WatchLaterList;
 import com.group.tube.Models.Course;
 import com.group.tube.networking.AsyncResponse;
 import com.group.tube.networking.NetworkConnector;
@@ -60,10 +61,12 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
     ArrayList<Course> allCourses;
     private final Pair<Integer, Boolean> currentSemester = Utils.getCurrentSemester();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initializeFavoritesList();
+        initializeWatchLaterList();
 
         //needs to be a function to be overridable
         setContentViewOverride();
@@ -158,7 +161,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
                     @Override
                     public void run() {
                         initializeListView(courses);
-                        filterCoursesList(currentSemester.first, currentSemester.second, null);
+                        filterCoursesList(null);
                         loadingBar.setVisibility(View.GONE);
                     }
                 });
@@ -171,7 +174,10 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         });
         initializeFilterButton();
 
-        setChosenSemester(currentSemester.first, currentSemester.second);
+        this.chosenSemesterYear = currentSemester.first;
+        this.chosenIsWs = currentSemester.second;
+
+        setChosenSemester();
     }
 
     public void setContentViewOverride() {
@@ -179,11 +185,21 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
     }
 
     private void initializeFavoritesList() {
-        File file = getFileStreamPath(LocalStorageUtils.FILE_NAME_COURSE_FAVORITES);
-        if(file == null || !file.exists()) {
+        File favourites = getFileStreamPath(LocalStorageUtils.FILE_NAME_COURSE_FAVORITES);
+        if(favourites == null || !favourites.exists()) {
             LocalStorageUtils.writeCourseFavoriteListToFile(this);
         } else {
             LocalStorageUtils.readCourseFavoriteListFromFile(this);
+        }
+    }
+
+    private void initializeWatchLaterList() {
+        File watchLaterList = getFileStreamPath(LocalStorageUtils.FILE_NAME_WATCH_LATER_LIST);
+        if(watchLaterList == null || !watchLaterList.exists()) {
+            LocalStorageUtils.writeWatchLaterListToFile(this);
+        } else {
+            LocalStorageUtils.readWatchListFromFile(this);
+
         }
     }
 
@@ -200,7 +216,7 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
             @Override
             public boolean onQueryTextChange(String s) {
                 List<String> query = Arrays.asList(s.split("\\s+"));
-                filterCoursesList(chosenSemesterYear, chosenIsWs, query);
+                filterCoursesList(query);
                 return true;
             }
 
@@ -260,34 +276,37 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, int semesterYear, boolean isWs) {
-        filterCoursesList(semesterYear, isWs, null);
-    }
-
-    public void filterCoursesList(int semesterYear, boolean isWs, List<String> query) {
-        setChosenSemester(semesterYear, isWs);
-        CourseArrayAdapter courseAdapter = ((CourseArrayAdapter)listView.getAdapter());
-        courseAdapter.clear();
-
-        for(Course course : allCourses) {
-            if (query == null) {
-                if (course.isWs() == isWs && course.getSemesterYear() == semesterYear) {
-                    courseAdapter.add(course);
-                }
-            } else {
-                if (course.isWs() == isWs && course.getSemesterYear() == semesterYear &&
-                        Utils.matchesAll(course, query)) {
-                    courseAdapter.add(course);
-                }
-            }
-        }
-        courseAdapter.notifyDataSetChanged();
-    }
-
-    private void setChosenSemester(int semesterYear, boolean isWs) {
-        TextView textView = findViewById(R.id.textViewChosenSemester);
-        textView.setText(Utils.getChosenSemesterText(semesterYear, isWs, this));
         this.chosenSemesterYear = semesterYear;
         this.chosenIsWs = isWs;
+        filterCoursesList(null);
+    }
+
+    public void filterCoursesList(List<String> query) {
+        setChosenSemester();
+        CourseArrayAdapter courseAdapter = ((CourseArrayAdapter)listView.getAdapter());
+
+        if (courseAdapter != null) {
+            courseAdapter.clear();
+
+            for (Course course : allCourses) {
+                if (query == null) {
+                    if (course.isWs() == this.chosenIsWs && course.getSemesterYear() == this.chosenSemesterYear) {
+                        courseAdapter.add(course);
+                    }
+                } else {
+                    if (course.isWs() == this.chosenIsWs && course.getSemesterYear() == this.chosenSemesterYear &&
+                            Utils.matchesAll(course, query)) {
+                        courseAdapter.add(course);
+                    }
+                }
+            }
+            courseAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void setChosenSemester() {
+        TextView textView = findViewById(R.id.textViewChosenSemester);
+        textView.setText(Utils.getChosenSemesterText(this.chosenSemesterYear, this.chosenIsWs, this));
     }
 
     @Override

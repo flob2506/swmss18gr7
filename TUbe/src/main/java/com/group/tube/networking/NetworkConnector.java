@@ -33,14 +33,12 @@ public class NetworkConnector {
                     responseHandler.processFinish(courses);
                 } catch (ParseException e) {
                     responseHandler.handleProcessException(e);
-//                    responseHandler.processFinish(TestDataGenerator.getRandomCourseList());
                 }
             }
 
             @Override
             public void handleProcessException(Exception e) {
                 responseHandler.handleProcessException(e);
-//                responseHandler.processFinish(TestDataGenerator.getRandomCourseList());
             }
         });
 
@@ -59,7 +57,6 @@ public class NetworkConnector {
                     responseHandler.processFinish(episodes);
                                     } catch (ParseException e) {
                     responseHandler.handleProcessException(e);
-//                    responseHandler.processFinish(TestDataGenerator.getRandomEpisodeList());
                 }
             }
 
