@@ -90,7 +90,6 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
 
         navigationView = findViewById(R.id.nav_view);
 
-        navigationView.getMenu().getItem(0).setChecked(true);
 
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -138,10 +137,6 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
                         return true;
                     }
                 });
-        //update drawer
-        navigationView.getMenu().getItem(0).setChecked(true);
-        navigationView.getMenu().getItem(1).setChecked(false);
-        navigationView.getMenu().getItem(2).setChecked(false);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -183,6 +178,14 @@ public class CoursesOverviewActivity extends AppCompatActivity implements Course
         this.chosenIsWs = currentSemester.second;
 
         setChosenSemester();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        navigationView.getMenu().getItem(0).setChecked(true);
+        navigationView.getMenu().getItem(1).setChecked(false);
+        navigationView.getMenu().getItem(2).setChecked(false);
     }
 
     public void setContentViewOverride() {

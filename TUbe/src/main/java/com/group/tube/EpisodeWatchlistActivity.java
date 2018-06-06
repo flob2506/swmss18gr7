@@ -26,11 +26,15 @@ public class EpisodeWatchlistActivity extends EpisodesOverviewActivity {
 
         super.onCreate(savedInstanceState);
 
+        setTitle("Watchlist");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         navigationView.getMenu().getItem(0).setChecked(false);
         navigationView.getMenu().getItem(1).setChecked(false);
         navigationView.getMenu().getItem(2).setChecked(true);
-
-        setTitle("Watchlist");
     }
 
     @Override

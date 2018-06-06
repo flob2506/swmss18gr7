@@ -124,6 +124,14 @@ public class EpisodesOverviewActivity extends AppCompatActivity
         loadEpisodes();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        navigationView.getMenu().getItem(0).setChecked(false);
+        navigationView.getMenu().getItem(1).setChecked(false);
+        navigationView.getMenu().getItem(2).setChecked(false);
+    }
+
     public void evaluateIntent() {
         Bundle bundle = getIntent().getExtras();
         course = (Course) bundle.getSerializable(CoursesOverviewActivity.EXTRA_COURSE_OBJECT);
