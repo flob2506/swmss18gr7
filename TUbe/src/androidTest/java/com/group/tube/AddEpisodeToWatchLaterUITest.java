@@ -81,7 +81,7 @@ public class AddEpisodeToWatchLaterUITest {
     }
 
     @After
-    public  void teardown() {
+    public void teardown() {
         Intents.release();
     }
 
