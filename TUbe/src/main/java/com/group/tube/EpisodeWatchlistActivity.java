@@ -47,6 +47,7 @@ public class EpisodeWatchlistActivity extends EpisodesOverviewActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        initializeWatchLaterEpisodes(episodes);
                         initializeListView(episodes);
                         loadingBar.setVisibility(View.GONE);
                     }
