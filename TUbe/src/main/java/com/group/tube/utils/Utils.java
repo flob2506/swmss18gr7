@@ -9,7 +9,10 @@ import android.widget.ListView;
 
 import com.group.tube.List.EpisodeTimeList;
 import com.group.tube.List.FavouriteList;
+import com.group.tube.List.WatchLaterList;
+import com.group.tube.MainActivity;
 import com.group.tube.Models.Course;
+import com.group.tube.Models.Episode;
 import com.group.tube.R;
 
 import java.io.FileInputStream;
@@ -19,6 +22,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -117,6 +121,15 @@ public class Utils
                 return false;
         }
         return true;
+    }
+
+    public static void addToEpisodeListIfInSet(ArrayList<Episode> source, ArrayList<Episode> target, Set<String> ids) {
+        target.clear();
+        for(Episode episode : source) {
+            if(ids.contains(episode.getId())) {
+                target.add(episode);
+            }
+        }
     }
 
     // nope

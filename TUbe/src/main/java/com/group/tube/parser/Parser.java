@@ -56,7 +56,7 @@ public class Parser {
      * @param episodes   ArrayList to store the episodes in
      * @throws ParseException Either the json is null or empty or a JSONException occurred
      **/
-    public void parseEpisodesOfCourse(String jsonString, ArrayList<Episode> episodes) throws ParseException {
+    public void parseEpisodes(String jsonString, ArrayList<Episode> episodes) throws ParseException {
         if (jsonString == null || jsonString.isEmpty()) {
             throw new ParseException("JSONString is null or empty", 0);
         }

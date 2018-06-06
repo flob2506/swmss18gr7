@@ -16,7 +16,10 @@ import com.group.tube.utils.LocalStorageUtils;
 import com.group.tube.utils.Utils;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
+
+import static com.group.tube.utils.LocalStorageUtils.FILE_NAME_EPISODE_TIMES;
 
 public class MainActivity extends Activity {
 
@@ -24,11 +27,13 @@ public class MainActivity extends Activity {
 
     private static final String JAVA_SCRIPT_CODE = "javascript:(function() { " +
                 "function startVideo() {" +
-                    "paella.player.play().then(() => {" +
-                        "window." + JAVASCRIPT_INTERFACE + ".videoStarted(); " +
-                    "});" +
-                "} " +
-                "paella.events.bind(paella.events.loadComplete, startVideo);"+
+                        "paella.player.play().then(() => {" +
+                            "window." + JAVASCRIPT_INTERFACE + ".videoStarted(); " +
+                        "});" +
+            "paella.player.videoContainer.seekToTime(%s);" +
+
+            "} " +
+                    "paella.events.bind(paella.events.loadComplete, startVideo);"+
             "})()";
 
     private static final String JAVA_GET_TIMESTAMP = "javascript:(function() { " +
@@ -36,6 +41,8 @@ public class MainActivity extends Activity {
                     "window." + JAVASCRIPT_INTERFACE + ".currentTime(time); " +
                 "}); " +
             "})()";
+
+
 
     private NetworkConnector networkConnector;
     public boolean videoDidLoad = false;
@@ -83,7 +90,8 @@ public class MainActivity extends Activity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                webView.loadUrl(JAVA_SCRIPT_CODE);
+                String time = readTimeToPlayFromFile().toString();
+                webView.loadUrl(String.format(JAVA_SCRIPT_CODE, time));
             }
 
             @Override
@@ -96,10 +104,27 @@ public class MainActivity extends Activity {
         this.viewEpisode(episodeId, savedInstanceState);
     }
 
+    private Float readTimeToPlayFromFile() {
+        Float time = (float)0.0;
+
+        HashMap<String, Float> episodeTimeList = EpisodeTimeList.getInstance();
+        if(episodeTimeList.containsKey(episodeId)) {
+            time = episodeTimeList.get(episodeId);
+        }
+        return time;
+    }
+
     @Override
     protected void onPause() {
-        webView.loadUrl(JAVA_GET_TIMESTAMP);
         super.onPause();
+        webView.loadUrl(JAVA_GET_TIMESTAMP);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        String time = readTimeToPlayFromFile().toString();
+        webView.loadUrl(String.format(JAVA_SCRIPT_CODE, time));
     }
 
     @Override
@@ -117,7 +142,7 @@ public class MainActivity extends Activity {
     }
 
     private void initializeEpisodesList() {
-        File file = getFileStreamPath(LocalStorageUtils.FILE_NAME_EPISODE_TIMES);
+        File file = getFileStreamPath(FILE_NAME_EPISODE_TIMES);
         if(file == null || !file.exists()) {
             LocalStorageUtils.writeEpisodeListToFile(this);
         } else {

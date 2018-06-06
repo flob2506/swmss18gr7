@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.group.tube.List.EpisodeTimeList;
 import com.group.tube.List.FavouriteList;
+import com.group.tube.List.WatchLaterList;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -18,18 +19,22 @@ import java.util.Set;
 public class LocalStorageUtils {
     public static final String FILE_NAME_COURSE_FAVORITES = "CourseFavoritesList.txt";
     public static final String FILE_NAME_EPISODE_TIMES = "EpisodeTimesList.txt";
+    public static final String FILE_NAME_WATCH_LATER_LIST = "WatchLaterList.txt";
 
     public static void writeListToFile(Context context, HashMap<String, Float> episodeTimes)  {
         writeObjectToFile(context, episodeTimes, FILE_NAME_EPISODE_TIMES);
     }
-    public static void writeListToFile(Context context, Set<String> favorites)  {
-        writeObjectToFile(context, favorites, FILE_NAME_COURSE_FAVORITES);
+    public static void writeListToFile(Context context, Set<String> items, String filename)  {
+        writeObjectToFile(context, items, filename);
     }
     public static void writeEpisodeListToFile(Context context)  {
         writeListToFile(context, EpisodeTimeList.getInstance());
     }
     public static void writeCourseFavoriteListToFile(Context context)  {
-        writeListToFile(context, FavouriteList.getInstance());
+        writeListToFile(context, FavouriteList.getInstance(), FILE_NAME_COURSE_FAVORITES);
+    }
+    public static void writeWatchLaterListToFile(Context context) {
+        writeListToFile(context, WatchLaterList.getInstance(), FILE_NAME_WATCH_LATER_LIST);
     }
     public static void readEpisodeListFromFile(Context context)  {
         Map<String, Float> listFromFile = (Map<String, Float>)readObjectFromFile(context, FILE_NAME_EPISODE_TIMES);
@@ -39,11 +44,18 @@ public class LocalStorageUtils {
         }
         EpisodeTimeList.getInstance().overwrite(listFromFile);
     }
-
+    public static void readWatchListFromFile(Context context)  {
+        Set<String> listFromFile = (Set<String>)readObjectFromFile(context, FILE_NAME_WATCH_LATER_LIST);
+        if(listFromFile == null) {
+            writeListToFile(context, new LinkedHashSet<String>(), FILE_NAME_WATCH_LATER_LIST);
+            return;
+        }
+        WatchLaterList.getInstance().overwrite(listFromFile);
+    }
     public static void readCourseFavoriteListFromFile(Context context)  {
         Set<String> listFromFile = (Set<String>)readObjectFromFile(context, FILE_NAME_COURSE_FAVORITES);
         if(listFromFile == null) {
-            writeListToFile(context, new LinkedHashSet<String>());
+            writeListToFile(context, new LinkedHashSet<String>(), FILE_NAME_COURSE_FAVORITES);
             return;
         }
         FavouriteList.getInstance().overwrite(listFromFile);

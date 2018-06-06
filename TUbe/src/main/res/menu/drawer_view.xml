@@ -11,6 +11,10 @@
             android:id="@+id/nav_myCourses"
             android:icon="@drawable/baseline_account_box_black_18dp"
             android:title="@string/my_courses" />
+        <item
+            android:id="@+id/nav_watchList"
+            android:icon="@drawable/ic_watch_later_black_24dp"
+            android:title="@string/watchlist"/>
     </group>
 
     <group android:id="@+id/menu_bottom"

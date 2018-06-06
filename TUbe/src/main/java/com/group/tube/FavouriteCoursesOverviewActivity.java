@@ -22,9 +22,15 @@ public class FavouriteCoursesOverviewActivity extends CoursesOverviewActivity {
         LinearLayout filterLayout = findViewById(R.id.linearLayout5);
         filterLayout.setVisibility(View.GONE);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         //update drawer
         navigationView.getMenu().getItem(0).setChecked(false);
         navigationView.getMenu().getItem(1).setChecked(true);
+        navigationView.getMenu().getItem(2).setChecked(false);
     }
 
     @Override
@@ -48,10 +54,6 @@ public class FavouriteCoursesOverviewActivity extends CoursesOverviewActivity {
         listView.setAdapter(arrayAdapter);
     }
 
-    @Override
-    public void filterCoursesList(int semesterYear, boolean isWs, List<String> query) {
-        //Don't filter anything
-    }
 
     @Override
     public void initializeFilterButton(){

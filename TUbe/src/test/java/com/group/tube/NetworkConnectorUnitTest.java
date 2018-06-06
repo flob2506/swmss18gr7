@@ -40,6 +40,28 @@ public class NetworkConnectorUnitTest {
     }
 
 
+    @Test
+    public void loadAllEpisodes() throws InterruptedException {
+        final CountDownLatch signal = new CountDownLatch(1);
+
+        final NetworkConnector networkConnector = new NetworkConnector();
+        networkConnector.networkTask.setLoginAndPassword(NetworkConnector.USERNAME, NetworkConnector.PASSWORD);
+        networkConnector.loadAllEpisodes(new AsyncResponse<ArrayList<Episode>>() {
+            @Override
+            public void processFinish(ArrayList<Episode> response) {
+                assertTrue(response.size() > 0);
+                signal.countDown();
+            }
+
+            @Override
+            public void handleProcessException(Exception e) {
+                fail("Exception mustn't be thrown");
+            }
+        });
+        signal.await();
+    }
+
+
 
 
     @Test
