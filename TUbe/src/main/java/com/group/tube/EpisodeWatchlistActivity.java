@@ -3,6 +3,7 @@ package com.group.tube;
 import android.os.Bundle;
 import android.view.View;
 
+import com.group.tube.List.WatchLaterList;
 import com.group.tube.Models.Course;
 import com.group.tube.Models.Episode;
 import com.group.tube.networking.AsyncResponse;
@@ -17,7 +18,6 @@ import java.util.Map;
 public class EpisodeWatchlistActivity extends EpisodesOverviewActivity {
 
     private Map<String, String> IDToCourseName = new HashMap<>();
-    private LinkedHashSet<String> episodeIDs = new LinkedHashSet<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +33,6 @@ public class EpisodeWatchlistActivity extends EpisodesOverviewActivity {
         setTitle("Watchlist");
     }
 
-    private void simulateWatchlist(ArrayList<Episode> episodes) {
-        for (int i = 0; i < episodes.size(); i++) {
-            if(i % 4 == 0) {
-                episodeIDs.add(episodes.get(i).getId());
-            }
-        }
-    }
-
     @Override
     public void loadEpisodes() {
         final NetworkConnector networkConnector = new NetworkConnector();
@@ -48,8 +40,7 @@ public class EpisodeWatchlistActivity extends EpisodesOverviewActivity {
         networkConnector.loadAllEpisodes(new AsyncResponse<ArrayList<Episode>>() {
             @Override
             public void processFinish(ArrayList<Episode> response) {
-                simulateWatchlist(response);
-                Utils.addToEpisodeListIfInSet(response, episodes, episodeIDs);
+                Utils.addToEpisodeListIfInSet(response, episodes, WatchLaterList.getInstance());
                 for(Episode episode : episodes){
                     episode.setCourseTitle(IDToCourseName.get(episode.getId()));
                 }
