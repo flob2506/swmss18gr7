@@ -52,7 +52,11 @@ public class CourseModelUnitTest {
         Semester semester = Semester.WS;
         assertEquals(Semester.WS, semester);
 
+        assertEquals(Semester.valueOf("WS"), semester);
+
         semester = Semester.SS;
         assertEquals(Semester.SS, semester);
+
+        assertEquals(Semester.valueOf("SS"), semester);
     }
 }
