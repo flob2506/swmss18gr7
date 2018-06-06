@@ -89,6 +89,24 @@ public class NetworkConnector {
         mediaURLTask.execute(TUBE_URL + "api/events/" + episodeID + "/publications");
     }
 
+    public void loadTimeOfEpisode(final AsyncResponse<String> responseHandler, String episodeID) {
+        NetworkTask metadataTask = new NetworkTask();
+        metadataTask.setLoginAndPassword(this.networkTask.getLogin(), this.networkTask.getPassword());
+        metadataTask.setResponseHandler(new AsyncResponse<String>() {
+            @Override
+            public void processFinish(String jsonResponse) {
+                responseHandler.processFinish(jsonResponse);
+            }
+
+            @Override
+            public void handleProcessException(Exception e) {
+                responseHandler.handleProcessException(e);
+            }
+        });
+
+        metadataTask.execute(TUBE_URL + "api/events/" + episodeID + "/metadata");
+    }
+
     public void downloadDrawable(final AsyncResponse<Drawable> responseHandler, final String thumbnailURL) {
         thumbnailAsyncTask.setResponseHandler(responseHandler);
         thumbnailAsyncTask.execute(thumbnailURL);

@@ -50,4 +50,17 @@
         android:tint="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+  <TextView
+      android:id="@+id/time_field"
+      android:layout_width="60dp"
+      android:layout_height="wrap_content"
+      android:background="@color/colorWhite"
+      android:ems="10"
+      android:inputType="textPersonName"
+      android:text="00:00:00"
+      android:textAlignment="center"
+      android:textSize="13sp"
+      tools:layout_editor_absoluteX="44dp"
+      tools:layout_editor_absoluteY="78dp" />
+
 </android.support.constraint.ConstraintLayout>

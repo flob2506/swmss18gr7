@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -92,6 +93,32 @@ public class EpisodeArrayAdapter extends ArrayAdapter<Episode> {
         } else {
             imageView.setImageDrawable(getContext().getResources().getDrawable(android.R.drawable.presence_video_busy));
         }*/
+
+        final TextView time = listItem.findViewById(R.id.time_field);
+        if(currentEpisode.getTime() == null) {
+            NetworkConnector networkConnector = new NetworkConnector();
+            networkConnector.networkTask.setLoginAndPassword(NetworkConnector.USERNAME, NetworkConnector.PASSWORD);
+            networkConnector.loadTimeOfEpisode(new AsyncResponse<String>() {
+                @Override
+                public void processFinish(String response) {
+                    Parser parser = new Parser();
+                    try {
+                        currentEpisode.setTime(parser.parseTimeOfEpisode(response));
+                        time.setText(currentEpisode.getTime());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        currentEpisode.setTime("00:00:00");
+                    }
+                }
+
+                @Override
+                public void handleProcessException(Exception e) {
+                    e.printStackTrace();
+                }
+            }, currentEpisode.getId());
+        }
+
+
 
         return listItem;
     }
