@@ -11,7 +11,7 @@ import java.util.UUID;
 public final class TestDataGenerator {
 
     public static Course getCourse() {
-        String courseTitle = "143.700 18S SEP";
+        String courseTitle = "INH.02007UF 18S Softwareentwicklung Praktikum";
         String courseID = "b69911cc-9c04-4e21-9053-93c068283d5f";
         return new Course(courseID, courseTitle);
     }
@@ -27,7 +27,7 @@ public final class TestDataGenerator {
 
         int numOfEpisodes = ThreadLocalRandom.current().nextInt(10, 20);
         for (int i = 0; i < numOfEpisodes; i++) {
-            episodes.add(new Episode("1ace56be-eb47-4150-97c1-9e285f34e5de&limit=12 - " + i,"Wissenschaftliches Arbeiten","Teil 1","franz strohmeier","elektropepi.at", getRandomDate(), "01:25:34"));
+            episodes.add(new Episode("asdfasdface56be-eb47-4150-97c1-9e285f34e5de&limit=12 - " + i,"Wissenschaftliches Arbeiten","Teil 1","franz strohmeier","elektropepi.at", getRandomDate(), "01:25:34"));
         }
 
 

@@ -9,6 +9,7 @@ import android.webkit.WebView;
 
 import com.group.tube.List.EpisodeTimeList;
 import com.group.tube.utils.LocalStorageUtils;
+import com.group.tube.utils.TestDataGenerator;
 import com.group.tube.utils.Utils;
 
 import org.junit.Before;
@@ -36,7 +37,7 @@ public class LoadEpisodeTimeTest {
     @Test
     public void videoStartsAfterTimeOut() throws InterruptedException {
         Intent intent = new Intent();
-        String episodeId = "dbd281f3-6072-4e34-bb3a-3a124b37fa83";
+        String episodeId = TestDataGenerator.getEpisodeId();
         intent.putExtra(EXTRA_EPISODE_ID, episodeId);
         mActivityRule.launchActivity(intent);
         LocalStorageUtils.writeListToFile(mActivityRule.getActivity(), new HashMap<String, Float>());
